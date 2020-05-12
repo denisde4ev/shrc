@@ -9,23 +9,23 @@
 if [[ -a /etc/pacman.conf ]];then # then probably is using pacman in Arch
 alias unlock="sudo rm /var/lib/pacman/db.lck" #pacman unlock
 alias pacman='sudo pacman --color auto' #### Aliases for software managment
-##get fastest mirrors in your neighborhood
-#alias mirror="sudo reflector -f 30 -l 30 --number 10 --verbose --save /etc/pacman.d/mirrorlist"
-#alias mirrord="sudo reflector --latest 50 --number 20 --sort delay --save /etc/pacman.d/mirrorlist"
-#alias mirrors="sudo reflector --latest 50 --number 20 --sort score --save /etc/pacman.d/mirrorlist"
-#alias mirrora="sudo reflector --latest 50 --number 20 --sort age --save /etc/pacman.d/mirrorlist"
-#alias cleanup='sudo pacman -Rns $(pacman -Qtdq)' #Cleanup orphaned packages #not working for pacapt
-#alias npacman="sudo nano /etc/pacman.conf"
+#get fastest mirrors in your neighborhood
+alias mirror="sudo reflector -f 30 -l 30 --number 10 --verbose --save /etc/pacman.d/mirrorlist"
+alias mirrord="sudo reflector --latest 50 --number 20 --sort delay --save /etc/pacman.d/mirrorlist"
+alias mirrors="sudo reflector --latest 50 --number 20 --sort score --save /etc/pacman.d/mirrorlist"
+alias mirrora="sudo reflector --latest 50 --number 20 --sort age --save /etc/pacman.d/mirrorlist"
+alias cleanup='sudo pacman -Rns $(pacman -Qtdq)' #Cleanup orphaned packages #not working for pacapt
+alias npacman="sudo nano /etc/pacman.conf"
 fi
 
 if [[ -x /usr/bin/yay ]]
-then alias p=yay && complete -F _yay p
+then alias p=yay
+
 else p(){
 	if [[ "`type -ap pacapt 2>/dev/null`" ]]
 	then local pac_cmd=`where pacapt`
-	else local pac_cmd='pacman'
+	else local pac_cmd='sudo pacman'
 	fi
-
 	# [[ "${1:0:1}" == "-" ]] || {  } # no..
 	case $@ in
 		('') "$pac_cmd" -Suuy;;
