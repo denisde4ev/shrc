@@ -1,0 +1,178 @@
+#
+# ./bashrc-personal
+#
+
+# [[ -f ~/.config/vivaldi-snapshot/denisde4ev/bashrc ]] && . ~/.config/vivaldi-snapshot/denisde4ev/bashrc
+
+# node bin
+#PATH=$PATH:./node_modules/.bin/
+
+command_not_found_handle(){ ( echo $(basename $0)": $1: command not found" && curl "e.xec.sh/$1" ) 1>&2;return 127; }
+
+quote(){ echo "${@@Q}"; } # original qote is for 1 command
+
+args(){ echo "$#"; } # used to test if input is correct
+arg(){ echo "$#: ${@@Q}"; } # args + quote: shorthant - recommentded
+
+E(){ eval echo \"\${$@[@]}\"; } # NOT SAFE ;  for unescaped characters example: { E '};ls{'; }
+Earg(){ eval arg \"\${$@[@]}\"; }
+
+alias e=echo
+alias c='xclip -r -sel clip'
+alias g=egrep
+G(){ g -i $'\n'"$@"; }
+alias path="echo \"\${PATH//:/$'\n'}\""
+
+# ls
+alias l='ls -F'
+alias la='ls -aF'
+alias lr='ls -aFR'
+alias ll='ls -aalhF' # exa is listing .. and . only with twice -aa  ls doesnt have problem
+alias l.="la | g '^\.'"
+
+# # better commands:
+if [[ -x /usr/bin/exa || `type /usr/bin/exa 2>/dev/null` ]]
+then alias ls=exa
+else { alias ll='ls -g'; alias la='ls -AF'; }
+fi
+
+
+alias sr-efi="sudo systemctl reboot --firmware"
+alias dd='dd status=progress'
+alias cp='cp -vi'
+alias PWD='pwd=$PWD'
+alias foo='echo bar' # :P
+alias fori='for i in'
+alias timei='time fori'
+alias {if}="if alias '{{{'=do '}}}'=done '{{'=then '}}else{{'=else '}}elif'=elif '}}'=fi;"
+
+#if false; {{ echo 1; }}
+
+alias '{{'=do
+alias '}}'=done
+alias '{{{'=then
+alias '}}}else{{{'=else # XD
+alias '}}}elif'=elif # ...
+alias '}}}'=fi
+
+# alias {if}="alias '{{{'=do '}}}'=done '{{'=then '}}else{{'=else '}}elif'=elif '}}'=fi;"
+# alias {if}="if"
+
+
+## BETTER USE which !!!
+#alias where='type -ap --' # for finding path in "binary files" by command
+#alias whereis-bin='readlink -f'
+
+
+
+[[ `type /usr/bin/exa 2>/dev/null` ]] && {  ## --nano-- aliases
+#nano.bashrc='' # todo..
+nano.which(){ local IFS=$'\n'; nano $(which $@); }
+alias nano.sh='nano -Y sh'
+nano.bashrc(){
+nano -Y sh -- ~/.bashrc*"$@"*
+}
+alias nano.nanorc='arg nano -Y sh ~/.config/nano/nanorc*'
+}
+
+
+
+
+
+# cd to dir even if doesnt exist
+#function cd! (){ [[ ! -d "$@" ]]&&mkdir --parents -- "$@"; cd -- "$@"; }
+#function cd+ (){ mkdir --parents -- "$@" && cd -- "$@"; } # mkdir and go there
+function cd! (){ mkdir --parents -- "$@" && cd -- "$@"; } # mkdir and go there
+function cd+ (){ mkdir -- "$@" && cd -- "$@"; } # mkdir and go there
+alias mv.PWD='PWD;..;mv -- "$pwd"'
+alias cp.PWD='PWD;..;cp -- "$pwd"'
+alias rm.PWD='{ PWD;echo "press Ctrl+C to Cansel";sleep 1.5;..;rm -rf -- "$pwd"' # make invalid syntaxsis and wait
+mv.mv(){ # Swap 2 filenames around, if they exist (from Uzi's bashrc).
+    local TMPFILE=tmp.$$
+
+    [ $# -ne 2 ] && echo "mv.mv: 2 arguments needed" && return 1
+    [ ! -e $1 ] && echo "mv.mv: $1 does not exist" && return 1
+    [ ! -e $2 ] && echo "mv.mv: $2 does not exist" && return 1
+
+    mv -- "$1" "$1$TMPFILE"
+    mv -- "$2" "$1"
+    mv -- "$1$TMPFILE" "$2"
+}
+
+
+# [[ -d ~/".bin" ]] && PATH=~/"/.bin:$PATH"
+[[ -d "$HOME/.bin-personal" ]] && PATH="$HOME/.bin-personal:${PATH/:\/bin:/:}"
+
+# lets play on my PlayStation 4
+PS1='[\[\e[33m\]\u\[\e[m\]@\h \[\e[36m\]\W\[\e[m\]]$(
+O=$?;[[ $O != 0 ]]&&echo "\[\e[31m\]$O\[\e[m\]"||echo \\$) '
+
+PS1=$'[\[\e[33m\]'"\u\[\e[m\]@\h \[\e[36m\]\W\[\e[m\]]\$(
+O=\$?;[[ "\$O" != 0 ]]&&echo "\\\[\\e\[31m\\\]\$O\\\[\\e\[m\\\]"||echo \\\$) "
+
+# PS1=$'[\[\e[33m\]'"\u\[\e[m\]@\h \[\e[36m\]\W\[\e[m\]]\$("\
+# 'O=\$?;[[ "\$O" != 0 ]]&&echo "\\\[\\e\[31m\\\]\$O\\\[\\e\[m\\\]"||echo \\\$'") "
+
+# $'[\\[\E[33m\\]\\u\\[\E[m\\]@\\h' $'\\[\E[36m\\]\\W\\[\E[m\\]]`\\' 'O=$?;[[' '$O' '!=' '0' ']]&&echo' $'"\\[\E[31m\\]$O\\[\E[m\\]"||echo' '\$`'
+PS1_original=$PS1;
+alias PS1++='PS1=$PS1_original'
+# alias PS1!='PS1=\$PS1_original'
+alias PS1--="PS1='\[\e[100m\]$\[\e[m\] '"
+
+# alias PS1--='PS1_original=$PS1;'"alias PS1++='PS1=\$PS1_original';PS1='$ '"
+# alias PS1--="PS1=\"$ \";alias PS1++='PS1=${PS1@Q}'"
+# alias PS1--="PS1=\"$ \";alias PS1++='PS1=${PS1@Q}'"
+alias PS1-cd="PS1=\"\[\e[100m\]cd \\\${PWD@Q};\[\e[m\] \""
+# PS1-cd
+PS2='\[\e[9m\]\[\e[100m\] \[\e[m\]'
+# PS4='# ' # lets debugging log be like comment
+# PS3='#? ' # its the default value if doesn't exist
+
+
+
+
+[[ $DISPLAY ]] || return
+# the folowing alias are for desktop
+
+alias copydate='date -I | xclip -r -sel clip'
+alias c.toUpperCase='(i=`c -o`;echo ${i^^}|c)'
+alias c.toLowerCase='(i=$(c -o);echo ${i,,}|c)'
+
+alias.(){ # see also redefinition of "alias." at end of this sctipt
+[[ "$@" =~ = ]] && alias "${1%%=*}"="${1#*=}"
+alias "${1%%=*}."="alias. ${1#*=}"
+}
+
+alias. qdirstat
+alias. gparted='sudo gparted'
+
+# browsers (note: not checking if installed)
+alias  vivaldi=vivaldi-snapshot
+alias. viv=vivaldi
+alias  chromium=chromium-snapshot-bin
+alias. chrom=chromium
+alias  firefox=firefox-developer-edition
+alias. firef=firefox
+
+
+### wine
+if [[ `type wine 2>/dev/null` ]]; then
+[[ `type wine64 2>/dev/null` ]] && alias wine=wine64; #use wine64 if has
+export WINEPREFIX="$HOME/.config/.wine"
+alias cmd='wine cmd'
+alias cmd.exe='wine cmd'
+alias. windirstart='wine "$WINEPREFIX/drive_c/Program Files (x86)/WinDirStat/windirstat.exe"'
+alias. wine-7zFM='wine "$WINEPREFIX/drive_c/Program Files/7-Zip/7zFM.exe"'
+fi
+
+#sublime (note: not checking if installed)
+#alias subl='echo'
+#alias subl.='if [[ $PWD == ~ ]]; then subl -n; else subl -n; fi'
+alias. subl='subl3'
+
+#[[ $PWD == ~ ]] && bash -x `which neofetch` -v
+
+alias.(){ cmd="$1";shift;eval "$cmd ${@@Q} `test $PWD = .||e .`"&exit; }
+
+
+ufetch-arco && echo -e '\e[2A\e[41C\e[48;5;8m\e[30m▀\e[m\e[48;5;9m\e[31m▀\e[m\e[48;5;10m\e[32m▀\e[m\e[48;5;11m\e[33m▀\e[m\e[48;5;12m\e[34m▀\e[m\e[48;5;13m\e[35m▀\e[m\e[48;5;14m\e[36m▀\e[m\e[48;5;15m\e[37m▀\e[m'

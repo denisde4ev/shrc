@@ -1,0 +1,99 @@
+--- Untitled	Thu Apr 30 15:06:53 2020
++++ /home/arcowo/.bashrc	Thu Apr 30 14:22:56 2020
+@@ -10,28 +10,28 @@
+ #export QT_IM_MODULE=ibus
+ 
+ # If not running interactively, don't do anything
++[[ $- == *i* ]] || return
+ 
+ export HISTCONTROL=ignoreboth:erasedups
+ 
+ PS1='[\u@\h \W]\$ '
+ 
++test -d "$HOME/.bin" && PATH="$HOME/.bin:$PATH"
++#
++#
+ 
+ #list
+ alias ls='ls --color=auto'
+-alias la='ls -a'
+ alias ll='ls -la'
+ alias l='ls'
+ alias l.="ls -A | egrep '^\.'"
+-
+ #fix obvious typo's
+ alias cd..='cd ..'
+ alias pdw="pwd"
++# alias udpate='sudo pacman -Syyu'
++# alias upate='sudo pacman -Syyu'
+ 
+ ## Colorize the grep command output for ease of use (good for log files)##
+ alias grep='grep --color=auto'
+@@ -40,9 +40,6 @@
+ 
+ #readable output
+ alias df='df -h'
+-
+-#pacman unlock
+-alias unlock="sudo rm /var/lib/pacman/db.lck"
+ 
+ #free
+ alias free="free -mt"
+@@ -58,11 +55,6 @@
+ 
+ #merge new settings
+ alias merge="xrdb -merge ~/.Xresources"
+-
+-# Aliases for software managment
+-# pacman or pm
+-alias pacman='sudo pacman --color auto'
+-alias update='sudo pacman -Syyu'
+ 
+ # yay as aur helper - updates everything
+ alias pksyua="yay -Syu --noconfirm"
+@@ -102,12 +94,6 @@
+ #check vulnerabilities microcode
+ alias microcode='grep . /sys/devices/system/cpu/vulnerabilities/*'
+ 
+-#get fastest mirrors in your neighborhood 
+-alias mirror="sudo reflector -f 30 -l 30 --number 10 --verbose --save /etc/pacman.d/mirrorlist"
+-alias mirrord="sudo reflector --latest 50 --number 20 --sort delay --save /etc/pacman.d/mirrorlist"
+-alias mirrors="sudo reflector --latest 50 --number 20 --sort score --save /etc/pacman.d/mirrorlist"
+-alias mirrora="sudo reflector --latest 50 --number 20 --sort age --save /etc/pacman.d/mirrorlist"
+-
+ #mounting the folder Public for exchange between host and guest on virtualbox
+ alias vbm="sudo mount -t vboxsf -o rw,uid=1000,gid=1000 Public /home/$USER/Public"
+ 
+@@ -134,15 +120,11 @@
+ #Recent Installed Packages
+ alias rip="expac --timefmt='%Y-%m-%d %T' '%l\t%n %v' | sort | tail -100"
+ 
+-#Cleanup orphaned packages
+-alias cleanup='sudo pacman -Rns $(pacman -Qtdq)'
+-
+ #get the error messages from journalctl
+ alias jctl="journalctl -p 3 -xb"
+ 
+ #nano
+ alias nlightdm="sudo nano /etc/lightdm/lightdm.conf"
+-#alias npacman="sudo nano /etc/pacman.conf"
+ alias ngrub="sudo nano /etc/default/grub"
+ alias nmkinitcpio="sudo nano /etc/mkinitcpio.conf"
+ alias nslim="sudo nano /etc/slim.conf"
+@@ -155,6 +137,14 @@
+ #create a file called .bashrc-personal and put all your personal aliases
+ #in there. They will not be overwritten by skel.
+ 
++alias c='xclip -r -sel clip'
+ 
+ 
+-#[[ -f ~/.bashrc-personal ]] && . ~/.bashrc-personal
++# [[ -f ~/.bashrc-personal ]] && . ~/.bashrc-personal
++for i in personal alias ' 'pacman+yay
++do [[ -f ./.bashrc-$i ]] && . ./".bashrc-$i"
++done
++unset i
++
++# [[ "$PWD" =~ ^"/home/arcowo/0/gleec_/.gleec-base/" ]] && exec 'deepin-terminal -x su -c "kill -9 $$  & su gleec -c deepin-terminal"'
+-#neofetch
++# [[ $PWD == ~ ]] && neofetch
