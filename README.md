@@ -10,3 +10,10 @@ ls -alF
 }
 
 ```
+
+next
+```
+$ rm ./.bashrc* 
+$ sudo ./ln\(~\\bashrc-\>.\).sh ~
+git status
+```
