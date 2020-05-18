@@ -14,7 +14,7 @@ ls -alF
 next (probably eddit this befor run)
 ```
 {
-$ rm ./.bashrc* 
+$ rm ./.bashrc{\ ,-}*
 $ sudo ./ln\(~\\bashrc-\>.\).sh ~
 git status
 }
