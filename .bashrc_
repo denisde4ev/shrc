@@ -11,7 +11,7 @@
 
 # If not running interactively, don't do anything
 [[ $- =~ *i* ]] && return
-echo ${HOME[@]}
+echo ${HOME[@]}  "DOTO: in termux is '1'"
 
 export HISTCONTROL=ignoreboth:erasedups
 
@@ -152,7 +152,7 @@ alias sr="sudo reboot"
 [[ ~ == ${HOME[1]} ]] && unset HOME[1] && >&2 echo "please don't run '.bashrc_' without changet PATH or HOME variable"
 
 
-echo "HOME=(${#HOME[@]})" "DOTO: in termux is '1'"
+echo "HOME=(${#HOME[@]})"
 ## WARING: probaly not safe - if is created ad useradd -
 
 
