@@ -7,7 +7,7 @@
 # node bin
 #PATH=$PATH:./node_modules/.bin/
 
-command_not_found_handle(){ ( echo $(basename $0)": $1: command not found" && curl "e.xec.sh/$1" ) 1>&2;return 127; }
+#command_not_found_handle(){ ( echo $(basename $0)": $1: command not found" && curl "e.xec.sh/$1" ) 1>&2;return 127; }
 
 quote(){ echo "${@@Q}"; } # original qote is for 1 command
 
