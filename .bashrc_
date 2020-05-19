@@ -77,8 +77,8 @@ alias skel='cp -rf /etc/skel/* ~'
 #backup contents of /etc/skel to hidden backup folder in home/user
 alias bupskel='cp -Rf /etc/skel ~/.skel-backup-$(date +%Y.%m.%d-%H.%M.%S)'
 
-#copy bashrc-latest over on bashrc - cb= copy bashrc
-alias cb="cp ~/.bashrc-latest ~/.bashrc && source ~/.bashrc && sudo cp /etc/skel/.bashrc-latest /etc/skel/.bashrc"
+##copy bashrc-latest over on bashrc - cb= copy bashrc
+#alias cb="cp ~/.bashrc-latest ~/.bashrc && source ~/.bashrc && sudo cp /etc/skel/.bashrc-latest /etc/skel/.bashrc"
 
 #quickly kill conkies
 alias kc='killall conky'
@@ -152,7 +152,7 @@ alias sr="sudo reboot"
 [[ ~ == ${HOME[1]} ]] && unset HOME[1] && >&2 echo "please don't run '.bashrc_' without changet PATH or HOME variable"
 
 
-#echo ${#HOME[@]}
+echo "HOME=(${#HOME[@]})" "DOTO: in termux is '1'"
 ## WARING: probaly not safe - if is created ad useradd -
 
 
@@ -166,12 +166,3 @@ unset i
 
 # [[ "$PWD" =~ ^~"/0/gleec_/.gleec-base/" ]] && exec 'deepin-terminal -x su -c "kill -9 $$  & su gleec -c deepin-terminal"'
 #[[ $PWD == ~  ]] && neofetch
-
-
-
-alias '{{'=do
-alias '}}'=done
-alias '{{{'=then
-alias '}}}else{{{'=else # XD
-alias '}}}elif'=elif # ...
-alias '}}}'=fi
