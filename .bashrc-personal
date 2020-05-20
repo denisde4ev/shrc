@@ -13,7 +13,9 @@ quote(){ echo "${@@Q}"; } # original qote is for 1 command
 arg(){ echo "$#: ${@@Q}"; } # args-count + quote: shorthant
 
 E(){ eval echo \"\${$@[@]}\"; } # NOT SAFE ;  for unescaped characters example: { E '};ls{'; }
+complete -v E
 Earg(){ eval arg \"\${$@[@]}\"; }
+complete -v Earg
 sud(){ # early space `sud oecho "I MEAN sudo ls"`
 if [[ $@ =~ ^o ]]
 then echo sudo "${1:1}" `quote "${@:2}"`;sudo "${1:1}" "${@:2}"
@@ -36,9 +38,9 @@ alias ll='ls -aalhF' # exa is listing .. and . only with twice -aa  ls doesnt ha
 alias l.="la | g '^\.'"
 
 # # better commands:
-if type /usr/bin/exa &>/dev/null
+if type exa &>/dev/null
 then alias ls=exa
-else { alias ll='ls -gl'; alias la='ls -AF'; }
+else { alias ll='ls -gAlhF'; alias la='ls -AF'; }
 fi
 
 
@@ -46,11 +48,13 @@ alias sr-efi="sudo systemctl reboot --firmware"
 alias ss='systemctl suspend'
 alias dd='dd status=progress'
 alias cp='cp -vi'
-alias PWD='pwd=$PWD'
+alias PWD='pwd=$PWD;echo $pwd'
 alias foo='echo bar' # :P
 alias fori='for i in'
+alias forj='for j in'
+alias fork='for k in'
 alias timei='time fori'
-# alias {if}="if alias '{{{'=do '}}}'=done '{{'=then '}}else{{'=else '}}elif'=elif '}}'=fi;" # if mode (still not used as much)
+# alias {if}="alias '{{{'=do '}}}'=done '{{'=then '}}else{{'=else '}}elif'=elif '}}'=fi;" # if mode (still not used as much)
 
 #if false; {{ echo 1; }}
 
@@ -63,13 +67,17 @@ alias '}}}'=fi
 
 
 type nano &>/dev/null && {  ## ##nano## aliases
-#nano.bashrc='' # todo..
 nano.which(){ local IFS=$'\n'; nano $(which $@); }
 alias nano.sh='nano -Y sh'
 nano.bashrc(){
-local arg=(~/.bashrc*"$@"*)
+[[ $@ == --help ]] && { echo -e "Usage nano.bashrc [-a] [PART_OF_NAME]\n       default is '~/.bashrc-personal'";return; }
+local arg
+if [[ $1 == -a ]] && shift
+then arg=(~/.bashrc*"$1"*)
+else arg=(~/.bashrc*"${1:--personal}"*); arg=("$arg")
+fi
 
-nano -Y sh -- "$arg"
+nano -Y sh -- "${arg[@]}"
 }
 alias nano.nanorc='arg nano -Y sh ~/.config/nano/nanorc*'
 test -d ~/.config/deepin/deepin-terminal&&{
@@ -82,30 +90,35 @@ alias nano.deepin-terminal.command-config='nano ~/.config/deepin/deepin-terminal
 
 
 
-# cd to dir even if doesnt exist
-#function cd! (){ [[ ! -d "$@" ]]&&mkdir --parents -- "$@"; cd -- "$@"; }
-#function cd+ (){ mkdir --parents -- "$@" && cd -- "$@"; } # mkdir and go there
-function cd! (){ mkdir --parents -- "$@" && cd -- "$@"; } # mkdir and go there
-function cd+ (){ mkdir -- "$@" && cd -- "$@"; } # mkdir and go there
+function cd! (){ [[ $#=1 ]]&& mkdir --parents -- "$1" && cd -- "$1"; } # mkdir +parents and cd there (even if exists)
+function cd+ (){ [[ $#=1 ]]&& mkdir -- "$1" && cd -- "$1"; } # mkdir and cd there (recommended - more safe)
 alias mv.PWD='PWD;..;mv -- "$pwd"'
 alias cp.PWD='PWD;..;cp -- "$pwd"'
-alias rm.PWD='{ PWD;echo "press Ctrl+C to Cansel";sleep 1.5;..;rm -rf -- "$pwd"' # make invalid syntaxsis and wait
-alias cd.PWD='echo But why?;cd $PWD||echo And how he got there'
+alias rm.PWD='{ PWD&&echo "press Ctrl+C to Cansel"&&sleep 3.5&&..&&rm -rf -- "$pwd"' # make invalid syntaxsis and wait
+alias cd.PWD='PWD;echo But why?;cd $pwd||echo And how he got there'
+alias ls.PWD='PWD;echo . . . w h y ?;ls $pwd'
+alias c.PWD='c<<<$PWD'
 mv.mv(){ # Swap 2 filenames around, if they exist (from Uzi's bashrc).
-    local TMPFILE=tmp.$$
+    local TMP=.tmp.$$
 
     [ $# -ne 2 ] && echo "mv.mv: 2 arguments needed" && return 1
     [ -e $1 ] || echo "mv.mv: $1 does not exist" && return 2
     [ -e $2 ] || echo "mv.mv: $2 does not exist" && return 2
 
-    mv -- "$1" "$1$TMPFILE"
+    mv -- "$1" "$1$TMP"
     mv -- "$2" "$1"
-    mv -- "$1$TMPFILE" "$2"
+    mv -- "$1$TMP" "$2"
+}
+which.basedir(){
+dirname -- `which -- "$@"`
 }
 
 
 # [[ -d ~/".bin" ]] && PATH=~/"/.bin:$PATH"
 [[ -d "$HOME/.bin-personal" ]] && PATH="$HOME/.bin-personal:${PATH/:\/bin:/:}"
+
+
+
 
 # lets play on my PlayStation 4
 PS1='[\[\e[33m\]\u\[\e[m\]@\h \[\e[36m\]\W\[\e[m\]]$(
