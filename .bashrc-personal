@@ -48,6 +48,7 @@ alias sr-efi="sudo systemctl reboot --firmware"
 alias ss='systemctl suspend'
 alias dd='dd status=progress'
 alias cp='cp -vi'
+alias mv='mv-vi'
 alias PWD='pwd=$PWD;echo $pwd'
 alias foo='echo bar' # :P
 alias fori='for i in'

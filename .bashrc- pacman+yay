@@ -19,7 +19,7 @@ alias npacman="sudo nano /etc/pacman.conf"
 fi
 
 if [[ -x /usr/bin/yay ]]
-then alias p=yay && complete -F _yay p&&_yay(){ __load_completion yay;_yay "$@"; }
+then alias p='yay --ignore beefi'&& complete -F _yay p&&_yay(){ __load_completion yay;_yay "$@"; }
 else p(){
 	if [[ "`type -ap pacapt 2>/dev/null`" ]]
 	then local pac_cmd=`where pacapt`
