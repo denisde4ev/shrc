@@ -10,8 +10,7 @@
 #export QT_IM_MODULE=ibus
 
 # If not running interactively, don't do anything
-[[ $- =~ *i* ]] && return
-echo ${HOME[@]}  "DOTO: in termux is '1'"
+[[ $- != *i* ]] && return
 
 export HISTCONTROL=ignoreboth:erasedups
 
@@ -147,12 +146,15 @@ alias sr="sudo reboot"
 # tricky way to get home dir without varable HOME
 #HOME+=// # WARING: not shure if every time will work
 #HOME[1]=`eval "echo ~${USER}"`
-[[ ! $USER =~ ^[a-z][a-zA-Z_0-9-]*$ ]] && echo 'is user valid ?'
+[[ ! $USER =~ ^[a-z][a-zA-Z_0-9-]*$ ]] && echo "is user ${USER@Q} valid ?"
 [[ -r ~/.bashrc-personal_ ]] && HOME=`eval 'echo ~'$USER` . ~/.bashrc-personal_
 [[ ~ == ${HOME[1]} ]] && unset HOME[1] && >&2 echo "please don't run '.bashrc_' without changet PATH or HOME variable"
 
+echo -n ${HOME[@]@A}  "DOTO: in termux is '1'
+[0]=${HOME[0]}
+[1]=${HOME[1]}
+"
 
-echo "HOME=(${#HOME[@]})"
 ## WARING: probaly not safe - if is created ad useradd -
 
 
