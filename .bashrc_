@@ -10,7 +10,9 @@
 #export QT_IM_MODULE=ibus
 
 # If not running interactively, don't do anything
-[[ $- != *i* ]] && return
+#[[ $- != *i* ]] && return
+echo ${HOME[@]}  "DOTO: in termux is '1'"
+
 
 export HISTCONTROL=ignoreboth:erasedups
 
