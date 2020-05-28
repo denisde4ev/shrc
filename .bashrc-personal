@@ -29,6 +29,12 @@ alias g=egrep
 alias g-='egrep --'
 G(){ g -i ${@:2} $'\n'"$1"; }
 alias path="echo \"\${PATH//:/$'\n'}\""
+alias Iown='sudo chown $USER:$USER'
+alias myown=Iown
+alias givemeown=Iown
+
+#alias '{=bind -u complete;{'
+#alias '}=bind???' ## POROBABLY NEVER GONA WORK
 
 # ls
 alias l='ls -F'
@@ -46,9 +52,10 @@ fi
 
 alias sr-efi="sudo systemctl reboot --firmware"
 alias ss='systemctl suspend'
-alias dd='dd status=progress'
+alias dd='{ sudo dd status=progress'
 alias cp='cp -vi'
-alias mv='mv-vi'
+alias mv='mv -vi'
+alias lnr='ln -sr'
 alias PWD='pwd=$PWD;echo $pwd'
 alias foo='echo bar' # :P
 alias fori='for i in'
