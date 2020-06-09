@@ -21,9 +21,12 @@ complete -v E
 Earg(){ eval arg \"\${$@[@]}\"; }
 complete -v Earg
 sud(){ # early space `sud oecho "I MEAN sudo ls"`
- if [[ $@ =~ ^o ]]
- then echo sudo "${1:1}" `quote "${@:2}"`;sudo "${1:1}" "${@:2}"
- else echo 'Did you mean sudo?[yes/no]' [[ `head -1` = [Yy]es ]] && sudo "$@"  #echo 'bash: sud: it doesnt seem like is typoo for '\''sudo` '\''sud o`'; return 127
+ if [[ $@ = o* ]]
+ then echo sudo "${1:1}" `quote "${@:2}"`;sleep 1;sudo "${1:1}" "${@:2}"
+ else
+   local e
+   read -p 'Did you mean `sudo $@'"' [yes/No]" e
+   [[ $e = [Yy]?(es) ]] && sudo "$@"  #echo 'bash: sud: it doesnt seem like is typoo for '\''sudo` '\''sud o`'; return 127
  fi
 }
 
@@ -39,10 +42,7 @@ alias path="echo \"\${PATH//:/$'\n'}\""
 alias Iown='sudo chown $USER:$USER'
 alias myown=Iown
 alias givemeown=Iown
-unalias cd..
-cd..(){
-cd `printf '../%.0s' $(seq 1 "${1:-1}")` && pwd
-}
+cd..(){ cd -- `printf '../%.0s' $(seq 1 "${1:-1}")` && pwd; }
 
 #alias '{=bind -u complete;{'
 #alias '}=bind???' ## POROBABLY NEVER GONA WORK
@@ -50,10 +50,9 @@ cd `printf '../%.0s' $(seq 1 "${1:-1}")` && pwd
 # ls
 alias l='ls -F'
 alias la='ls -aF'
-alias lr='ls -aFR'
 alias ll='ls -aalhF' # exa is listing .. and . only with twice -aa  ls doesnt have problem
-alias l.="la | g '^\.'"
-
+alias l.="la -d -- .*"
+alias ll.="ll -d -- .*"
 # # better commands:
 if type exa &>/dev/null
 then alias ls=exa
@@ -65,11 +64,9 @@ alias sr-efi="sudo systemctl reboot --firmware"
 alias ss='systemctl suspend'
 alias dd='{ sudo dd status=progress'
 alias cp='cp -vi'
-<<<<<<< HEAD
 alias mv='mv -vi'
-alias lnr='ln -sr'
-=======
->>>>>>> df5c4e6a56821e4f6ed83223d7593e078e3a0ecb
+alias ln='ln -vi'
+alias un-vi='unalias unvi un-vi cp mv ln'
 alias PWD='pwd=$PWD;echo $pwd'
 alias foo='echo bar' # :P
 alias while:='while :;'
@@ -154,9 +151,9 @@ dirname -- `which -- "$@"`
 
 
 
-# lets play on my PlayStation 4
-PS1='[\[\e[33m\]\u\[\e[m\]@\h \[\e[36m\]\W\[\e[m\]]$(
-O=$?;[[ $O != 0 ]]&&echo "\[\e[31m\]$O\[\e[m\]"||echo \\$) '
+# lets play on PlayStation 4
+# PS1='[\[\e[33m\]\u\[\e[m\]@\h \[\e[36m\]\W\[\e[m\]]$(
+# O=$?;[[ $O != 0 ]]&&echo "\[\e[31m\]$O\[\e[m\]"||echo \\$) '
 
 PS1=$'[\[\e[33m\]'"\u\[\e[m\]@\h \[\e[36m\]\W\[\e[m\]]\$(
 O=\$?;[[ "\$O" != 0 ]]&&echo "\\\[\\e\[31m\\\]\$O\\\[\\e\[m\\\]"||echo \\\$) "
