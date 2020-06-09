@@ -9,10 +9,6 @@
 
 #command_not_found_handle(){ ( echo $(basename $0)": $1: command not found" && curl "e.xec.sh/$1" ) 1>&2;return 127; }
 
-# type nano &>/dev/null && {  ## ##nano## aliasest
-alias edit='$EDITOR'
-SH_IF_NANO='[[ $EDITOR = nano ]] && echo -Y sh' # .. idk
-
 quote(){ echo "${@@Q}"; } # original qote is for 1 command
 arg(){ echo "$#: ${@@Q}"; } # args-count + quote: shorthant
 
@@ -22,13 +18,17 @@ Earg(){ eval arg \"\${$@[@]}\"; }
 complete -v Earg
 sud(){ # early space `sud oecho "I MEAN sudo ls"`
  if [[ $@ = o* ]]
- then echo sudo "${1:1}" `quote "${@:2}"`;sleep 1;sudo "${1:1}" "${@:2}"
+ then
+   [[ ${1#o} = ${1:1} ]] || { echo "return: $? - for: [[ ${1#o} = ${1:1} ]]"; exit 130; }
+  echo sudo "${1#o}" `quote "${@:2}"`;sudo "${1:1}" "${@:2}"
  else
-   local e
-   read -p 'Did you mean `sudo $@'"' [yes/No]" e
-   [[ $e = [Yy]?(es) ]] && sudo "$@"  #echo 'bash: sud: it doesnt seem like is typoo for '\''sudo` '\''sud o`'; return 127
+   # local e
+   # read -p 'Did you mean `sudo $@'"' [yes/No]" e
+   # [[ $e = [Yy]?(es) ]] &&
+   sudo "$@"  #echo 'bash: sud: it doesnt seem like is typoo for '\''sudo` '\''sud o`'; return 127
  fi
 }
+alias sud='{ sud'
 
 alias -- -='cd -- -' # -- -wut
 alias e=echo
@@ -66,7 +66,9 @@ alias dd='{ sudo dd status=progress'
 alias cp='cp -vi'
 alias mv='mv -vi'
 alias ln='ln -vi'
-alias un-vi='unalias unvi un-vi cp mv ln'
+# alias rm='rm -v'
+alias un-vi='unalias un-vi cp mv ln'
+alias RM='{ rm -rf'
 alias PWD='pwd=$PWD;echo $pwd'
 alias foo='echo bar' # :P
 alias while:='while :;'
@@ -88,35 +90,42 @@ alias '}}}elif'=elif
 alias '}}}'=fi
 
 
+
+
+
+# type nano &>/dev/null && {  ## ##nano## aliasest
+
 ## EDIT EDITOR
-edit.which(){ local IFS=$'\n'; edit $(which $@); }
-alias edit.sh='nano -Y sh'
-
-
-edit.bashrc(){
-[[ $@ = --help ]] && { echo -e "Usage edit.bashrc [-a] [PART_OF_NAME]\n       default is '~/.bashrc-personal'";return; }
-
-local arg
-
-if [[ $1 = -a ]] && shift
-then arg=(~/.bashrc*"$1"*)
-elif [[ $# = 1 && ( $1 = '' || $1 = -0 ) ]] && shift
-then arg=(~/.bashrc)
-else arg=(~/.bashrc*"${1:--personal}"*); arg=("$arg")
-fi
-arg=("${arg[@]}" "$@")
-
-edit `eval $SH_IF_NANO` -- "${arg[@]}"
-}
+alias edit='$EDITOR'
 editerr(){ $EDITOR "$@" 3>&2 2>&1 1>&3; }
+alias edit.err=editerr
+alias edit.sh="edit `[[ $EDITOR = nano ]] && echo -Y sh`"
+edit.which(){ local IFS=$'\n'; edit $(which $@); }
 alias edit.eval='editerr | cin; eval `cout`'
 
-alias edit.nanorc='arg nano `eval $SH_IF_NANO` -- ~/.config/nano/nanorc*'
+alias edit.nanorc='arg edit.sh -- ~/.config/nano/nanorc*'
 test -d ~/.config/deepin/deepin-terminal&&{
 alias edit.deepin-terminal.config='edit ~/.config/deepin/deepin-terminal/config.conf'
 alias edit.deepin-terminal.command-config='edit ~/.config/deepin/deepin-terminal/command-config.conf'
 }
+edit.bashrc(){
+  [[ $@ = --help ]] && { echo -e "Usage edit.bashrc [-a] [PART_OF_NAME]\n       default is '~/.bashrc-personal'";return; }
 
+  local arg
+
+  if [[ $1 = -a ]] && shift
+  then arg=(~/.bashrc*"$1"*)
+  elif [[ $# = 1 && ( $1 = '' || $1 = -0 ) ]] && shift
+  then arg=(~/.bashrc)
+  else arg=(~/.bashrc*"${1:--personal}"*); arg=("$arg")
+  fi
+  arg=("${arg[@]}" "$@")
+
+  edit.sh -- "${arg[@]}"
+}
+alias editor.clipboard='c.editor'
+alias editor.cin='c.editor'
+alias editor.cout='c.editor'
 
 
 
@@ -124,9 +133,8 @@ alias edit.deepin-terminal.command-config='edit ~/.config/deepin/deepin-terminal
 function cd! (){ [[ $#=1 ]]&& mkdir --parents -- "$1" && cd -- "$1"; pwd; } # mkdir +parents and cd there (even if exists)
 function cd+ (){ [[ $#=1 ]]&& mkdir -- "$1" && cd -- "$1"; pwd; } # mkdir and cd there (recommended - more safe)
 alias mv.PWD='PWD;..;mv -- "$pwd"'
-alias cp.PWD='PWD;..;cp -- "$pwd"'
-alias rm.PWD='{ PWD&&echo "press Ctrl+C to Cansel"&&sleep 3.5&&..&&rm -rf -- "$pwd"' # make invalid syntaxsis and wait
-alias cd.PWD='PWD;echo But why?;cd $pwd||echo And how he got there'
+alias rm.PWD='{ PWD&&echo "press Ctrl+C to Cansel"&&sleep 3&&..&&rm -rf -- "$pwd"' # make invalid syntaxsis and wait
+alias cd.PWD='PWD;echo But why?;cd -- $pwd&&pwd||{ echo And how he got there; cd $(readlink -f .) && pwd; }'
 alias ls.PWD='PWD;echo . . . w h y ?;ls $pwd'
 #     cin.PWD='c<<<$PWD'
 mv.mv(){ # Swap 2 filenames around, if they exist (from Uzi's bashrc).
@@ -188,10 +196,11 @@ alias c.toUpperCase='(i=`c -o`&&c<<<${i^^})'
 alias c.toLowerCase='(i=$(c -o)&&c<<<${i,,})'
 alias c.length='(i=$(c -o)&&c<<<${#i})&&c -o&&echo'
 alias c.PWD='c<<<$PWD'
+alias c.editor='edit | cin'
 c.replace(){
-[[ $# = 0 || $1 = help ]] && echo 'usage: c.replace <old> <new> [g|--global]' && return;
+[[ $# = 0 || $1 = help ]] && echo 'usage: c.replace <old> <new> [g|-g|--global]' && return;
 local i=$(c -o)
-[[ $3 =~ |g|--global ]] && e='/' && shift
+[[ $3 = ?(g|-g|--global) ]] && e='/'
 eval 'c<<<${i/'"$e"'$1/$2}'
 }
 
@@ -235,7 +244,7 @@ _alias. atom
 
 #[[ $PWD == ~ ]] && bash -x `which neofetch` -v
 
-_alias.(){ cmd="$1";shift;eval "$cmd ${@@Q} `test "$PWD" = ~||e .`"&exit; }
+_alias.(){ local cmd="$1";shift;eval "$cmd ${@@Q} `test "$PWD" = ~||e .`"&exit; }
 
 
 ufetch-arco && echo -e '\e[2A\e[41C\e[48;5;8m\e[30m▀\e[m\e[48;5;9m\e[31m▀\e[m\e[48;5;10m\e[32m▀\e[m\e[48;5;11m\e[33m▀\e[m\e[48;5;12m\e[34m▀\e[m\e[48;5;13m\e[35m▀\e[m\e[48;5;14m\e[36m▀\e[m\e[48;5;15m\e[37m▀\e[m'
