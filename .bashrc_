@@ -13,6 +13,7 @@
 #[[ $- != *i* ]] && return
 echo ${HOME[@]}  "DOTO: in termux is '1'"
 
+
 export HISTCONTROL=ignoreboth:erasedups
 
 PS1='[\u@\h \W]\$ '

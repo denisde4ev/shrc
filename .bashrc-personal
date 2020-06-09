@@ -65,8 +65,11 @@ alias sr-efi="sudo systemctl reboot --firmware"
 alias ss='systemctl suspend'
 alias dd='{ sudo dd status=progress'
 alias cp='cp -vi'
+<<<<<<< HEAD
 alias mv='mv -vi'
 alias lnr='ln -sr'
+=======
+>>>>>>> df5c4e6a56821e4f6ed83223d7593e078e3a0ecb
 alias PWD='pwd=$PWD;echo $pwd'
 alias foo='echo bar' # :P
 alias while:='while :;'
