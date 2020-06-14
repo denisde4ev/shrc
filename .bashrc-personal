@@ -71,8 +71,8 @@ alias un-vi='unalias un-vi cp mv ln'
 alias RM='{ rm -rf'
 alias PWD='pwd=$PWD;echo $pwd'
 alias foo='echo bar' # :P
-alias while:='while :;'
-alias 'loop{{'='while :;{{'
+alias loop:='while :;'
+alias 'loop{{'='loop :;{{'
 alias fori='for i in'
 function forI () { local i=$1;shift; for i in `seq 0 "$i"`; do eval "$@"; done }
 alias forj='for j in'
@@ -96,11 +96,13 @@ alias '}}}'=fi
 # type nano &>/dev/null && {  ## ##nano## aliasest
 
 ## EDIT EDITOR
-alias edit='$EDITOR'
+#alias edit='$EDITOR'
 editerr(){ $EDITOR "$@" 3>&2 2>&1 1>&3; }
 alias edit.err=editerr
+alias edit.c+eval='editerr | cin && eval -- `cout`'
+alias Cat='cat <<- Cat | cin'
 alias edit.sh="edit `[[ $EDITOR = nano ]] && echo -Y sh`"
-edit.which(){ local IFS=$'\n'; edit $(which $@); }
+edit.which(){ local IFS=$'\n'; local i="`which $@`" && [[ $i ]] && edit $i || return 2; }
 alias edit.eval='editerr | cin; eval `cout`'
 
 alias edit.nanorc='arg edit.sh -- ~/.config/nano/nanorc*'
