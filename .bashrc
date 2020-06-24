@@ -65,7 +65,7 @@ alias psgrep="ps aux | grep -v grep | grep -i -e VSZ -e"
 alias update-grub="sudo grub-mkconfig -o /boot/grub/grub.cfg"
 
 #improve png
-alias fixpng="find . -type f -name "*.png" -exec convert {} -strip {} \;"
+alias fixpng='find . -type f -name "*.png" -exec convert {} -strip {} \;'
 
 #add new fonts
 alias fc='sudo fc-cache -fv'
@@ -92,7 +92,7 @@ alias trizenskip='trizen -S --skipinteg'
 alias microcode='grep . /sys/devices/system/cpu/vulnerabilities/*'
 
 #mounting the folder Public for exchange between host and guest on virtualbox
-alias vbm="sudo mount -t vboxsf -o rw,uid=1000,gid=1000 Public /home/$USER/Public"
+alias vbm='sudo mount -t vboxsf -o rw,uid=1000,gid=1000 Public "/home/$USER/Public"'
 
 #shopt
 shopt -s autocd # change to named directory
@@ -134,7 +134,6 @@ alias sr="sudo reboot"
 #create a file called .bashrc-personal and put all your personal aliases
 #in there. They will not be overwritten by skel.
 
-alias c='xclip -r -sel clip'
 
 # [[ -f ~/.bashrc-personal ]] && . ~/.bashrc-personal
 
@@ -149,8 +148,8 @@ unset i
 
 
 # tricky way to get home dir without varable HOME
-real_HOME=`eval "echo ~${USER}"`
-f_home=$HOME:~
+# real_HOME=`eval "echo ~${USER}"`
+# f_home=$HOME:~
 ## WARING: probaly not safe - if is created ad useradd -
 
 

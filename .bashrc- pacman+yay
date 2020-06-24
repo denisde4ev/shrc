@@ -1,4 +1,4 @@
-#
+#!/hint/bash
 # ~/.bashrc\ -pacman+yay
 #
 
@@ -21,9 +21,10 @@ fi
 if [[ -x /usr/bin/yay ]]
 then alias p='yay'&& complete -F _yay p&&_yay(){ __load_completion yay;_yay "$@"; }
 else p(){
+	local pac_cmd
 	if [[ "`type -ap pacapt 2>/dev/null`" ]]
-	then local pac_cmd=`where pacapt`
-	else local pac_cmd='pacman'&&complete -F _yay p
+	then pac_cmd=`where pacapt`
+	else pac_cmd='pacman'&&complete -F _yay p
 	fi
 pac_cmd=/home/iam-deepin20/tmp/\ p/pacapt
 	# [[ "${1:0:1}" == "-" ]] || {  } # no..
