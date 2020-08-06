@@ -22,7 +22,7 @@ confirm(){
 }
 [[ -d $DIR_REPO/.git ]] || confirm "Are you shure you want to copy `b from` ${DIR_REPO@Q} , .git was not found"
 [[ -d $HOME_DIR ]] || confirm "Are you shure you want to copy `b to` ${HOME_DIR@Q}"
-[[ "`git config --get remote.origin.url`" = *'github.com'[/:]'deni2020/.bashrc.d.git' ]] || confirm 'My git url was not found in git config?!'
+[[ "`git config --get remote.origin.url`" = *'gitgud.io'[/:]'denisde4ev/cfg'?(.git) ]] || confirm 'My git url was not found in git config?!'
 
 
 # echo "$DIR_REPO"/.bashrc!(@|_)*
