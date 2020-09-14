@@ -10,29 +10,19 @@ git clone git@ssh.gitgud.io:denisde4ev/cfg.git ~/cfg && [[ -d ~/cfg ]] &&
 alias config='git --git-dir ~/cfg/.git --work-tree ~' &&
 eval 'config config --local status.showUntrackedFiles no' &&
 alias config >> ~/.bashrc &&
-command -v __load_completion &>/dev/null && {
- __load_completion git &&
- complete=$(complete -p | sed -n 's/\bgit\b/config/gp') &&
- eval "${complete:-false}" &&  # `config' as `git' completeons and add it to .bashrc
+command -v __load_completion &>/dev/null && { # 
+  __load_completion git &&
+  complete=$(complete -p | sed -n 's/\bgit\b/config/gp') &&
+  eval "${complete:-false}" &&  # `config' as `git' completeons and add it to .bashrc
  
-#            TODO:
-#  cat << ----EOF
-# user input needed, completion for git found:
-#  -> ${complete@Q}
-# 1) its as expected __git_wrap__git_main
-# 2) let me type
-# 3) no, I don't want completion at all"
-#----EOF
- complete_fn=$(sed -En 's/.+\b(\w*_git\w*)\b.*\bconfig\b.*/\1/gp' <<< $complete) && {
+  complete_fn=$(sed -En 's/.+\b(\w*_git\w*)\b.*\bconfig\b.*/\1/gp' <<< $complete) && {
     [[ $complete_fn ]] && 
     command -v "$complete_fn" &>/dev/null &&
     complete_fn="$complete_fn(){ __load_completion git && $complete_fn "'"$@"; }' #\
-    #|| : # or true - this block not syopping the folowing code
- }
+   
+  }
  
- complete_="$complete; $complete_fn"  &&
- 
- echo "complete_" >> ~/.bashrc && 
+  echo "${complete:?}; ${complete_fn:?}" >> ~/.bashrc
  
 }
 
