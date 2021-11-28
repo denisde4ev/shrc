@@ -1,1 +1,1 @@
-../../../../0/GH/denisde4ev/YN_confirm.sh/YN_confirm.sh
+./_/YN_confirm.sh/YN_confirm.sh
