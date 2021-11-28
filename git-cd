@@ -1,0 +1,14 @@
+#!/hint/sh
+
+alias git-clone+cd='echo "TODO: FIX ME"; false'
+return 
+
+# NOT DONE
+
+git_clone_cd () {
+	r=$1
+	shift
+	new_pwd=$(dirname -- "$r" .git) \
+	&& git clone "$@" "$r" "$new_pwd" && cd -- "$new_pwd" || return "$?"
+}
+alias git-clone+cd='r= new_pwd= git_clone_cd'

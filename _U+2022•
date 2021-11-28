@@ -1,0 +1,3 @@
+#!/hint/sh
+source_all() { for i;do . "$i"; done; }
+alias •=source_all

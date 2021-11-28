@@ -1,0 +1,109 @@
+#!/hint/ash
+# shellcheck shell=bash
+
+# [[ $0 = bash ]] &&
+source ~/B/__history-append
+
+alias PS1++="PS1=${PS1@Q}" PS1--="PS1='\[\e[100m\]\\\$\[\e[m\] '"
+PS2='\[\e[9m\]\[\e[100m\] \[\e[m\]'
+
+
+((1<SHLVL)) && {
+	((2==SHLVL)) \
+		&& PS1=${PS1/@/"$underline@$w"} \
+		|| PS1=${PS1/'\$'/"$underline\\\$$w "}
+}
+
+
+function main_PS () {
+
+
+if [ -x "$(command -v tput)" ]; then
+	bold="$(tput bold)"
+	black="$(tput setaf 0)"
+	red="$(tput setaf 1)"
+	green="$(tput setaf 2)"
+	yellow="$(tput setaf 3)"
+	blue="$(tput setaf 4)"
+	magenta="$(tput setaf 5)"
+	cyan="$(tput setaf 6)"
+	white="$(tput setaf 7)"
+	reset="$(tput sgr0)"
+
+	underline=$(tput smul)
+	nounderline=$(tput rmul)
+	bold=$(tput bold)
+	normal=$(tput sgr0)
+	
+r=$red; b=$cyan w=$reset y=$yellow
+# else
+fi
+	# e=$(printf \\\33);
+	# r="$e[31m";b="$e[36m";w="$e[m";y="$e[33m";
+i= eval 'for i in r b w y underline; do eval "$i=\\\\[\$$i\\\\]";done'
+
+# PS1='[\u@\h \W'"$(((SHLVL==1))||echo \ $SHLVL)"']\$ '
+
+
+# PS1='[${y}${USER}${w}@'"$(printf %q $(hostname)||hostname)"' ${b}${PWD##*/}${w}]$(o=$?;((o))&&echo "${r}${o}${w}"||echo "\$" ) '
+
+# ALMOST DONE::: #####################
+# PS1="\
+# [\
+# \${y}\${USER}\${w}\
+# @\
+# $(printf %q $(hostname) || hostname)\
+# \${b}\${PWD##*/}\${w}\
+# $([ $SHLVL -le 2 ]||echo \ $SHLVL)\
+# ]\$( o=\$?; [ \"x\$o\" = x0 ] && echo \"\\\$\" || echo \"\${r}\${o}\${w}\" ) "
+
+
+# 
+# 
+# PS1='[\u@\h \W'"$(((SHLVL==1))||echo \ $SHLVL)"']\$ '
+# ((SHLVL!=1)) && PS1='[\u@\h \W'" $SHLVL]\\$ " &&
+
+# PS1="[\\u@\\h \\W$([ $SHLVL = 1 ]||echo \ $SHLVL)]\\\$ "
+# 
+# PS1=${PS1/'\u'/'${y}\u${w}'}
+PS1=${PS1/'\u'/"$y\\u$w"}
+# PS1=${PS1/'\W'/'${b}\W${w}'}  # [[ $PS1 = *w* ]] && PS1=${PS1/'\W'/'${b}\W${w}'} || PS1=${PS1/'\w'/'${b}\w${w}'}
+PS1=${PS1/'\W'/"$b\\W$w"}  # [[ $PS1 = *w* ]] && PS1=${PS1/'\W'/'${b}\W${w}'} || PS1=${PS1/'\w'/'${b}\w${w}'}
+PS1=${PS1/'\$'/'$( o=$?; ((o)) && echo "'"$r\$o$w\""' || echo "\$" )'}
+
+[[ $1 != sh ]] && return
+set -x
+# PS1=${PS1/'\$'/'$( o=$?; [ "x$o" = x0 ] && echo "\$" || echo "\[\e[31m\]$o${w}" )'}
+# set -x
+# echo 1
+# echo PS1=`echo "$PS1" | sed -Ee 's%\[[\[\]]%%g; s%\\u%\\${USER}%g;'"s \\\\h \$(printf %q $(hostname) || hostname) g;"'s%\\w%\${PWD##*/}%g' ## BROKEN
+# echo PS1=`
+# '"s \\\\h $(printf %q $(hostname) || hostname) g"';
+
+ps1=$(
+<<< "$PS1" sed -Ee '
+s%\\\[|\\\]%%g;
+s%\\u%\${USER}%g;
+s%\\h%${HOSTNAME:-$(o=$?;hostname;exit $o)}%g;
+# s%\\[Ww]%\${PWD##*/}%g;
+s%\\[Ww]%\$(o=$?;case "$PWD" in /)echo /;;~)echo "~";;*)basename -- "$PWD";;esac;exit $o)%g;
+s%\\e%$e%g;
+s%\(\(o\)\)%[ "$o" -ne 0 ]%;
+' 
+)
+# : e=$(printf \\\33) PS1=ps1_ dash
+
+# false
+# echo "${ps1@P}  ${ps1@Q}"
+# echo "${ps1@P}  ${ps1@Q}"
+# printf "%s;   PS1_=%s" 'e=$(printf \\\33)   ' "${ps1@Q}" | cin
+
+
+# ` # POSIXIFY my PS1 (and get output)
+# set +x
+
+
+
+
+}
+main_PS

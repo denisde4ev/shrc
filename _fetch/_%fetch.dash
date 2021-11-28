@@ -1,0 +1,38 @@
+#!/bin/sh
+
+ui=$(tty)
+case $ui in /dev/tty*)! :;esac &&
+if [ -n "$DE" -o -n "$WM" ]; then
+	[ -n "$DE" -a -n "$WM" ] && ui="DE/WM:   $DE, $WM" || ui="${DE:+DE}${WM:+WM}:      $DE$WM"
+elif [ -n "$XDG_CURRENT_DESKTOP" -o -n "$DESKTOP_SESSION" ]; then
+	ui="DE:      $XDG_CURRENT_DESKTOP${XDG_CURRENT_DESKTOP:+${DESKTOP_SESSION:+, }}$DESKTOP_SESSION"
+elif [ -r ~/.xinitrc -o -r ~/.xsession ]; then
+	uii=
+	for i in $(sed -ne 's/^exec //p' ~/.xinitrc ~/.xsession 2>/dev/null); do
+		[ -n "$(pidof "$uii")" ] && uii="$(basename "$i") $uii"
+	done
+	[ -n "${uii% }" ] && ui="WM:      ${uii% }"
+fi || ui="TTY:     ${ui#/dev/tty}"
+
+printf '\33[34m%s\33[m\33[4A\r' \
+'    .    
+   / \   
+  / . \  
+ / / _ \ 
+/`     `\'
+
+case $PWD in "$HOME"*) d=\~${PWD#"$HOME"};; *) d=$PWD; esac
+printf '\33[10C\33[33m%s\33[m@%s \33[36m%s\33[m\n' "${USER:-$(id -un)}" "$(hostname)" "$d"
+b=$(bats 2>/dev/null)
+printf '\33[10C%s\n' \
+	"OS:      $(sed -ne 's/PRETTY_NAME=//p' "$PREFIX/etc/os-release" || echo "$MACHTYPE")" \
+	"KERNEL:  $(uname -r)" \
+	"${b:+BATTERY: }${b:-SHELL:   $(basename -- ${SHELL:-$0})}" \
+	"$ui"
+
+
+
+# b=; for i in /sys/class/power_supply/BAT* /sys/class/power_supply/battery; do # find alternative.. smaller?
+	# [ -r "$i/capacity" ] || continue
+	# b+="${b:+, }$(< "$i/capacity")% $(< "$i/status")"
+# done

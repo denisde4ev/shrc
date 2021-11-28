@@ -1,0 +1,15 @@
+#!/hint/sh
+
+
+case $- in *i*)
+	if [ -d /~ ]; then 
+		fn() {
+			local HOME 2>&-
+			HOME=/~ . /~/B/_main
+		}
+		fn
+		unset -f fn
+	else
+		. ~/B/_main
+	fi
+esac

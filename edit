@@ -1,0 +1,51 @@
+#!/ /hint/sh
+
+# $EDITOR comes from ./_env
+
+[ "${EDITOR:-}" != '' ] || {
+	for i in edit micro nano vim vi ed less most more cat CAT false; do
+		command. "$i" || continue
+		case $i in
+			false) return;;
+			ed|less|most|more|cat|CAT) alias edit >&2;; # warn when using ed/pager/cat for editor
+
+			# how to do iiit ??? ### read) alias edit="CAT"
+			# CAT is from ~/B/fn (loaded after this file - reason alphabetical order)
+		esac
+
+		alias edit="$i"
+		break
+	done
+}
+
+case $(command -v cmd-which) in
+	*/*)
+		alias e.which='cmd-which --cmd=edit'
+		alias e.which.alias='alias | cmd-which --cmd=edit --read-alias'
+	;;
+	*)
+		e_which() { ( IFS=$'\n'; "${EDITOR:-vi}" $(which "$@") ) }
+		alias e.which=e_which
+	;;
+esac
+
+# [  "${BASH:-}" != '' ] || {
+	# alias e.which.alias='alias | cmd-which -c edit --read-alias ' # TODO: test it
+	# alias e.which\!=e.which.alias  e.cmd,which+=e.which.alias # naver used
+
+# some common files for edit:
+alias \
+	e.trizen.conf='edit ~/.config/trizen/trizen.conf' \
+	e.pacman.conf='edit /etc/pacman.conf' e.pacman='e.pacman.conf' \
+	e.pacman_mirrorlist='edit /etc/pacman.d/mirrorlist' \
+	e.resolv='edit /etc/resolv.conf' \
+	e.known_hosts='edit ~/.ssh/known_hosts' \
+	e.ssh_config='edit ~/.ssh/config' \
+	e.TODO='edit ~/0/TODO' \
+	e.doas='vidoas' vidoas='\doas "${EDITOR:-vi}" /etc/doas.conf' \
+	e='-encoding=utf-16' \
+	\
+	\
+	ew=e.which e=edit \
+;
+#	c.open='cout | x open' \ # never used

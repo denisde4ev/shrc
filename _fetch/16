@@ -1,0 +1,12 @@
+#!/hint/bash
+#
+# 16 color script.
+
+# echo -e "\\n \\e[10%sm\ \ \\e[m \\n \\e[4{0..7}m\ \ \\e[m \\n" {0..7}
+
+echo
+printf ' \33[10%sm  \33[m' `seq 0 7`
+echo
+printf ' \33[4%sm  \33[m' `seq 0 7`
+echo
+echo

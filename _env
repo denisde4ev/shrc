@@ -1,0 +1,47 @@
+#!/ /hint/sh
+
+export \
+MANPAGER="sh -c 'col -bx | bat -l man -p'" \
+PAGER=most \
+BAT_PAGER="less -RF" \
+BAT_CONFIG_PATH=/etc/bat.conf \
+PASSWORD_STORE_DIR=~/0/GG/pass/ \
+TERMINAL=konsole \
+KISS_PATH=/home/arcowo/0/gh/denisde4ev/repo/personal \
+MOZ_USE_XINPUT2=1 \
+XKB_DEFAULT_LAYOUT='us(carpalx)' \
+PATHSEP=/ \
+;
+
+
+# XKB_DEFAULT_LAYOUT -> for river WM # https://github.com/ifreund/river/issues/254
+# PATHSEP='/'        -> a path separator used in mine scripts, for busybox-w32.sh is PATHSEP='/\'
+# MOZ_USE_XINPUT2=1  -> firefox support touchscreen
+
+
+case $TERM in
+*xterm*)       export EDITOR=micro ;;
+linux|screen*) export EDITOR=nano  ;;
+*)             export EDITOR=micro ;;
+esac
+
+# note $new_line is from ~/B/_core
+
+# some enviromnent aliases, (for tow all are for PAGER var fix)
+alias \
+su='PAGER= MANPAGER= \su' \
+doas='PAGER= MANPAGER= \sudo -S ' \
+sudo='PAGER= MANPAGER= \doas ' \
+sud='PAGER= MANPAGER= \sud ' \
+9='PAGER= MANPAGER=less \9 ' \
+git='PAGER=less \git' \
+gh='PAGER=less \gh' \
+man='MANPAGER=most \man' \
+HELP='MANPAGER=most \HELP' \
+;
+
+
+
+# TODO: for remove: \|/
+	# alias bat='bat --pager=less'
+	# alias systemctl='PAGER= systemctl'

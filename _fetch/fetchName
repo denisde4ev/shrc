@@ -1,0 +1,28 @@
+#!/bin/sh
+
+if [ -x "$(command -v tput)" ]; then
+	bold="$(tput bold)"
+	# black="$(tput setaf 0)"
+	# red="$(tput setaf 1)"
+	# green="$(tput setaf 2)"
+	# yellow="$(tput setaf 3)"
+	blue="$(tput setaf 4)"
+	# magenta="$(tput setaf 5)"
+	# cyan="$(tput setaf 6)"
+	# white="$(tput setaf 7)"
+	reset="$(tput sgr0)"
+fi 2>/dev/null
+
+
+. /etc/os-release
+: ${NAME:=Arch?} ${reset:=$'\33[m'}
+ # ${NAME%${NAME#*?}} take 1 char - works same as ${NAME:0:1}
+if [ "$ANSI_COLOR" = '' ]; then
+	echo "$blue/${NAME%${NAME#?}}\\ ${bold}OS: ${reset}${NAME%% *}"
+else
+	printf "\\33[${ANSI_COLOR}m%s\\n" "/${NAME%${NAME#?}}\\ ${bold}OS: ${reset}${NAME%% *}"
+fi
+	
+ANSI_COLOR=${ANSI_COLOR}
+
+case $- in *i*)(exit 105);esac  # used in _fetch to dwtect minimalist fetch

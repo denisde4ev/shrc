@@ -1,0 +1,18 @@
+#!/hint/sh
+
+#!/hint/sh
+
+# isolate in subshell (...)
+(
+	# i=$(printf %s\\n ~/B/_fetch/[!_.]*[!%~] | shuf -n 1)
+	i=$(shuf_1 ~/B/_fetch/[!_.]*[!%~])
+
+	# if this exit, next case-in lines will not be executed
+	. "$i" 
+
+	case ${i##*/} in
+		(16|color-eudaldgr|fetchName|_fetch.sh|%nofetch) exit 105
+	esac
+)
+
+[ "$?" = 105 ] && PS1-ash #105 is charCode of 'i' -> interactive shell

@@ -1,0 +1,5 @@
+#!/usr/bin/printf \33[34m/A\ \33[1mOS:\33[m Arco\n%.0s
+printf "$(sed 's/[^ ]* //;q' "${BASH_SOURCE:-$0}")"
+
+case $- in *i*)exit 105;esac  # used in _fetch to detect minimal fetch and change PS1
+

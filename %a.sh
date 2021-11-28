@@ -1,0 +1,3 @@
+#!/hint/sh
+
+alias '%%=fg'

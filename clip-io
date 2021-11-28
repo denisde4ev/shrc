@@ -1,0 +1,98 @@
+#!/hint/sh
+
+if [ "$WAYLAND_DISPLAY" != '' ] && command. wl-copy; then
+	alias cin='wl-copy -n' cout='wl-paste'
+	alias c.png='c.file'
+elif [ "$DISPLAY" != '' ] && command. xclip; then
+	alias cin='xclip -sel clip -r' cout='xclip -sel clip -o'
+	alias c.png=cin.png cin.png='xclip -selection clipboard -t image/png'                                                                                                                      # https://github.com/TAAPArthur/SystemConfig/blob/4dbf115e429aef736c9117105b1800a742b96217/bin/screenshot
+elif [ "$PREFIX" != '' ] && command. termux-clipboard-set; then
+	alias cin=termux-clipboard-set cout=termux-clipboard-get
+else
+	return
+fi 
+
+alias \
+	c.toUpperCase='( cout | toUpperCase )' c.toLowerCase='( cout | toLowerCase )' \
+	c.toUpperCase\!='( c.toUpperCase | cin )' c.toLowerCase\!='( c.toLowerCase | cin )' \
+	c.date='( date -I | cin )' \
+	c.quote='quote "$( cout )"' \
+	c.giturl='git config remote.origin.url | c)' \
+;
+
+# note: alias 'C!=' 'CC!='  is from ~/B/a
+
+
+clip_io() {
+	[ -t 0 -a $# -eq 0 ] || {
+		printf %s "$*" # yes, use IFS
+		[ -t 0 ] || cat
+	} | cin   && {
+		[ -t 1 ] || cout >&2
+		cout
+	}
+}
+alias c=clip_io c-='clip_io '
+
+return
+
+
+
+
+
+
+
+
+# old: alias c='( [ -t 0 ] || cin && cout )'
+# alias c.replace # better use |tr or |sed
+
+
+
+
+# c.which='cmd-which -c "$ clip_io"'      # USED INSTEAD: (which dstn | cin) or my modern (?? dstn | c)
+
+
+
+# not working: # only English (ASCII) chars wark properly
+#  alias c.toUpperCase='(cout | tr "[:lower:]абвгдежзийклмнопрсуфхцчшщюяѝ" "[:upper:]АБВГДЕЖЗИЙКЛМНОПРСУФХЦЧШЩЮЯЍ")'
+#  alias c.toLowerCase='(cout | tr "[:upper:]АБВГДЕЖЗИЙКЛМНОПРСУФХЦЧШЩЮЯЍ" "[:lower:]абвгдежзийклмнопрсуфхцчшщюяѝ")'
+# fixed by external BASH script
+
+
+
+# NEVER EVER USED #
+#  never used #
+
+
+# alias cin.tar-pwd-base64='( tar -cvf - ./* | base64 | cin )' cout.tar-pwd-base64='( cout | base64 -d | tar -xvf - )'
+
+
+# clip_figlet() {
+# 	# local i;i=''
+# 	# while IFS= read -r i; do
+# 		# ;
+# 	while
+# 		head -n 1 | figlet "$@" | grep -C 999 ^.
+# 	elihw
+# }
+# alisa c.figlet=clip_figlet
+
+
+
+## print N of line, 0 for last   
+## ^.^~~ funny how -n in sed is not the same meaning
+#{
+#alias \
+#	c.line1='cout | head -n 1' \
+#	c.line2='cout | sed -n "2p"' c.line2+='cout | sed -n 2,$\ p' c.line+2='cout | sed -n 0,2p' \
+#	c.line3='cout | sed -n "3p"' c.line3+='cout | sed -n 3,$\ p' c.line+3='cout | sed -n 0,3p' \
+#	c.line4='cout | sed -n "4p"' c.line4+='cout | sed -n 4,$\ p' c.line+4='cout | sed -n 0,4p' \
+#	c.line5='cout | sed -n "5p"' c.line5+='cout | sed -n 5,$\ p' c.line+5='cout | sed -n 0,5p' \
+#	c.line6='cout | sed -n "6p"' c.line6+='cout | sed -n 6,$\ p' c.line+6='cout | sed -n 0,6p' \
+#	c.line7='cout | sed -n "7p"' c.line7+='cout | sed -n 7,$\ p' c.line+7='cout | sed -n 0,7p' \
+#	c.line8='cout | sed -n "8p"' c.line8+='cout | sed -n 8,$\ p' c.line+8='cout | sed -n 0,8p' \
+#	c.line9='cout | sed -n "9p"' c.line9+='cout | sed -n 9,$\ p' c.line+9='cout | sed -n 0,9p' \
+#	c.line0='cout | tail -n 1' \
+#}
+
+

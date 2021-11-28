@@ -1,0 +1,39 @@
+#!/hint/sh
+
+#!/hint/sh
+
+# isolate in subshell (...)
+(
+	i=$( {
+		echo ~/B/_fetch/16
+		echo ~/B/_fetch/bat-os-release
+		echo ~/B/_fetch/bitfetch
+		echo ~/B/_fetch/color-eudaldgr
+		echo ~/B/_fetch/cpufetch
+		echo ~/B/_fetch/%fetch.bash
+		echo ~/B/_fetch/fetchName
+		echo ~/B/_fetch/fet.sh
+		echo ~/B/_fetch/%lol64.bash
+		echo ~/B/_fetch/%lolsnow.bash
+		echo ~/B/_fetch/neofetch
+		echo ~/B/_fetch/nerdfetch
+		echo ~/B/_fetch/%nofetch
+		echo ~/B/_fetch/pfe-eudaldgr
+		echo ~/B/_fetch/pfetch
+		echo ~/B/_fetch/sfetch
+		echo ~/B/_fetch/square
+		echo ~/B/_fetch/ufetch-arco
+		echo ~/B/_fetch/unix
+		echo ~/B/_fetch/uwucat
+		echo ~/B/_fetch/uwufetch
+		echo ~/B/_fetch/%yfetch-sleep.bash
+	} | shuf -n 1 )
+	# if this exit, next case-in lines will not be executed
+	. "$i" 
+
+	case ${i##*/} in
+		(16|color-eudaldgr|fetchName|_fetch.sh|%nofetch) exit 105
+	esac
+)
+
+[[ $? = 105 ]] && PS1-ash #105 is charCode of 'i' -> interactive shell

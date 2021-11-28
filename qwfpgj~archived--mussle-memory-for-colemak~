@@ -1,0 +1,9 @@
+#/hint/sh
+
+# Baricly a qwerty to colemac aliases for mussle memoryes ..
+
+alias \
+	f=e \
+	i=l \
+	ii=ll \
+	cs=cd \

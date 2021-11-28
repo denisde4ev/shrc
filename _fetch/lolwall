@@ -1,0 +1,20 @@
+#!/ /hint/bash
+# only in 'current' shell can check for the size of the terminal ? todo: check if is true
+
+shopt -s checkwinsize
+# L=$((LINES))
+# C=$((COLUMNS))
+# l=0
+# c=0
+
+# while [ "$l" -lt "$L" ]; do
+	# while [ "$c" -lt "$C" ]; do
+		
+		# : "$(( c+=1 ))"
+	# done
+	# printf '█%.0s' `seq 1 $C`
+
+	# : "$(( l+=1 ))"
+# done | lolcat
+printf '█%.0s' `seq 1 $(( LINES * COLUMNS ))` | lolcat
+sleep .6 # enjoy to the fullscneen fefore printing the prompt PS1

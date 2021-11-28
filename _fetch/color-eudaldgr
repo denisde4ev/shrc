@@ -1,0 +1,32 @@
+#!/bin/sh
+#
+# a color script
+
+# trap "printf '[?25h[?7h\n'" EXIT INT
+
+# printf '[?25l[?7l[2J[H'
+
+for i in 1 2 3; do
+    printf ' '
+
+    for j in 0 1 2 3 4 5 6 7; do
+        printf '\033[38;5;%sm████[m' "$j"
+        [ "$i" = 1 ] && {
+            printf '\033[38;5;%sm▄[m  ' "$(($j + 8))"
+        } || {
+            printf '\033[38;5;%sm█[m  ' "$(($j + 8))"
+        }
+    done
+
+    printf '\n'
+done
+
+printf '  '
+
+for i in 8 9 10 11 12 13 14 15; do
+    printf '\033[38;5;%sm▀▀▀▀[m   ' "$i"
+done
+echo
+# read -r _
+
+# source:  https://raw.githubusercontent.com/eudaldgr/bin/master/color

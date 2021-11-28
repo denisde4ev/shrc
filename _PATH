@@ -1,0 +1,15 @@
+#!/hint/bash
+
+# case :$PATH: in *:$HOME/bin/@op5t-termux:*) return;esac
+PATH=\
+~/bin/HOME-disallowed.d:\
+\
+~/bin/home:\
+\
+~/bin:\
+~/.bin:\
+~/.bin/local:\
+"$PATH${PATH:+:}"\
+~/bin/songs:\
+~/bin/node:\
+~/bin/@op5t-termux

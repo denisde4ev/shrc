@@ -1,0 +1,90 @@
+#!/ /hint/sh
+
+new_line='
+'
+
+alias \
+	echo-1l='printf %s\\n' \
+	command.='command >/dev/null -v' \
+	\
+	fori='for i in' fori{{='for i;{{' \
+	'{{=do' \
+	'}}=done' \
+	loop='while :;' pool='do :;done' elihw='do :;done' 'loop{{=while :;{{' \
+	and='(exit $?)&&' or='(exit $?)||' \
+;
+
+# at least enshure that var is not defined when using local, dont ever use 'local i=1' or 'local i=$(ls)'
+# command. local || eval 'local() { ! ( eval ": \"\${$1}\""; ); }'
+# command. local || eval 'local() { case $1 in *=*) eval "[ \"\${${1%%=*}}\" = \"\${${1%%=*}=${1#*=}}\" ]";; *) ( eval ": \"\${$1}\""; ); esac; }'
+command -v local >/dev/null || { local() {
+	case $1 in
+		*=*) eval "[ \"\${${1%%=*}}\" = \"\${${1%%=*}=${1#*=}}\" ]";;
+		*) ( eval ": \"\${$1}\""; );;
+	esac
+}; }
+
+
+command. __cmd-which || { cmd_which(){(
+set -feu
+local OPTIND=1
+getopts c: _;x=$OPTARG
+! getopts "" _  # expected non arg or "--"
+shift $((OPTIND-1))
+IFS=$new_line; set -- $(fori{{ which -- "$i"||echo-1l "$i";}})
+unset IFS; eval "${x:?} ${@+"\"\$@\""}" #"
+)};alias cmd-which=cmd_which;}
+
+
+
+# if ( i=_; : "${!i}" ) 2>/dev/null 1>/dev/null; then
+case $BASH_VERSION in
+	'')
+		shuf_1() { eval "( echo-1l '%s\\n' \"\${$(( ( ${RANDOM:?} % $# ) + 1 ))}\" )"; };;
+
+	*)
+		shuf_1() { i=$(( ( ${RANDOM:?} % $# ) + 1 )); echo-1l "${!i}"; }
+		# alias history_current_command='history -p \!\!' history_current_command='history -p \!\!';
+		# history_current_command() {
+			# local i;i=$(IFS=; history | while read -r i; do ${new_line:+}; done)
+		# }
+;;
+esac
+
+return
+
+#command_fn() { # never used , uncomment when needed
+#  # type "$1" 2>/dev/null | grep -qe function\$ # POSIX
+#  # [[ `type -- "$1" 2>/dev/null` = *\ function ]] # bashism
+#  # WARING: tested in (bash,zsh,dash,ksh,yash), test more?
+#  
+#  case "$(command -V -- "$1" 2>/dev/null | head -n 1)" in
+#  (*\ function) return 0;;
+#  (*) return 1;
+#  esac
+#}
+#
+# command. let   || let(){ return "$(( $@ ))"; } # currently not in use, even ash has 'let' build in
+
+# shuf_1(){
+	# eval "printf %s\\n \"\${10}\""
+	# eval "printf %s\\n \"\${$(( ( ${RANDOM:-1$(\dd if=/dev/urandom count=3 2>&- | tr -d -c '0-9' | head -c 10)} % $# ) + 1 ))}\""
+	# shift "$(( ${RANDOM:-1$(\dd if=/dev/urandom count=8 bs=1000 2>&- | tr -d -c '0-9' | head -c 10)} % $# ))"
+	# printf %s\\n "$1"
+# }
+#bash shuf:
+
+# # var_1l(){ set -f; eval "echo-1l \${${1}}";} # print var separated by IFS to \n
+# _tr_sh(){ ( set -f; IFS=$1; eval "set -- \${${3:-}}"; IFS=$2; printf %s\\n "$*"; ); } # supports 1 char only
+# # PATHseparator=$( PATH=1:2 ; printf %c "${PATH#1}" ) # expected Windows to use ';'
+# command. env: || alias env:='IFS="${PATHseparator:-":"}" var_1l'
+
+# alias alias--='alias 2>&- --' # was used only 1 and now no mire since `alias cd-='cd -' -='cd -'`
+
+#command_loop() { (
+#	local i;
+#	for i; do
+#		command. -- "$i" || return $?
+#	done
+#) }
+#alias command..=_command_loop
