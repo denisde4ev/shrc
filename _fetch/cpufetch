@@ -1,1 +1,5 @@
-exec cpufetch
+cpufetch
+
+# AUR: https://aur.archlinux.org/cpufetch.git
+# AURpage: https://aur.archlinux.org/packages/cpufetch
+# URL: https://

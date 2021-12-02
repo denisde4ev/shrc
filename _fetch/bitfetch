@@ -1,1 +1,5 @@
-exec bitfetch
+bitfetch
+
+# AUR: https://aur.archlinux.org/bitfetch-git.git
+# AURpage: https://aur.archlinux.org/packages/bitfetch-git
+# URL: https://gitlab.com/bit9tream/bitfetch

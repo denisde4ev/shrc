@@ -1,1 +1,1 @@
-exec bat ${PREFIX:-}/etc/os-release
+bat "${PREFIX-}"/etc/os-release

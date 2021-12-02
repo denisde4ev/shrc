@@ -1,7 +1,7 @@
 #!/ /hint/sh
 
 case ${0##*/} in
-	sh[_-]require|sh[_-]require.sh)
+	sh__require.sh|sh_require)
 		echo sh_reguire is not ment to be run as separate command >&2
 		exit 1
 	;;
@@ -14,8 +14,8 @@ sh_require() {
 	while getopts f: i; do
 		case $i in
 			f) _sh_require_file=$OPTARG;;
-			?) echo todo err handle;; # TODO:!
-			*) echo todo err handle;; # TODO:!
+			?) echo todo err handle >&2;; # TODO:!
+			*) echo todo err handle >&2;; # TODO:!
 			#*) err
 		esac
 	done

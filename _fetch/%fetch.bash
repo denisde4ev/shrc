@@ -1,15 +1,15 @@
 #!/bin/bash
 ui=$(tty)
-[[ $ui != /dev/tty* ]] &&
-if [[ $DE || $WM ]];                                   then ui="${DE:+DE}${DE:+${WM:+/}}${WM:+WM}:      ${DE:+${WM:+$'\e[3D'}}$DE${DE:+${WM:+/}}$WM"
-elif [[ $XDG_CURRENT_DESKTOP || $DESKTOP_SESSION ]];   then ui="DE:      ${XDG_CURRENT_DESKTOP:-}${XDG_CURRENT_DESKTOP:+${DESKTOP_SESSION:+, }}${DESKTOP_SESSION:-}"
-elif [[ -r ~/.xinitrc || -r ~/.xsession ]];            then
+case $ui in /dev/tty*) ;; *) 
+if [ -n "$DE" ]||[ -n "$WM" ]; then ui="${DE:+DE}${DE:+${WM:+/}}${WM:+WM}:      ${DE:+${WM:+$'\e[3D'}}$DE${DE:+${WM:+/}}$WM"
+elif [ -n "$XDG_CURRENT_DESKTOP" ]||[ -n "$DESKTOP_SESSION" ];   then ui="DE:      ${XDG_CURRENT_DESKTOP:-}${XDG_CURRENT_DESKTOP:+${DESKTOP_SESSION:+, }}${DESKTOP_SESSION:-}"
+elif [ -r ~/.xinitrc ]||[ -r ~/.xsession ]; then
 	uiexec=
 	for i in $(sed -ne 's/^exec //p' ~/.xinitrc ~/.xsession 2>/dev/null); do
 		[[ $(pidof -- "$uiexec") ]] && uiexec+="$(basename -- "$i") "
 	done
 	[[ ${uiexec% } ]] && ui="WM:      ${uiexec% }"
-fi || ui="TTY:     ${ui#/dev/}${SSH_TTY:+, ssh}"
+fi; esac || ui="TTY:     ${ui#/dev/}${SSH_TTY:+, ssh}"
 
 # [[ $os ]] || os=$(sed -ne 's/PRETTY_NAME=//p' "$PREFIX/etc/os-release" || echo "$MACHTYPE"); os=${os#[\'\"]}; os=${os%[\'\"]}
 [[ $os ]] || {

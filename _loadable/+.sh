@@ -134,12 +134,14 @@ local nl;nl='
 		[!:]*[A-Za-z0-9_]:[A-Za-z0-9_]*[!:]*) true;;
 		*) false;;
 	esac && YN_confirm " \$ git clone \$@ && cd \$_$nl   #" y && {
-		giturl=$1
-		if [ "${2:-}" != '' ] && _plus__no_opt "$2"; then
-			dir=$2
-			shift "$(( $# < 2 ? $# : 2 ))" # shift 2 or less
+		giturl=$1; shift
+
+		if [ "${2-}" != '' ] && _plus__no_opt "$2"; then
+			dir=$1
+			shift
 		else
-			dir=$(basename -- "$1" .git)
+			# dir=$(basename -- "$giturl" .git)
+			dir=${giturl##*/}; dir=${dir%.git}
 		fi
 
 
@@ -179,7 +181,7 @@ local nl;nl='
 	case $1 in _plus_) # just easy way to reload the function
 		case ${0##*/} in +|_plus_) echo >&2 "Will not take effect"; esac
 
-		sh_require -f "/~arcowo/bin/shsource.d/+" + _plus_ || return || exit
+		sh_require -f "/~arcowo/B/_loadable/+.sh" + _plus_ || return || exit
 		alias +=_plus_
 	esac
 

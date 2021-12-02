@@ -1,9 +1,7 @@
-#!/hint/sh
+#!/ /hint/sh
 
+# TODO: move all of this in ~/B/_loadable/PS1.sh
 
-# ! [ "x$(dirname -- "$0")" = xbash ] && return
-# case $0 in */bash|bash);;*)return;;esac
-# set -ue
 alias PS1+0="PS1='$PS1'"  PS1-x=$'PS1="\\[\33[31m\\][\\[\33(B\33[m\\]\\u@\\h \\W\\[\33[31m\\]]\\[\33(B\33[m\\]\\$ "'
 alias PS1--="PS1='\\[\\e[100m\\]\\\$\\[\\e[m\\] '"
 # alias PS1--+="PS1='\$( o=\$?; [[ \$o -ne 0 ]] && echo \"\[\e[31m\$o\[\e[m\")\[\e[100m\]\\\$\[\e[m\] '"
@@ -11,12 +9,9 @@ alias PS1--+="PS1='\$( (exit \$?) || echo \"\\[\\e[31m\\]\$?\\[\\[\\e[m\")\[\\e[
 
 
 # GENERATED FROM:: 
-# ( PS1='\w \$ ' && . ~B/%PS.bash && PS1="PS1=${PS1@Q}" && cin <<< "PS1-ash=${PS1@Q}" )
+# ( PS1='\w \$ ' && . ~B/%PS.bash && PS1=PS1=${PS1@Q} && echo-1l "PS1-ash=${PS1@Q}" ) | cin
 
-# OR
 
-# ( PS1='\w \$ ' && . ~B/%PS.bash && cin <<< "PS1=${PS1@Q}" )
-#*paste*
 # cin <<< alias\ PS1-ash="${PS1@Q}"
 
 alias PS1-ash=PS1='$'\''\\[\33[36m\\]\\W\\[\33(B\33[m\\] $( ( IFS=\\| eval "o=\\"\\\\${PIPESTATUS[*]}\\""; [[ $o = 0*(\\|0) ]] && echo "\\$" || echo "\\[\33[31m\\]$o\\[\33(B\33[m\\]" ) 2>&- ) '\'''

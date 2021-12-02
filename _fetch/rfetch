@@ -1,0 +1,150 @@
+#!/bin/sh
+
+# source:  https://github.com/Pan00Pernicek/rfetch/blob/master/rfetch + my edit +{macos detection is removed}
+
+set -eu
+
+## OS/ENVIRONMENT INFO DETECTION
+if command -v getprop > /dev/null; then
+	linuxtype=android
+else
+	. /etc/os-release
+fi
+
+ostype=$(uname)
+host=$(cat /proc/sys/kernel/hostname)
+
+case $ostype in
+Linux*)
+	if [ -f /bedrock/etc/bedrock-release ]; then
+		os="$(brl version)"
+	elif [ "${linuxtype-}" = android ]; then
+		os="Android $(getprop ro.build.version.release)"
+	else
+		os="${PRETTY_NAME-${NAME-${ID?}}}"
+	fi
+	shell=${SHELL##*/};;
+*)
+	os="$(uname)"
+;;
+esac
+
+packages=$(
+	set -f
+	for m in $(which nix-env yum dnf rpm dpkg brew port zypper pacman xbps-query pkg emerge cave apk kiss pmm cpm eopkg 2>/dev/null); do
+		(
+		m=${m##*/}
+		case $m in
+		pacman)
+			pacman -Qnq | wc -l
+			printf %s " (pacman) and "
+			pacman -Qmq | wc -l
+			printf %s " (AUR), "
+			exit
+		;;
+		cpm)
+			cpm C
+		;;
+		port) port installed | tot;;
+		*)
+			case $m in
+				# brew) brew list --formula;;
+				dpkg) dpkg-query -f '${binary:Package}\n' -W;;
+				rpm) rpm -qa --last;;
+				yum) yum list installed;;
+				dnf) dnf list installed;;
+				zypper) zypper se;;
+				kiss) kiss list;;
+				pkg|emerge) qlist -I;;
+				cave) cave show installed-slots;;
+				xbps-query) xbps-query -l;;
+				nix-env) nix-store -q --requisites /run/current-system/sw;;
+				apk) apk list --installed;;
+				pmm) /bedrock/libexec/pmm pacman pmm -Q 2>/dev/null;;
+				eopkg) eopkg li;;
+			esac | wc -l
+		;;
+		esac
+		printf %s " ($m), "
+		)&
+	done | tr -d \\n
+)
+packages=${packages%", "}
+
+
+case $ostype in
+	Linux) IFS=. read -r s _ < /proc/uptime;;
+	*) 
+		s=$(sysctl -n kern.boottime)
+		s=${s#*=}
+		s=${s%,*}
+		s=$(($(date +%s) - s));;
+esac
+d=$((s / 60 / 60 / 24))
+h=$((s / 60 / 60 % 24))
+m=$((s / 60 % 60))
+
+# Plurals
+[ "$d" -gt 1 ] && dp=s || dp=s
+[ "$h" -gt 1 ] && hp=s || hp=s
+[ "$m" -gt 1 ] && mp=s || mp=s
+# Hide empty fields.
+[ "$d" = 0 ] && d=
+[ "$h" = 0 ] && h=
+[ "$m" = 0 ] && m=
+# Make the output of uptime smaller.
+case ${uptime_shorthand-} in
+	tiny)
+		[ "$d" ] && uptime="${d}d, "
+		[ "$h" ] && uptime="$uptime${h}h, "
+		[ "$m" ] && uptime="$uptime${m}m"
+		uptime=${uptime%, };;
+	*)
+		[ "$d" ] && uptime="$d day$dp, "
+		[ "$h" ] && uptime="$uptime$h hour$hp, "
+		[ "$m" ] && uptime="$uptime$m min$mp"
+		uptime=${uptime%, };;
+esac
+
+
+## RAM DETECTION
+
+mem_used=0
+case $ostype in
+	Linux)
+
+		while IFS=':k '  read -r key val _; do  case $key in
+			MemTotal)
+				mem_used=$((mem_used + val))
+				mem_full=$val;;
+			Shmem) mem_used=$((mem_used + val));;
+			MemFree|Buffers|Cached|SReclaimable) mem_used=$((mem_used - val));;
+		esac; done < /proc/meminfo
+
+		mem_used=$((mem_used / 1024)) 
+		mem_full=$((mem_full / 1024));;
+	*)
+		mem_full='???'
+		mem_used='???'
+esac
+memstat=${mem_used}/${mem_full}" MB"
+unset mempercent
+which dc >&- 2>&- && mempercent="($(echo "100 $mem_used * $mem_full / p" | dc)%)"
+esc=$(printf \\033)
+bold=$esc\[1m
+black=$esc\[30m
+whiteb=$esc\[47m
+reset=$esc\[0m
+printf %s\\n \
+"${reset}${black}${whiteb}${USER}@${host}${reset}
+${bold}os${reset}      ${os}
+${bold}kernel${reset}  $(uname -r) $(uname -m)
+${bold}host${reset}    $(cat /sys/devices/virtual/dmi/id/product_name)
+${bold}pkgs${reset}    ${packages}
+${bold}up${reset}      ${uptime}
+${bold}wm${reset}      $(xprop -id "$(xprop -root -notype | grep '^_NET_SUPPORTING_WM_CHECK: '  | cut -d ' ' -f 5 )" -notype -f _NET_WM_NAME 8t | sed -n 's/\"\s$/; s/^_NET_WM_NAME = "//p')
+${bold}wm${reset}      $(xprop -id "$(xprop -root -notype | grep '^_NET_SUPPORTING_WM_CHECK: '  | cut -d ' ' -f 5 )" -notype -f _NET_WM_NAME 8t | sed -n '/_NET_WM_NAME = / { s/^[A-Z_]* = "//; s/"$//p }')
+${bold}shell${reset}   $shell
+${bold}ram${reset}     ${mem_used}/${mem_full} MB ${mempercent-$memstat}
+${bold}cpu${reset}     $(grep 'model name' /proc/cpuinfo | uniq | cut -c 14-999)
+";

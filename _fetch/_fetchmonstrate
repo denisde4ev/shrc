@@ -1,3 +1,0 @@
-export os; for os in Arch Arco Artix{1,2,} Android KISS Manjaro $MACHTYPE; do bash ~/B/_fetch/%fetch.bash; done; echo
-
-ui=/dev/tty1 dash _%fetch.dash
