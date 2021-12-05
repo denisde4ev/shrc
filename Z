@@ -1,16 +1,90 @@
-#!/hint/sh
+#!/ /hint/sh
+alias Z='Zout-printf' Zbat='Zin-bat' Zcat='Zin-cat' Zdirname='Zout-dirname' Zgrep='Zio-grep' Zhead='Zin-head' Zid='Zout-id' Zin-bat='bat -A' Zin-cat='cat -vte' Zin-head='head -z' Zin-read='read -r d ""' Zin-sed='sed -z' Zin-sort='soet -z' Zin-tail='tail -z' Zin-xargs='xargs -0 ' Zio-grep='grep -z          -Z' Zio-tr='tr \\0\\n \\n\\0' Zout-dirname='dirname -z' Zout-grep='grep -z' Zout-id='id -z' Zout-printf='printf "%s\0"' Zprintf='Zout-printf' Zread='Zin-read' Zsed='Zin-sed' Zsort='Zin-sort' Ztail='Zin-tail' Ztr='Zio-tr' Zx='Zxargs ' Zx%='Zx -I% ' Zxargs='Zin-xargs ' x='xargs ' x%='x -I% ' xargs='\xargs -d          \\n -r' xo='(x% open %)' ;return
+# cached line
+return;
 
-# this way of formating code comes after 2 times rewriten overbloated attempts
+
+
+# old:: alias Z='Zout-printf' Zbat='Zin-bat' Zcat='Zin-cat' Zdirname='Zout-dirname' Zgrep='Zio-grep' Zhead='Zin-head' Zid='Zout-id' Zin-bat='bat -A' Zin-cat='cat -vte' Zin-head='head -z' Zin-read='read -r d ""' Zin-sed='sed -z' Zin-sort='soet -z' Zin-tail='tail -z' Zio-grep='grep -z          -Z' Zio-tr='tr \\0\\n \\n\\0' Zout-dirname='dirname -z' Zout-grep='grep -z' Zout-id='id -z' Zout-printf='printf "%s\0"' Zprintf='Zout-printf' Zread='Zin-read' Zsed='Zin-sed' Zsort='Zin-sort' Ztail='Zin-tail' Ztr='Zio-tr'; return
+
+
+# compare (ensure none is missed)
+# /~arcowo/.config/bash/bashrc.d/_____Z
+# and rearange it
+
+
+
+
+
+
+# this way of formating code comes after 2 times (now its 3) rewriten overbloated attempts
 # and despite that long lines code is extremly hard to navigate ( without horizontal scroll >:[ in `micro` )
 # I find it most oranized in structored way to write this file
+false && (
+unalias -a
+#-----------------------------------------------------------------------------------------------------------;
+#lias           Zout-printf='printf "%s\0"'               Zio-tr='tr \\0\\n \\n\\0'                         ;
+alias           Zout-printf='printf "%s\0"'               Zio-tr='tr \\0\\n \\n\\0'                         ;
+alias   Zprintf=Zout-printf                           Ztr=Zio-tr                                            ;
+alias         Z=Zout-printf                                                                                 ;
+#lias                                                                                                       ;
+#-----------------------------------------------------------------------------------------------------------;
+#lias       Zin-cat='cat --sholl-all'      Zin-bat='bat --show-all'      Zin-sed='sed --null-data'          ;
+alias       Zin-cat='cat -vte'             Zin-bat='bat -A'              Zin-sed='sed -z'                   ;
+alias  Zcat=Zin-cat                   Zbat=Zin-bat                  Zsed=Zin-sed                            ;
+#lias                                                                                                       ;
+#lias                                                                                                       ;
+#-----------------------------------------------------------------------------------------------------------;
+#lias        Zio-grep='grep --null-data --null'       Zin-sort='soet --zero-terminated'                     ;
+alias        Zio-grep='grep -z          -Z'           Zin-sort='soet -z'                                    ;
+alias  Zgrep=Zio-grep                           Zsort=Zin-sort                                              ;
+#lias        Zin-grep='grep -Z'                                                                             ;
+alias       Zout-grep='grep -z'                                                                             ;
+#-----------------------------------------------------------------------------------------------------------;
+#lias           Zout-dirname='dirname --zero'        Zin-read='read -r d ""'      Zout-id='id --zero'       ;
+alias           Zout-dirname='dirname -z'            Zin-read='read -r d ""'      Zout-id='id -z'           ;
+alias  Zdirname=Zout-dirname                   Zread=Zin-read                 Zid=Zout-id                   ;
+#lias                                                                                                       ;
+#lias                                                                                                       ;
+#lias                                                                                                       ;
+#-----------------------------------------------------------------------------------------------------------;
+#lias        Zin-head='head --zero-terminated'        Zin-tail='tail --zero-terminated'                     ;
+alias        Zin-head='head -z'                       Zin-tail='tail -z'                                    ;
+alias  Zhead=Zin-head                           Ztail=Zin-tail                                              ;
+#lias                                                                                                       ;
+#lias                                                                                                       ;
+#lias                                                                                                       ;
+#-----------------------------------------------------------------------------------------------------------;
+#lias          Zin-xargs='xargs -print0 '                                                                   ;
+alias          Zin-xargs='xargs -0 '                                                                        ;
+alias  Zxargs='Zin-xargs '                                                                                  ;
+#lias                                                                                                       ;
+#lias                                                                                                       ;
+#lias                                                                                                       ;
+#-----------------------------------------------------------------------------------------------------------;
 
-#                                                                                                              -vte                           -A                            -z                          -z          -Z                           -z                                               -z                                                                         -z                                           -z                                          -z                             \
-#alias  Zout='printf \\0'         Zout-printf='printf "%s\0"'     Zio-tr='tr \\0\\n \\n\\0'      Zin-cat='cat --sholl-all'      Zin-bat='bat --show-all'      Zin-sed='sed --null-data' Zio-grep='grep --null-data --null'       Zin-sort='soet --zero-terminated'         Zout-dirname='dirname --zero'               Zin-read='read -r d ""'               Zin-head='head --zero-terminated'            Zin-tail='tail --zero-terminated'              Zout-id='id --zero'                         \
-alias   Zout='printf \\0'         Zout-printf='printf "%s\0"'     Zio-tr='tr \\0\\n \\n\\0'      Zin-cat='cat -vte'             Zin-bat='bat -A'              Zin-sed='sed -z'          Zio-grep='grep -z          -Z'           Zin-sort='soet -z'                                 Zout-dirname='dirname -z'                   Zin-read='read -r d ""'               Zin-head='head -z'                  Zin-tail='tail -z'                             Zout-id='id -z'                             \
-      Z=Zout              Zprintf=Zout-printf Zecho=Zprintf   Ztr=Zio-tr                    Zcat=Zin-cat                   Zbat=Zin-bat                  Zsed=Zin-sed             Zgrep=Zio-grep                           Zsort=Zin-sort                                  Zdirname=Zout-dirname                          Zread=Zin-read                        Zhead=Zin-head                      Ztail=Zin-tail                                   Zid=Zout-id                                     \
-                                                                                                                                                                                        Zin-grep='grep -Z'                                                                                                                                                                                                                                                                                           \
-                                                                                                                                                                                       Zout-grep='grep -z'                                                                                                                                                                                                                                                                                           \
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     \
+{ # additional:
+
+#lias           xargs='\xargs --delimiter \\n --no-run-if-empty  ;
+alias           xargs='\xargs -d          \\n -r'                ;
+alias                x='xargs '                                  ;
+}
+
+alias x%='x -I% ' Zx%='Zx -I% '  xo='(x% open %)' Zx='Zxargs ';
+
+
+	
+	
+	
+	
+
+
+
+
+
+printf  'alias '; alias | sed 's/^alias //' | tr '\n' ' '
+)
+
 
  # . ~/B/xargs # alias Zxargs='xargs --null --no-run-if-empty' # note: there is `alias Zx% Zx`
  # alias Zfind=~/.bin-personal/Zfind || alias Zfind=~/bin/Zfind

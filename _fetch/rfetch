@@ -93,6 +93,7 @@ m=$((s / 60 % 60))
 [ "$h" = 0 ] && h=
 [ "$m" = 0 ] && m=
 # Make the output of uptime smaller.
+uptime=''
 case ${uptime_shorthand-} in
 	tiny)
 		[ "$d" ] && uptime="${d}d, "
@@ -136,15 +137,14 @@ black=$esc\[30m
 whiteb=$esc\[47m
 reset=$esc\[0m
 printf %s\\n \
-"${reset}${black}${whiteb}${USER}@${host}${reset}
-${bold}os${reset}      ${os}
-${bold}kernel${reset}  $(uname -r) $(uname -m)
-${bold}host${reset}    $(cat /sys/devices/virtual/dmi/id/product_name)
-${bold}pkgs${reset}    ${packages}
-${bold}up${reset}      ${uptime}
-${bold}wm${reset}      $(xprop -id "$(xprop -root -notype | grep '^_NET_SUPPORTING_WM_CHECK: '  | cut -d ' ' -f 5 )" -notype -f _NET_WM_NAME 8t | sed -n 's/\"\s$/; s/^_NET_WM_NAME = "//p')
-${bold}wm${reset}      $(xprop -id "$(xprop -root -notype | grep '^_NET_SUPPORTING_WM_CHECK: '  | cut -d ' ' -f 5 )" -notype -f _NET_WM_NAME 8t | sed -n '/_NET_WM_NAME = / { s/^[A-Z_]* = "//; s/"$//p }')
-${bold}shell${reset}   $shell
-${bold}ram${reset}     ${mem_used}/${mem_full} MB ${mempercent-$memstat}
-${bold}cpu${reset}     $(grep 'model name' /proc/cpuinfo | uniq | cut -c 14-999)
-";
+	"${reset}${black}${whiteb}${USER}@${host}${reset}" \
+	"${bold}os${reset}      ${os}" \
+	"${bold}kernel${reset}  $(uname -r) $(uname -m)" \
+	"${bold}host${reset}    $(cat /sys/devices/virtual/dmi/id/product_name)" \
+	"${bold}pkgs${reset}    ${packages}" \
+	"${bold}up${reset}      ${uptime}" \
+	"${bold}wm${reset}      $(xprop -id "$(xprop -root -notype | grep '^_NET_SUPPORTING_WM_CHECK: '  | cut -d ' ' -f 5 )" -notype -f _NET_WM_NAME 8t | sed -n 's/\"//g; s/_NET_WM_NAME = //p" \
+	"${bold}shell${reset}   $shell" \
+	"${bold}ram${reset}     ${mem_used}/${mem_full} MB ${mempercent-$memstat}" \
+	"${bold}cpu${reset}     $(grep 'model name' /proc/cpuinfo | uniq | cut -c 14-999)" \
+;

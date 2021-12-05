@@ -1,8 +1,5 @@
 #!/ /hint/sh
 
-new_line='
-'
-
 alias \
 	echo-1l='printf %s\\n' \
 	command.='command >/dev/null -v' \
@@ -15,40 +12,36 @@ alias \
 ;
 
 # at least enshure that var is not defined when using local, dont ever use 'local i=1' or 'local i=$(ls)'
-# command. local || eval 'local() { ! ( eval ": \"\${$1}\""; ); }'
-# command. local || eval 'local() { case $1 in *=*) eval "[ \"\${${1%%=*}}\" = \"\${${1%%=*}=${1#*=}}\" ]";; *) ( eval ": \"\${$1}\""; ); esac; }'
-command -v local >/dev/null || { local() {
-	case $1 in
-		*=*) eval "[ \"\${${1%%=*}}\" = \"\${${1%%=*}=${1#*=}}\" ]";;
-		*) ( eval ": \"\${$1}\""; );;
-	esac
-}; }
+command. __local || eval ' _local() {
+	while
+		case $# in 0) return 0; esac
+		eval "case \"\${${1%%=*}+x}\" in x) return 1; esac" &&\
+		case $1 in *=*) eval ": \${${1%%=*}=$(quote "${1#*=}")}"; esac &&\
+		shift
+	do :; done
+}; '
 
 
-command. __cmd-which || { cmd_which(){(
+command. cmd-which || eval '{ cmd_which(){(
 set -feu
-local OPTIND=1
-getopts c: _;x=$OPTARG
-! getopts "" _  # expected non arg or "--"
-shift $((OPTIND-1))
-IFS=$new_line; set -- $(fori{{ which -- "$i"||echo-1l "$i";}})
+OPTIND=1;getopts c: _;x=$OPTARG
+! getopts "" _;shift $((OPTIND-1))  # expected non arg or "--"
+IFS=${NEW_LINE?}; set -- $(fori{{ which -- "$i"||echo-1l "$i";}})
 unset IFS; eval "${x:?} ${@+"\"\$@\""}" #"
-)};alias cmd-which=cmd_which;}
+)};alias cmd-which=cmd_which;}'
 
 
 
 # if ( i=_; : "${!i}" ) 2>/dev/null 1>/dev/null; then
 case $BASH_VERSION in
-	'')
-		shuf_1() { eval "( echo-1l '%s\\n' \"\${$(( ( ${RANDOM:?} % $# ) + 1 ))}\" )"; };;
+	'') shuf_1() { eval "( echo-1l '%s\\n' \"\${$(( ( ${RANDOM:?} % $# ) + 1 ))}\" )"; };;
+	*)  shuf_1() { local i;i=$(( ( ${RANDOM:?} % $# ) + 1 )); echo-1l "${!i}"; };;
 
-	*)
-		shuf_1() { i=$(( ( ${RANDOM:?} % $# ) + 1 )); echo-1l "${!i}"; }
-		# alias history_current_command='history -p \!\!' history_current_command='history -p \!\!';
-		# history_current_command() {
-			# local i;i=$(IFS=; history | while read -r i; do ${new_line:+}; done)
-		# }
-;;
+	# alias history_current_command='history -p \!\!' history_current_command='history -p \!\!';
+	# history_current_command() {
+		# local i;i=$(IFS=; history | while read -r i; do ${NEW_LINE:+}; done)
+	# }
+
 esac
 
 return
@@ -64,7 +57,6 @@ return
 #  esac
 #}
 #
-# command. let   || let(){ return "$(( $@ ))"; } # currently not in use, even ash has 'let' build in
 
 # shuf_1(){
 	# eval "printf %s\\n \"\${10}\""
@@ -80,11 +72,3 @@ return
 # command. env: || alias env:='IFS="${PATHseparator:-":"}" var_1l'
 
 # alias alias--='alias 2>&- --' # was used only 1 and now no mire since `alias cd-='cd -' -='cd -'`
-
-#command_loop() { (
-#	local i;
-#	for i; do
-#		command. -- "$i" || return $?
-#	done
-#) }
-#alias command..=_command_loop

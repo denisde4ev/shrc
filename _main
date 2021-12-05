@@ -5,45 +5,44 @@
 . ~/B/_env
 . ~/B/_PATH
 . ~/B/_core
+
 # big dot / "BULLET" (U+2022) -> alias •=source._all :
 . ~/B/_U+2022•
+
 # shoud NOT start [_.%] or end [%~] :
 •  ~/B/[!_.%]*[!%~] ~/B/[!_.%~]
 
-{
-# case $- in *c*|*x*)false;; *);; esac  || # bash only ...
 
-# if is in '$' command OR if xtrace(set -x) is on
-# [ $# -eq 0 ] && [ -z "$({ :; } 2>&1)" ] || return 0
+
+# has args OR if xtrace(set -x) is on then dont execute shell specific 'rc' and fetch/color script:
+# case $- in *c*|*x*)false;; *);; esac  || # `$-` is bashism ...
 case $#:$({ :; } 2>&1) in
 	0:) ;;
 	*) return 0;;
 esac
-}
 
 # TODO: but what if is not in .config ? and then we have no $XDG_CONFIG_HOME ..
 #  check what wiki says in this case.
-[ -e ~/.config/user-dirs.dirs ] && • ~/B/_home
+[ -e ~/.config/user-dirs.dirs ] && • ~/B/_homedir-vars
 
-sh=''
-case ${0##*/} in
-	bash|rbash|-bash) • ~/B/%[!_.%]*.bash; . ~/B/_fetch/_fetch >&2 0<&-;;
-	zsh|-zsh)         • ~/B/%[!_.%]*.zsh;  . ~/B/_fetch/_fetch >&2 0<&-;;
-	dash|-dash)       • ~/B/%[!_.%]*.dash; . ~/B/_fetch/_fetch.sh >&2 0<&-;;
-	ash|-ash)         • ~/B/%[!_.%]*.ash;  . ~/B/_fetch/_fetch.sh >&2 0<&-;;
-	_main)
-		echo-1l >&2 'shell not be detected, $0 is _main'
-		case ${BASH:-${ZSH:-x}} in
-			$BASH) • ~/B/%[!_.%]*.bash; . ~/B/_fetch/_fetch >&2 0<&-;;
-			$ZSH)  • ~/B/%[!_.%]*.zsh;  . ~/B/_fetch/_fetch >&2 0<&-;;
-			*)     • ~/B/%[!_.%]*.sh;   . ~/B/_fetch/_fetch.sh >&2 0<&-;;
-		esac
-	;;
-	sh|-sh|mksh|-mksh) • ~/B/%[!_.%]*.sh; . ~/B/_fetch/_fetch.sh >&2 0<&-;;
+
+sh_is=${BASH_VERSION+bash}${KSH_VERSION+ksh}${NETBSD_SHELL+netbsd}${POSH_VERSION+posh}${SH_VERSION+sh}${YASH_VERSION+yash}${ZSH_VERSION+zsh}
+sh_is=${sh_is:-${0##*/}}
+sh_is=${sh_is#-} # $0 login shells
+
+case $sh_is in
+	bash|rbash)  • ~/B/%[!_.%]*.bash; . ~/B/_fetch/_fetch    >&2 0<&-;;
+	zsh)         • ~/B/%[!_.%]*.zsh;  . ~/B/_fetch/_fetch    >&2 0<&-;;
+	ash)         • ~/B/%[!_.%]*.ash;  . ~/B/_fetch/_fetch.sh >&2 0<&-;;
 	*)
-		echo-1l >&2 'unrecognized shell, assuming sh'
-		• ~/B/%[!_.%]*.sh; . ~/B/_fetch/_fetch.sh >&2 0<&-
+	             • ~/B/%[!_.%]*.sh;   . ~/B/_fetch/_fetch.sh >&2 0<&-
+		case ${sh_is:-${0##*/}} in
+			dash|sh|mksh) ;;
+			ksh|netbsd|posh|yash) printf %s\\n >&2 '~/B/_main: note, you are using shell that is not yet well tested';;
+			_main|_main.sh)       printf %s\\n >&2 '~/B/_main: shell not detected! $0 seems to be _main?';;
+			*)                    printf %s\\n >&2 '~/B/_main: unrecognized shell, assuming sh';;
+		esac
 	;;
 esac
 
-return 0
+:

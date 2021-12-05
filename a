@@ -107,6 +107,10 @@ zsh='zsh --no-rcs' \
 gparted=/usr/lib/gparted/gpartedbin \
 l.='l -d .*' \
 ;
+# NOTE:
+# alais sudo='\sudo ' is from ./_env ,
+# alias xargs is from ./Z
+
 
 if command. exa; then
 alias \
@@ -126,7 +130,10 @@ alias \
 ;
 fi
 return
-# NOTE: sudo='\sudo ' is from ./_env , xargs is from ./xargs
+
+
+command. toLowerCase || alias toLowerCase='(node -p "fs.readFileSync(0).toString().toLowerCase()")'
+command. toUpperCase || alias toUpperCase='(node -p "fs.readFileSync(0).toString().toUpperCase()")'
 
 
 # never used:

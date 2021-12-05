@@ -1,4 +1,4 @@
-#!/hint/bash
+#!/ /hint/bash
 
 
 	# '[[[=case' \
@@ -8,6 +8,7 @@
 alias \
 	one_and='[[ $? -eq 0 ]]&&' \
 	one_or='[[ $? -eq 0 ]]||' \
+;
 
 alias \
 	_every='(for i in "${PIPESTATUS[@]}"; do (( ! i )) || exit "$i"; done)'
@@ -17,7 +18,7 @@ alias \
 	_some='(for i in "${PIPESTATUS[@]}"; do (( ! i )) && exit "$i"; done)'
 	some_and='_some &&' \
 	some_or='_some ||' \
-
+;
 
 	# every_and='(IFS=: eval "o=:\${PIPESTATUS[*]}:"; [[ $o = 0*(\|0) ]])&&' \
 	# some_and='[[ :$o: = 0*(\|0) ]]&&' \

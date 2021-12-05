@@ -11,7 +11,10 @@ KISS_PATH=/home/arcowo/0/gh/denisde4ev/repo/personal \
 MOZ_USE_XINPUT2=1 \
 XKB_DEFAULT_LAYOUT='us(carpalx)' \
 PATHSEP=/ \
+NEW_LINE='
+' \
 ;
+: "${NEW_LINE:=$'\n'}"
 
 
 # XKB_DEFAULT_LAYOUT -> for river WM # https://github.com/ifreund/river/issues/254

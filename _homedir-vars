@@ -1,5 +1,6 @@
-#!/hint/sh
+#!/ /hint/sh
 
+# based on:
 # Arch Wiki: XDG Base Directory
 # https://wiki.archlinux.org/index.php/XDG_Base_Directory
 
@@ -30,10 +31,9 @@ export GOPATH="$XDG_CACHE_HOME"/go
 export LESSHISTFILE=- #https://stackoverflow.com/questions/26198926/why-does-lesshst-keep-showing-up-in-my
 
 return 0
-false &&
+false && \
 (
 set -eux
-	
 
 /~arcowo/bin/home/_/mkdirs -q
 

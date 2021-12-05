@@ -1,4 +1,4 @@
-#!/hint/bash
+#!/ /hint/bash
 
 
 	#$(alias | sed -nEe 's/^alias ([^=]*which[^=]*).+/\1/p') \
@@ -27,9 +27,6 @@ do
 done
 
 
-# NOT USED:
-# # virable expand
-# complete -v Earg
 
 
 {
@@ -41,3 +38,10 @@ done
 
 # pwd is mine (echo $PWD/$1) (from ~/B/fn)
 complete -F _minimal pwd
+
+return
+
+
+# NOT USED:
+# # virable expand
+# complete -v Earg # function Earg() { echo "${!@@Q}"; } ## extreme bashisum version 5+

@@ -1,6 +1,4 @@
-#!/hint/sh
-
-
+#!/ /hint/sh
 
 # song=_song
 ##TMP?
@@ -26,30 +24,11 @@ _pwd_() {
 
 
 
-
-# +='_plus_'
-_plus_() { # TODO: lazy load sh scripts using command_not_found
-	# 'unset' enshure won't create recursion
-	unset -f _plus_ && \
-	. "$(which +.sh)" && \
-	_plus_ "$@"
-}
-
-
 # command. env_split || # better use external command
 # alias env:=env_split
 # env_split() {( IFS=: eval 'printf %s\\n $'"$*"; )}
 
 # ll.parents='_ll_parents	'
-_ll_parents() {
-	p=${1:-$PWD}
-	ll -d -- "$p"
-	while {   case $p in */*) ;; *) false;; esac;   } ; do
-		p=${p%["${PATHSEP:-/}"]*}
-		ll -d -- "$p"
-
-	done
-}
 
 
 
@@ -97,9 +76,4 @@ history_current_command() {
 		echo-1l "$i"
 }
 
-
-
 alias song=_song pwd=_pwd_  +='_plus_' ll.parents='_ll_parents' set-x='_set_x'
-
-
-

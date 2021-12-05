@@ -33,7 +33,7 @@ local nl;nl='
 '	# just a New Line
 
 
-	case $@ in -h|-\?|--help|'')
+	case $@ in -h|--help|'')
 		printf %s\\n \
 			'Usage:' \
 			'parsing arg1 by:' \
@@ -65,7 +65,7 @@ local nl;nl='
 		return 0
 	}
 
-	cmdv() { # verbose the cmd
+	_plus_cmd_verbose() { # verbose the cmd
 		case $- in
 			*x*)
 				: ::: 'XTRACE DETECTED => WILL NOT USE:' 'set +x' ::: :
@@ -95,12 +95,12 @@ local nl;nl='
 	case $1 in +|x)
 		YN_confirm " \$ chmod +x \$1$nl   #" y && {
 			shift # remove the (+|x)
-			cmdv chmod -v +x -- "$1" || return
-			cmdv ll -d -- "$1"
+			_plus_cmd_verbose chmod -v +x -- "$1" || return
+			_plus_cmd_verbose ll -d -- "$1"
 			YN_confirm " \$ \"\$@\"$nl   #" y && {
 				case $1 in
-					*/*) cmdv "$@";;
-					*) cmdv ./"$@";;
+					*/*) _plus_cmd_verbose "$@";;
+					*) _plus_cmd_verbose ./"$@";;
 					# or use 'PATH=.:$PATH'
 				esac
 			}
@@ -110,9 +110,9 @@ local nl;nl='
 
 	case $1 in [0-9][0-9][0-9]|[0-9][0-9][0-9][0-9]|[ugo][+-=]*|[+-=][rwx]*)
 		YN_confirm " \$ chmod '$1' \$@$nl   #" y && {
-			cmdv chmod -v -- "$@" || return
+			_plus_cmd_verbose chmod -v -- "$@" || return
 			shift # remove MODE arg1
-			cmdv ll -d -- "$@"
+			_plus_cmd_verbose ll -d -- "$@"
 			return
 		}
 	esac
@@ -146,12 +146,12 @@ local nl;nl='
 
 
 		if _plus__no_opt "$dir"; then
-			cmdv git clone "$giturl" "$dir" "$@" && \
+			_plus_cmd_verbose git clone "$giturl" "$dir" "$@" && \
 			cd "$dir"
 			return
 		else
 			echo >&2 "Note: $dir includes -dash, will pit '--' AND additional arguments will be ignored"
-			cmdv git clone -- "$giturl" "$dir" && \
+			_plus_cmd_verbose git clone -- "$giturl" "$dir" && \
 			cd ./"$dir" &&  { ll 2>/dev/null || :; }
 			return
 		fi
@@ -162,7 +162,7 @@ local nl;nl='
 	# case ${1%%[:/]*} in http|https)
 	case $1 in http:?*[a-zA-Z0-9_]*|https:?*[a-zA-Z0-9_]*)
 		YN_confirm " \$ wget \$@$nl   #" y && {
-			cmdv wget -c -v "$@"
+			_plus_cmd_verbose wget -c -v "$@"
 			return
 		}
 	esac
@@ -170,7 +170,7 @@ local nl;nl='
 
 	case $1 in */*)
 		YN_confirm " \$ cd.. \$@$nl   #" y && {
-			cmdv cd.. "$@"
+			_plus_cmd_verbose cd.. "$@"
 			return
 			cd_warning
 		}

@@ -1,5 +1,0 @@
-#!/hint/sh
-
-alias @op5.eval='ssh op5t' @op5t.eval='ssh op5t'
-# alias @op5='ssh op5t' @op5t='ssh op5t'
-alias @k.ring='kdeconnect-cli -n op5t --ring'

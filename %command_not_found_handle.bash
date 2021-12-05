@@ -1,17 +1,21 @@
 #!/ /hint/bash
 
+alias \
+'arg#=arg #' \
+;
+
 command_not_found_handle() {
 	: ::: command_not_found_handle "$@" ::: :
 	# '2>/dev/null' to be quiet on xtrace shell
-cd /
+
 	local i && \
 	local com && \
 	local compath && \
 	{
 	case $1 in
-		which)
-			i=$(command -v -- "$i") && \
-			case $i in */*) echo-1l "$i"; esac
+		_which)
+			i=$(command -v -- "$2") && \
+			case $i in */*) echo-1l "$i"; return; esac
 		;;
 		*"#")
 			i=$(history_current_command "$1") && {

@@ -1,18 +1,33 @@
 #!/ /hint/sh
 
 __load_loadable() {
-	unalias "$1"
+	unalias "$1" 2>&- || {
+		# ?already loaded? if no alias is used then execute it,
+		# DO NOT USE FUNCTION! if fn used this will result in recursion
+		"$@"
+		return
+	}
+	. ~/B/_loadable/"$1".sh
 
-	case $1 in
-		*/* ) . "$1";;
-		*) . ~/B/_loadable/"$1".sh;;
-	esac
 
-	local i;i=$1; shift
-	eval "$i ${@:+"\"\${@}\""}"  #"
+	# (not needed for now), if alias needed to execute, use:
+	# local i;i=$1; shift
+	# eval "$i ${@:+"\"\${@}\""}"  #"
+	"$@"
 }
 
 
-for i in YN_confirm + sh_require; do
+alias +=_plus_
+
+
+# CACHED LINE: {
+alias '_ll_parents=__load_loadable _ll_parents' '_plus_=__load_loadable _plus_' 'sh_require=__load_loadable sh_require' 'YN_confirm=__load_loadable YN_confirm';return
+# }
+for i in ~/B/_loadable/[a-zA-Z0-9_]*.sh; do
+	i=${i##*/}
+	i=${i%.sh}
+	# (dont use for now fn): eval "$i(){ __load_loadable $i \"\$@\" }"
 	alias "$i"="__load_loadable $i"
 done
+# _plus_(){     __load_loadable _plus_     "$@"; };
+# YN_confirm(){ __load_loadable YN_confirm "$@"; };

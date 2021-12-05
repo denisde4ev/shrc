@@ -17,7 +17,7 @@ CAT_sleep() { #  add some sleep between chars
 }
 
 arg() {
-	[[ -t 1 && -t 2 ]]&&(IFS=;i=$*;printf '%i:%i ' "$#" "${#i}") >&2
+	[[ -t 1 && -t 2 ]]&&(IFS=;i=$*;echo -n "$#:${#i} ") >&2
 	echo "${@@Q}"
 }
 

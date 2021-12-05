@@ -1,8 +1,7 @@
-#!/hint/sh
+#!/ /hint/sh
 
 if [ "$WAYLAND_DISPLAY" != '' ] && command. wl-copy; then
 	alias cin='wl-copy -n' cout='wl-paste'
-	alias c.png='c.file'
 elif [ "$DISPLAY" != '' ] && command. xclip; then
 	alias cin='xclip -sel clip -r' cout='xclip -sel clip -o'
 	alias c.png=cin.png cin.png='xclip -selection clipboard -t image/png'                                                                                                                      # https://github.com/TAAPArthur/SystemConfig/blob/4dbf115e429aef736c9117105b1800a742b96217/bin/screenshot
@@ -12,12 +11,12 @@ else
 	return
 fi 
 
+
 alias \
 	c.toUpperCase='( cout | toUpperCase )' c.toLowerCase='( cout | toLowerCase )' \
 	c.toUpperCase\!='( c.toUpperCase | cin )' c.toLowerCase\!='( c.toLowerCase | cin )' \
-	c.date='( date -I | cin )' \
+	c.date='( date -I | c )' \
 	c.quote='quote "$( cout )"' \
-	c.giturl='git config remote.origin.url | c)' \
 ;
 
 # note: alias 'C!=' 'CC!='  is from ~/B/a
