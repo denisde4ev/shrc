@@ -143,8 +143,11 @@ printf %s\\n \
 	"${bold}host${reset}    $(cat /sys/devices/virtual/dmi/id/product_name)" \
 	"${bold}pkgs${reset}    ${packages}" \
 	"${bold}up${reset}      ${uptime}" \
-	"${bold}wm${reset}      $(xprop -id "$(xprop -root -notype | grep '^_NET_SUPPORTING_WM_CHECK: '  | cut -d ' ' -f 5 )" -notype -f _NET_WM_NAME 8t | sed -n 's/\"//g; s/_NET_WM_NAME = //p" \
+	"` echo '!!!!wm  FIXME   !!!!' `" \
 	"${bold}shell${reset}   $shell" \
 	"${bold}ram${reset}     ${mem_used}/${mem_full} MB ${mempercent-$memstat}" \
 	"${bold}cpu${reset}     $(grep 'model name' /proc/cpuinfo | uniq | cut -c 14-999)" \
 ;
+	# "` echo '!!!!wm  FIXME   !!!!' `" \
+	# "${bold}wm${reset}      $(xprop -id "$(xprop -root -notype | grep '^_NET_SUPPORTING_WM_CHECK: '  | cut -d ' ' -f 5 )" -notype -f _NET_WM_NAME 8t | sed -n 's/\"//g; s/_NET_WM_NAME = //p" \
+	# "${bold}wm${reset}      $(xprop -id "$(xprop -root -notype | grep '^_NET_SUPPORTING_WM_CHECK: '  | cut -d ' ' -f 5 )" -notype -f _NET_WM_NAME 8t | sed -n 's/\"//g; s/_NET_WM_NAME = //p" \
