@@ -7,6 +7,10 @@ __load_loadable() {
 		"$@"
 		return
 	}
+	case $sh_is in
+		bash) [ -r ~/B/_loadable/"$1".bash ] && . ~/B/_loadable/"$1".bash;;
+		*) false;;
+	esac || \
 	. ~/B/_loadable/"$1".sh
 
 
@@ -21,13 +25,15 @@ alias +=_plus_
 
 
 # CACHED LINE: {
-alias '_ll_parents=__load_loadable _ll_parents' '_plus_=__load_loadable _plus_' 'sh_require=__load_loadable sh_require' 'YN_confirm=__load_loadable YN_confirm';return
+# alias '_ll_parents=__load_loadable _ll_parents' '_plus_=__load_loadable _plus_' 'sh_require=__load_loadable sh_require' 'YN_confirm=__load_loadable YN_confirm';return
 # }
-for i in ~/B/_loadable/[a-zA-Z0-9_]*.sh; do
+
+for i in ~/B/_loadable/[a-zA-Z0-9_]*.sh ${sh_is_bash+~/B/_loadable/[a-zA-Z0-9_]*.bash}; do
 	i=${i##*/}
-	i=${i%.sh}
+	i=${i%.*}
 	# (dont use for now fn): eval "$i(){ __load_loadable $i \"\$@\" }"
 	alias "$i"="__load_loadable $i"
 done
+
 # _plus_(){     __load_loadable _plus_     "$@"; };
 # YN_confirm(){ __load_loadable YN_confirm "$@"; };

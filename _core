@@ -33,15 +33,51 @@ unset IFS; eval "${x:?} ${@+"\"\$@\""}" #"
 
 
 # if ( i=_; : "${!i}" ) 2>/dev/null 1>/dev/null; then
-case $BASH_VERSION in
-	'') shuf_1() { eval "( echo-1l '%s\\n' \"\${$(( ( ${RANDOM:?} % $# ) + 1 ))}\" )"; };;
-	*)  shuf_1() { local i;i=$(( ( ${RANDOM:?} % $# ) + 1 )); echo-1l "${!i}"; };;
+case $sh_is in
+	bash|ash|bb_ash|zsh) shuf_1() { local i;i=$(( ( ${RANDOM:?} % $# ) + 1 )); echo-1l "${!i}"; };;
+	 # *) shuf_1() { eval "( echo-1l \"\${$(( ( ${RANDOM:?} % $# ) + 1 ))}\" )"; };;
 
 	# alias history_current_command='history -p \!\!' history_current_command='history -p \!\!';
 	# history_current_command() {
 		# local i;i=$(IFS=; history | while read -r i; do ${NEW_LINE:+}; done)
 	# }
 
+esac
+
+# GNUtector detect if GNU coreutils options are supported
+unset os_gnu os_an os_busybox os_toybox
+case ${OSTYPE:-$(uname -o)} in
+	linux-gnu|GNU/Linux)   os_gnu='';; # check for GNU+Busybox is not important for now
+	linux-android|Android) os_an='';; # Termux? but it could be busybox toybox termux or any other shell app ..
+	# TODO windows
+	linux-musl|Linux) # Alpine, KISS
+		i=$(command -v ls)
+		case $i in # note: this will fail if ls is alias or fn
+			ls) os_bb='';; # applet is build in
+			*/ls) false;;
+			*)
+			echo-1l >&2 \
+				"~/B/_core: got unexpected output" \
+				"~/B/_core: \$ command -v ls -> $i" \
+				"~/B/_core: \$?:$?" \
+			;
+			return 1
+		esac || { [ -L "$i" ] && os_bb=''; } || {
+			i=$(readlink -- "$i" 2>/dev/null)
+			case $?:$i in
+				0:*/busybox|busybox) os_bb='';;
+				0:*/toybox|toybox) os_bb=''; os_toybox='';;
+				*)
+				echo-1l >&2 \
+					"~/B/_core: well idk then what this OS this is, 'ls' seems to not be a symlink" \
+					"~/B/_core: \$ readlink -- \$(command -v ls) -> $i" \
+					"~/B/_core: \$?:$?" \
+				;	
+				return 1
+			esac
+		}
+	;;
+	*) echo-1l >&2 "~/B/_core: cannot detect current os GNU/(Busybox+Musl)/Android"; return 1;;
 esac
 
 return

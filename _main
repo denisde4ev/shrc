@@ -2,47 +2,48 @@
 
 # unalias -a # for now not a problem
 
-. ~/B/_env
-. ~/B/_PATH
-. ~/B/_core
+# SHELL DETECTION:
+sh_is=${BASH_VERSION+bash}${KSH_VERSION+ksh}${NETBSD_SHELL+netbsd}${POSH_VERSION+posh}${SH_VERSION+sh}${YASH_VERSION+yash}${ZSH_VERSION+zsh}${BB_ASH_VERSION+bb_ash}
+sh_is=${sh_is:-${0##*/}}; sh_is=${sh_is#-} # -$0 login shells
 
-# big dot / "BULLET" (U+2022) -> alias •=source._all :
-. ~/B/_U+2022•
-
-# shoud NOT start [_.%] or end [%~] :
-•  ~/B/[!_.%]*[!%~] ~/B/[!_.%~]
-
-
-
-# has args OR if xtrace(set -x) is on then dont execute shell specific 'rc' and fetch/color script:
-# case $- in *c*|*x*)false;; *);; esac  || # `$-` is bashism ...
-case $#:$({ :; } 2>&1) in
-	0:) ;;
-	*) return 0;;
-esac
-
-# TODO: but what if is not in .config ? and then we have no $XDG_CONFIG_HOME ..
-#  check what wiki says in this case.
-[ -e ~/.config/user-dirs.dirs ] && • ~/B/_homedir-vars
-
-
-sh_is=${BASH_VERSION+bash}${KSH_VERSION+ksh}${NETBSD_SHELL+netbsd}${POSH_VERSION+posh}${SH_VERSION+sh}${YASH_VERSION+yash}${ZSH_VERSION+zsh}
-sh_is=${sh_is:-${0##*/}}
-sh_is=${sh_is#-} # $0 login shells
-
+unset sh_is_bash sh_is_zsh sh_is_ash sh_is_sh sh_isin_cmd
 case $sh_is in
-	bash|rbash)  • ~/B/%[!_.%]*.bash; . ~/B/_fetch/_fetch    >&2 0<&-;;
-	zsh)         • ~/B/%[!_.%]*.zsh;  . ~/B/_fetch/_fetch    >&2 0<&-;;
-	ash)         • ~/B/%[!_.%]*.ash;  . ~/B/_fetch/_fetch.sh >&2 0<&-;;
-	*)
-	             • ~/B/%[!_.%]*.sh;   . ~/B/_fetch/_fetch.sh >&2 0<&-
+	bash|rbash)  sh_is_bash='';;
+	zsh)         sh_is_zsh='';;
+	ash|bb_ash)  sh_is_ash='';;
+	*)           sh_is_sh=''
 		case ${sh_is:-${0##*/}} in
 			dash|sh|mksh) ;;
+			\$|\$.sh) sh_isin_cmd=''; PS1='';;
 			ksh|netbsd|posh|yash) printf %s\\n >&2 '~/B/_main: note, you are using shell that is not yet well tested';;
 			_main|_main.sh)       printf %s\\n >&2 '~/B/_main: shell not detected! $0 seems to be _main?';;
 			*)                    printf %s\\n >&2 '~/B/_main: unrecognized shell, assuming sh';;
 		esac
 	;;
 esac
+
+
+# TODO: but what if is not in .config ? and then we have no $XDG_CONFIG_HOME ..
+#  check what wiki says in this case.
+[ -e ~/.config/user-dirs.dirs ] && . ~/B/_homedir-vars
+
+. ~/B/_env
+. ~/B/_PATH
+. ~/B/_core
+
+# big dot / "BULLET" (U+2022) -> alias •=source_all :
+. ~/B/_U+2022•
+
+•  ~/B/[!_.%]*[!%~] ~/B/[!_.%~]
+
+
+# has args OR if xtrace(set -x) is on, then dont execute shell specific 'rc' and fetch/color script:
+# case $- in *c*|*x*)false;; *);; esac  || # `$-` is bashism ...
+case $#:${sh_isin_cmd+1}:$({ :; } 2>&1) in 0::) ;; *) return 0; esac
+
+sh_is_=${sh_is_bash+bash}${sh_is_zsh+bash}${sh_is_ash+ash}${sh_is_sh+sh}
+
+• ~/B/%[!_.%]*."$sh_is_"
+. ~/B/_fetch/_fetch"${sh_is_sh+".sh"}" >&2 0<&-
 
 :

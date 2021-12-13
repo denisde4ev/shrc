@@ -1,64 +1,88 @@
 #!/ /hint/sh
 
-# based on:
 # Arch Wiki: XDG Base Directory
 # https://wiki.archlinux.org/index.php/XDG_Base_Directory
 
 
-# set -x
-. ~/.config/user-dirs.dirs
 
-: ${HOME:?} # expect to be set! # TODO: add more
-export XDG_DESKTOP_DIR XDG_HOME_DIR XDG_DOCUMENTS_DIR XDG_DOWNLOAD_DIR XDG_MUSIC_DIR XDG_PICTURES_DIR XDG_PUBLICSHARE_DIR XDG_TEMPLATES_DIR XDG_VIDEOS_DIR XDG_DATA_DIRS XDG_DATA_HOME XDG_CONFIG_HOME XDG_CACHE_HOME
-# export XDG_CACHE_HOME XDG_CONFIG_HOME XDG_CURRENT_DESKTOP XDG_DATA_DIRS XDG_DATA_HOME XDG_DESKTOP_DIR XDG_DOCUMENTS_DIR XDG_DOWNLOAD_DIR XDG_HOME_DIR XDG_MUSIC_DIR XDG_PICTURES_DIR XDG_PUBLICSHARE_DIR XDG_RUNTIME_DIR XDG_SEAT XDG_SESSION_CLASS XDG_SESSION_ID XDG_SESSION_TYPE XDG_TEMPLATES_DIR XDG_VIDEOS_DIR XDG_VTNR
+( : "${HOME:?}" ) && . ~/.config/user-dirs.dirs || return
+
+export \
+XDG_DESKTOP_DIR=${XDG_DESKTOP_DIR:?} \
+XDG_HOME_DIR=${XDG_HOME_DIR:?} \
+XDG_DOCUMENTS_DIR=${XDG_DOCUMENTS_DIR:?} \
+XDG_DOWNLOAD_DIR=${XDG_DOWNLOAD_DIR:?} \
+XDG_MUSIC_DIR=${XDG_MUSIC_DIR:?} \
+XDG_PICTURES_DIR=${XDG_PICTURES_DIR:?} \
+XDG_PUBLICSHARE_DIR=${XDG_PUBLICSHARE_DIR:?} \
+XDG_TEMPLATES_DIR=${XDG_TEMPLATES_DIR:?} \
+XDG_VIDEOS_DIR=${XDG_VIDEOS_DIR:?} \
+XDG_DATA_DIRS=${XDG_DATA_DIRS:?} \
+XDG_DATA_HOME=${XDG_DATA_HOME:?} \
+XDG_CONFIG_HOME=${XDG_CONFIG_HOME:?} \
+XDG_CACHE_HOME=${XDG_CACHE_HOME:?} \
+\
+GTK2_RC_FILES=${XDG_CONFIG_HOME:?}/gtk-2.0/gtkrc \
+KDEHOME=${XDG_CONFIG_HOME:?}/kde \
+HISTFILE=${XDG_DATA_HOME:?}/bash/history \
+ANDROID_PREFS_ROOT=${XDG_CONFIG_HOME:?}/android \
+ANDROID_EMULATOR_HOME=${XDG_DATA_HOME:?}/android/emulator \
+ATOM_HOME=${XDG_DATA_HOME:?}/atom \
+SQLITE_HISTORY=${XDG_CACHE_HOME:?}/sqlite_history \
+GNUPGHOME=${XDG_DATA_HOME:?}/gnupg \
+NODE_REPL_HISTORY=${XDG_DATA_HOME:?}/node_repl_history \
+PASSWORD_STORE_DIR=${XDG_DATA_HOME:?}/pass \
+WGETRC=${XDG_CONFIG_HOME:?}/wgetrc \
+CARGO_HOME=${XDG_DATA_HOME:?}/cargo \
+GOPATH=${XDG_CACHE_HOME:?}/go \
+LESSHISTFILE=- \
+;
+ 
+return
+
+
+
+# export LESSHISTFILE #https://stackoverflow.com/questions/26198926/why-does-lesshst-keep-showing-up-in-my
+
+#   XDG_CURRENT_DESKTOP        XDG_RUNTIME_DIR XDG_SEAT XDG_SESSION_CLASS XDG_SESSION_ID XDG_SESSION_TYPE  XDG_VIDEOS_DIR XDG_VTNR
 # ( printf  'export '; set | grep -oPe '^XDG[^=]+(?==)' | tr '\n' ' '; )
 
-export GTK2_RC_FILES="$XDG_CONFIG_HOME"/gtk-2.0/gtkrc  # ~/.gtkrc-2.0 seeems to not work
-export KDEHOME="$XDG_CONFIG_HOME"/kde
-export HISTFILE="$XDG_DATA_HOME"/bash/history # mkdir
-export ANDROID_PREFS_ROOT="$XDG_CONFIG_HOME"/android
-export ANDROID_EMULATOR_HOME="$XDG_DATA_HOME"/android/emulator
-export ATOM_HOME="$XDG_DATA_HOME"/atom
-export SQLITE_HISTORY="$XDG_DATA_HOME"/sqlite_history
-export GNUPGHOME="$XDG_DATA_HOME"/gnupg
-export NODE_REPL_HISTORY="$XDG_DATA_HOME"/node_repl_history
-export PASSWORD_STORE_DIR="$XDG_DATA_HOME"/pass
-export WGETRC="$XDG_CONFIG_HOME/wgetrc"
-export CARGO_HOME="$XDG_DATA_HOME"/cargo
+# export GTK2_RC_FILES=${XDG_CONFIG_HOME:?}/gtk-2.0/gtkrc  # ~/.gtkrc-2.0 seeems to not work??
+
 
 # not as the ArchWiki:
-export GOPATH="$XDG_CACHE_HOME"/go
-export LESSHISTFILE=- #https://stackoverflow.com/questions/26198926/why-does-lesshst-keep-showing-up-in-my
 
 return 0
-false && \
-(
-set -eux
+false && ( set -eux # when cache is cleared use this:
+
 
 /~arcowo/bin/home/_/mkdirs -q
 
-
 mkdir --verbose -p \
 	"$(readlink -f ~/.local/share/cargo)" \
-	"${ANDROID_PREFS_ROOT:-"$XDG_CONFIG_HOME"/android}" \
-	"${ANDROID_EMULATOR_HOME:-"$XDG_DATA_HOME"/android/emulator}" \
-	"${XDG_CONFIG_HOME:?}/bash" \
-	"${XDG_CONFIG_HOME:?}/simplescreenrecorder" \
+	"${ANDROID_PREFS_ROOT:-$XDG_CONFIG_HOME/android}" \
+	"${ANDROID_EMULATOR_HOME:-$XDG_DATA_HOME/android/emulator}" \
+	"${XDG_CONFIG_HOME:?}"/bash \
+	"${XDG_CONFIG_HOME:?}"/simplescreenrecorder \
+;
 	# "${XDG_CACHE_HOME:?}/p7zip" \
 	# "${XDG_CACHE_HOME:?}/android-tools" \
 	# "${XDG_CACHE_HOME:?}/tt" \
 	# "${XDG_CACHE_HOME:?}/mongodb" \
 	# "${XDG_CACHE_HOME:?}/mongodb/homedir" `: '# check if need?'` \
 
-
 case $(cat "${XDG_CONFIG_HOME:?}/wgetrc" || true) in
 	"hsts-file = $XDG_CACHE_HOME/wget"|"hsts-file = $XDG_CACHE_HOME/wget-hsts") :;;
 	''|?|??) echo hsts-file \= "$XDG_CACHE_HOME"/wget-hsts > "$XDG_CONFIG_HOME/wgetrc";;
 	*)
-		YN_confirm "file '$XDG_CONFIG_HOME/wgetrc' seems to have unexpected data:
-$(cat -n "$XDG_CONFIG_HOME/wgetrc")
-
-continue anyway?" && echo hsts-file \= "$XDG_CACHE_HOME"/wget-hsts > "$XDG_CONFIG_HOME/wgetrc"
+		YN_confirm_v2 y \\
+			"file '$XDG_CONFIG_HOME/wgetrc' seems to have unexpected data:" \
+			"$(cat -n "$XDG_CONFIG_HOME/wgetrc")" \
+			"" \
+			"continue anyway?" \
+		&& {
+			echo hsts-file \= "$XDG_CACHE_HOME"/wget-hsts > "$XDG_CONFIG_HOME/wgetrc"
+		}
 	;;
 esac
 

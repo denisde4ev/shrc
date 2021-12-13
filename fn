@@ -24,9 +24,7 @@ _pwd_() {
 
 
 
-# command. env_split || # better use external command
-# alias env:=env_split
-# env_split() {( IFS=: eval 'printf %s\\n $'"$*"; )}
+
 
 # ll.parents='_ll_parents	'
 

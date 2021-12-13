@@ -9,18 +9,16 @@ esac
 alias \
 bAt='bat -A' \
 cut-f='cut -d " " -f' \
-mv++='/~arcowo/bin/_/mvpp/mv++' \
 CCCCCCC='sudo loadkeys carpalx; setxkbmap "us(carpalx)"' \
 IFS='set -f; IFS="$new_line"' \
 bash-debugger-start='debugger=1 bash-debugger' \
 argv='(arg "$@")' \
-minecraft-1.12.2='/~arcowo/0/game/MC/1.12.2/start' minecraft-1.16.5='/~arcowo/0/game/MC/1.16.5/start' \
 fd.err='>&2 '  fd.to2='>&2 '  fd.out='>&1 '  fd.to1='>&1 '  fd.swap='3>&2 2>&1 1>&3 '  fd.copy-err='tee /dev/stderr' \
 whatislove='( printf "What is love?\\nOh baby, don\\x27t hurt me\\nDon\\x27t hurt me\\nNo more...\\n" )' \
 whatislove.stderr='( printf "What is love?\\nOh baby, don\\x27t hurt me\\n"; printf "Don\\x27t hurt me\\n" >&2; printf "No more...\\n" )' \
 foo='echo bar' \
+\
 mongod='\mongod --logpath /dev/stdout' \
-mktmp=mktemp \
 cd.mktemp='cd "$(mktemp -d)"' \
 \
 quote-this='printf %s\\n \!#:q' \
@@ -39,46 +37,44 @@ grep='\grep --color=auto' \
 egrep='\egrep --color=auto' \
 pgrep='\pgrep --color=auto' \
 diff='\diff --color=auto' \
-diff-arch='diff --unified --recursive --text'   path='echo-1l "$PATH" | tr "${PATHseparator:-":"}" \\n' \
+diff-arch='diff --unified --recursive --text'   path='( IFS=${PATHseparator:-":"}; set -f; echo-1l $PATH )' \
 pacman-diffs='(find /etc 2>/dev/null -name "*.pacnew" -mtime -360 -type f | sed "s/.pacnew\$//")' \
 micro-diff='\micro-diff --color=auto' \
 \
+mktmp=mktemp \
 mkd=mkdir \
-mv='\mv -vi' cp='\cp -vi' rm='\rm -v' ln='\ln -vi' chmod='\chmod -v' readlink='\readlink -v' umount='umount -v' mv-ln='\mv-ln -vi -r' \
-mount='\mount -v' chown='\chown -v' rmt='rmtrash -Iv' \
+\
+mv='\mv -vi' cp='\cp -vi' rm='\rm -v' ln='\ln -vi' chmod='\chmod -v' readlink='\readlink -v' umount='umount -v' mv-ln='\mv-ln -vi '"${os_gnu+"-r"}" \
+mount='\mount -v' chown='\chown -v' rmt='rmtrash -Iv -r' \
 mvT='mv -T' cpT='cp -T' lnT='ln -T' \
 \
 Iown='chown "${UID:-"$(id -u)"}:${GROUPSB-"$(id -g)"}"' \
 RootOwns='chmod root:root' \
+OurOwn=777  777='chmod 777'  755='chmod 755' \
 Iown.ug=Iown \
 Iown.u='chown "${UID:-"$(id -u)"}"' \
 Iown.g='chown "${UID:-"$(id -u)"}:${GROUPSB-"$(id -g)"}"' \
-777='chmod 777' 755='chmod 755' \
 192.grep='ip route get 1 | grep -C 1000 "192\\.168\\.[0-9]*\\.[0-9]*"' \
 1.1='ping 1.1' \
 ping='\ping -c 128' \
-myip='echo-1l "$(curl -s ipinfo.io/ip)"' \
+myip='curl -s ipinfo.io/ip' \
 \
 wc-l='\wc -l' \
 rsync='\rsync -azvhP' \
 fuserumount='fusermount -u' \
 tb="nc termbin.com 9999" \
 sync='time \sync' \
-s='sudo ' sudo@kiss='sudo @kiss' \
+pv='time \pv' \
 \
-sshd='"$(which \sshd) -p 8022 -d -f ~/.ssh/sshd/sshd_config -h ~/.ssh/sshd/ssh_host_ed25519_key"' \
-git-ssh-deni2020='GIT_SSH_COMMAND="ssh -i ~/0/GH/deni2020/.ssh/id_ed25519" git push' \
+sshd='"$(which \sshd)" -p 8022 -d -f ~/.ssh/sshd/sshd_config -h ~/.ssh/sshd/ssh_host_ed25519_key' \
+git.customssh='GIT_SSH_COMMAND="ssh -i ~/0/GH/deni2020/.ssh/id_ed25519" git push' \
 minicom='\minicom -m -c on -D unix#/tmp/ttyS0' \
-\
-sed-windows-new-line='sed s/\$/\\r/' \
-sed-trim-space-end='sed -E s/\\s+\$//' \
-shellcheck.which='cmd-which -c shellcheck' \
 \
 df='\df -h' \
 free='\free -mt' \
-rm.pacmanlock='rm /var/lib/pacman/db.lck' \
 netstat='\netstat -tulpn' \
 ll.which='cmd-which -c "\$ ll"' \
+shellcheck.which='cmd-which -c shellcheck' \
 \
 \
 userlist='cut -d: -f1 /etc/passwd' \
@@ -102,10 +98,10 @@ byobu='SHLVL= \byobu' \
 startx='SHLVL= startx ~/.config/xorg-xinit/xinitrc' \
 \
 wget='\wget -c -t 5' \
-dd='\dd status=progress' \
 zsh='zsh --no-rcs' \
 gparted=/usr/lib/gparted/gpartedbin \
-l.='l -d .*' \
+dd-v="\\dd${os_gnu+" status=progress"}" \
+${os_gnu-dd="\\dd 2>/dev/null"} \
 ;
 # NOTE:
 # alais sudo='\sudo ' is from ./_env ,
@@ -125,15 +121,17 @@ alias \
 else
 alias \
 	ls='\ls --color=auto' \
-	l='ls -AF' \
-	ll='ls -al --group-directories-first' \
+	ll='ls -alF --group-directories-first' \
+	l='ll' \
 ;
 fi
-return
 
 
-command. toLowerCase || alias toLowerCase='(node -p "fs.readFileSync(0).toString().toLowerCase()")'
-command. toUpperCase || alias toUpperCase='(node -p "fs.readFileSync(0).toString().toUpperCase()")'
+# ${os_gnu-return} # return if not gnu os
+
+case $NAME:$HOME in arcowo:/~arcowo) # we are home
+	alias minecraft-1.12.2='/~arcowo/0/game/MC/1.12.2/start' minecraft-1.16.5='/~arcowo/0/game/MC/1.16.5/start' mv++='/~arcowo/bin/_/mvpp/mv++'
+esac
 
 
 # never used:

@@ -1,0 +1,49 @@
+#!/ /hint/sh
+#!/ /hint/bash
+
+
+# this is exampel of my error,
+# this script should not exist in ~/B/_loadable 
+# this script have nothing to do with the shell or environment or change directoryes
+# the only reason might want to use this is if is commonly executed (but only if is bash/zsh then gets benifets ........)
+
+
+printf %s\\n "Dont use this script" >&2
+return 1
+
+
+
+
+
+
+
+
+
+case $1 in
+	toUpperCase) unalias toLowerCase;;
+	toLowerCase) unalias toUpperCase;;
+esac
+
+case $sh_is in
+	bash|zhs)
+		# eval used  for 2 reasons
+		# 1. update aliases
+		# 2. other shells (not bash and zsh)
+		# will interprete those lines as syntax error
+		eval '
+		toUpperCase() {
+			(( $# )) || set -- "$(cat)"
+			printf %s "${@^^}"
+		}
+		toLowerCase() {
+			(( $# )) || set -- "$(cat)"
+			printf %s "${@,,}"
+		}
+		'
+	;;
+	*)
+		toLowerCase() { node -p 'fs.readFileSync(0).toString().toLowerCase()'; }
+		toUpperCase() { node -p 'fs.readFileSync(0).toString().toUpperCase()'; }
+		;
+	;;
+esac

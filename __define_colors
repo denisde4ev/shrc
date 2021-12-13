@@ -3,27 +3,35 @@ case $TERM in xterm-256color|linux)
 	tput_bold='[1m';tput_black='[30m';tput_red='[31m';tput_green='[32m';tput_yellow='[33m';tput_blue='[34m';
 	tput_magenta='[35m';tput_cyan='[36m';tput_white='[37m';tput_reset='(B[m';tput_underline='[4m';tput_nounderline='[24m';
 	return;
-	# WARNING: IT USES INVISIBLE CHARACTERS
 esac
-
+# NOTE: INVISIBLE CHARACTERS
 
 if command. tput ; then
-	tput_bold=$(tput bold)tput_black=$(tput setaf 0);tput_red=$(tput setaf 1);tput_green=$(tput setaf 2);tput_yellow=$(tput setaf 3);tput_blue=$(tput setaf 4);
-	tput_magenta=$(tput setaf 5);tput_cyan=$(tput setaf 6);tput_white=$(tput setaf 7);tput_reset=$(tput sgr0);tput_underline=$(tput smul);tput_nounderline=$(tput rmul);
-
+tput_bold=$(tput bold)
+tput_black=$(tput setaf 0)
+tput_red=$(tput setaf 1)
+tput_green=$(tput setaf 2)
+tput_yellow=$(tput setaf 3)
+tput_blue=$(tput setaf 4)
+tput_magenta=$(tput setaf 5)
+tput_cyan=$(tput setaf 6)
+tput_white=$(tput setaf 7)
+tput_reset=$(tput sgr0)
+tput_underline=$(tput smul)
+tput_nounderline=$(tput rmul)
 else
-	# WARNING: IT USES INVISIBLE CHARACTERS
-	tput_bold="[1m"
-	tput_black="[30m"
-	tput_red="[31m"
-	tput_green="[32m"
-	tput_yellow="[33m"
-	tput_blue="[34m"
-	tput_magenta="[35m"
-	tput_cyan="[36m"
-	tput_white="[37m"
-	tput_reset="(B[m"
-	tput_underline="[4m"
-	tput_nounderline="[24m"
-# else # bold=$'\E[1m'; black=$'\E[30m'; red=$'\E[31m'; green=$'\E[32m'; yellow=$'\E[33m'; blue=$'\E[34m'; magenta=$'\E[35m'; cyan=$'\E[36m'; white=$'\E[37m'; reset=$'\E(B\E[m'; underline=$'\E[4m'; nounderline=$'\E[24m'; bold=$'\E[1m';
+tput_bold="[1m"
+tput_black="[30m"
+tput_red="[31m"
+tput_green="[32m"
+tput_yellow="[33m"
+tput_blue="[34m"
+tput_magenta="[35m"
+tput_cyan="[36m"
+tput_white="[37m"
+tput_reset="(B[m"
+tput_underline="[4m"
+tput_nounderline="[24m"
 fi
+
+# TODO: one day create minimal tput shell script and try to support Windows BusyBox ash
