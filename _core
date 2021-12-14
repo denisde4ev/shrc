@@ -1,6 +1,7 @@
 #!/ /hint/sh
 
 alias \
+	i='unset i' \
 	echo-1l='printf %s\\n' \
 	command.='command >/dev/null -v' \
 	\
@@ -22,19 +23,19 @@ command. __local || eval ' _local() {
 }; '
 
 
-command. cmd-which || eval '{ cmd_which(){(
+command. com-which || eval '{ cmd_which(){(
 set -feu
 OPTIND=1;getopts c: _;x=$OPTARG
 ! getopts "" _;shift $((OPTIND-1))  # expected non arg or "--"
 IFS=${NEW_LINE?}; set -- $(fori{{ which -- "$i"||echo-1l "$i";}})
 unset IFS; eval "${x:?} ${@+"\"\$@\""}" #"
-)};alias cmd-which=cmd_which;}'
+)};alias com-which=cmd_which;}'
 
 
 
 # if ( i=_; : "${!i}" ) 2>/dev/null 1>/dev/null; then
 case $sh_is in
-	bash|ash|bb_ash|zsh) shuf_1() { local i;i=$(( ( ${RANDOM:?} % $# ) + 1 )); echo-1l "${!i}"; };;
+	bash|ash|bb_ash|zsh) shuf_1() { local i;i=$(( ( ${RANDOM:?} % $# ) + 1 )); echo-1l "${!i}"; i; };;
 	 # *) shuf_1() { eval "( echo-1l \"\${$(( ( ${RANDOM:?} % $# ) + 1 ))}\" )"; };;
 
 	# alias history_current_command='history -p \!\!' history_current_command='history -p \!\!';
@@ -79,6 +80,7 @@ case ${OSTYPE:-$(uname -o)} in
 	;;
 	*) echo-1l >&2 "~/B/_core: cannot detect current os GNU/(Busybox+Musl)/Android"; return 1;;
 esac
+i
 
 return
 

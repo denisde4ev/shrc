@@ -1,21 +1,4 @@
-#!/ /hint/sh
-
-_cd_plus() { # alias cd+
-	! [ -d "$1" ] || return 1
-	case $1 in
-		https://git*|https://*.git|"${1%%[:/]*}:"*/*)     # line from `which +` + */*
-			+ "$1"
-			return
-		;;
-	esac
-	mkdir -- "$1" && cd "$1"
-}
-_cd_plusparents() { # alias cd++
-	! [ -d "$1" ] || return 1
-	mkdir -p -- "$1" && cd -- "$1"
-}
-alias 'cd+=_cd_plus' 'cd++=_cd_plusparents'
-
+#! /hint/sh
 
 
 _cd__() { # alias 'cd..' '..'
@@ -58,6 +41,7 @@ _cd__() { # alias 'cd..' '..'
 
 
 				GH|gh) cd -- ~/0/GH;;
+				[Bb]) cd -- ~/B;;
 
 				*/*) cd -- "${@%/*}";;
 				@*) i=/~/0/chroots/"${1#@}"; if [ -d "$i" ]; then cd "$i" && ll -d - "$i"; else _cd__ which-ll "$1" && return; fi;;
@@ -79,16 +63,3 @@ _cd__() { # alias 'cd..' '..'
 		;;
 	esac
 }
-
-_cd_dot() { # alias cd.
-	case $# in
-		0) cd -P -- .;;
-		*) cd -- "$(readlink -f "$@" | dirname-)";;
-	esac
-}
-
-alias 'cd..=_cd__' '..=_cd__'  cd.which='cd.. which-ll' cd.=_cd_dot
-
-# alias-- -='cd -- "${OLDPWD:--}"'
-alias cd-='cd -'
-# alias-- --='cd ./-'

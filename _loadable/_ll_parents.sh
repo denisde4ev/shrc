@@ -1,5 +1,6 @@
 #!/ /hint/sh
 
+# ll.parents='_ll_parents	'
 _ll_parents() {
 	i=${1-$PWD}
 	while
@@ -9,3 +10,5 @@ _ll_parents() {
 		i=${i%["${PATHSEP:-/}"]*}
 	done
 }
+
+# this could be moved to separate command?

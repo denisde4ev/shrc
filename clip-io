@@ -48,7 +48,7 @@ return
 
 
 
-# c.which='cmd-which -c "$ clip_io"'      # USED INSTEAD: (which dstn | cin) or my modern (?? dstn | c)
+# c.which='com-which -c "$ clip_io"'      # USED INSTEAD: (which dstn | cin) or my modern (?? dstn | c)
 
 
 

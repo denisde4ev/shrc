@@ -7,10 +7,11 @@ __load_loadable() {
 		"$@"
 		return
 	}
-	case $sh_is in
-		bash) [ -r ~/B/_loadable/"$1".bash ] && . ~/B/_loadable/"$1".bash;;
-		*) false;;
-	esac || \
+	# for now no bash specific fn-s
+	#case $sh_is in
+	#	bash) [ -r ~/B/_loadable/"$1".bash ] && . ~/B/_loadable/"$1".bash;;
+	#	*) false;;
+	#esac || \
 	. ~/B/_loadable/"$1".sh
 
 
@@ -21,19 +22,53 @@ __load_loadable() {
 }
 
 
-alias +=_plus_
+alias \
++=_plus_ \
+'cd+'='_cd_plus' \
+'cd++'='_cd_plusparents' \
+'cd..'=_cd__ \
+'..'=_cd__ \
+'cd.which'='cd.. which-ll' \
+'cd.'=_cd_dot \
+\
+song=_song \
+pwd=_pwd_ \
+\
++='_plus_' \
+ll.parents='_ll_parents' \
+set-x='_set_x' \
+;
 
 
+
+# GENERATED USING: printf 'alias \\\n'; alias | rg "='__load_loadable" | sed 's/^alias //; s/$/ \\/'; printf ';\n'
 # CACHED LINE: {
-# alias '_ll_parents=__load_loadable _ll_parents' '_plus_=__load_loadable _plus_' 'sh_require=__load_loadable sh_require' 'YN_confirm=__load_loadable YN_confirm';return
+alias \
+YN_confirm='__load_loadable YN_confirm' \
+_cd__='__load_loadable _cd__' \
+_cd_dot='__load_loadable _cd_dot' \
+_cd_plus='__load_loadable _cd_plus' \
+_cd_plusparents='__load_loadable _cd_plusparents' \
+_ll_parents='__load_loadable _ll_parents' \
+_plus_='__load_loadable _plus_' \
+_pwd_='__load_loadable _pwd_' \
+_set_x='__load_loadable _set_x' \
+_song='__load_loadable _song' \
+delayed_first_stdin='__load_loadable delayed_first_stdin' \
+history_current_command='__load_loadable history_current_command' \
+sh_require='__load_loadable sh_require' \
+;
+return
 # }
 
 for i in ~/B/_loadable/[a-zA-Z0-9_]*.sh ${sh_is_bash+~/B/_loadable/[a-zA-Z0-9_]*.bash}; do
 	i=${i##*/}
 	i=${i%.*}
+	arg "$i"
 	# (dont use for now fn): eval "$i(){ __load_loadable $i \"\$@\" }"
 	alias "$i"="__load_loadable $i"
 done
+
 
 # _plus_(){     __load_loadable _plus_     "$@"; };
 # YN_confirm(){ __load_loadable YN_confirm "$@"; };

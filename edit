@@ -18,10 +18,10 @@
 	done
 }
 
-case $(command -v cmd-which) in
+case $(command -v com-which) in
 	*/*)
-		alias e.which='cmd-which --cmd=edit'
-		alias e.which.alias='alias | cmd-which --cmd=edit --read-alias'
+		alias e.which='com-which --cmd=edit'
+		alias e.which.alias='alias | com-which --cmd=edit --read-alias'
 	;;
 	*)
 		e_which() { ( IFS=$'\n'; "${EDITOR:-vi}" $(which "$@") ) }
@@ -30,7 +30,7 @@ case $(command -v cmd-which) in
 esac
 
 # [  "${BASH:-}" != '' ] || {
-	# alias e.which.alias='alias | cmd-which -c edit --read-alias ' # TODO: test it
+	# alias e.which.alias='alias | com-which -c edit --read-alias ' # TODO: test it
 	# alias e.which\!=e.which.alias  e.cmd,which+=e.which.alias # naver used
 
 # some common files for edit:

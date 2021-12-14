@@ -1,25 +1,24 @@
 #!/ /hint/sh
 
 
-case $TERM in
-	screen-*) ;;
-	*) alias xmrig='byobu new doas xmrig';;
-esac
 
 alias \
-bAt='bat -A' \
+xmrig='( case $TERM in screen-*) xmrig ;; *) byobu new doas xmrig; esac )' \
+pop_to_i='{ unset i; i=$#; while case $i in 0|1) false; esac; do set -- "$@" "$1"; shift; i=$(( i - 1 )); done; i=$1; shift; }' \
+BAT='bat -A' \
 cut-f='cut -d " " -f' \
 CCCCCCC='sudo loadkeys carpalx; setxkbmap "us(carpalx)"' \
 IFS='set -f; IFS="$new_line"' \
 bash-debugger-start='debugger=1 bash-debugger' \
 argv='(arg "$@")' \
-fd.err='>&2 '  fd.to2='>&2 '  fd.out='>&1 '  fd.to1='>&1 '  fd.swap='3>&2 2>&1 1>&3 '  fd.copy-err='tee /dev/stderr' \
+fd.swap='3>&2 2>&1 1>&3 '  fd.copy-err='tee /dev/stderr' \
 whatislove='( printf "What is love?\\nOh baby, don\\x27t hurt me\\nDon\\x27t hurt me\\nNo more...\\n" )' \
 whatislove.stderr='( printf "What is love?\\nOh baby, don\\x27t hurt me\\n"; printf "Don\\x27t hurt me\\n" >&2; printf "No more...\\n" )' \
 foo='echo bar' \
 \
 mongod='\mongod --logpath /dev/stdout' \
 cd.mktemp='cd "$(mktemp -d)"' \
+cd-='cd -' \
 \
 quote-this='printf %s\\n \!#:q' \
 quote='printf "%q\\n"' \
@@ -44,7 +43,7 @@ micro-diff='\micro-diff --color=auto' \
 mktmp=mktemp \
 mkd=mkdir \
 \
-mv='\mv -vi' cp='\cp -vi' rm='\rm -v' ln='\ln -vi' chmod='\chmod -v' readlink='\readlink -v' umount='umount -v' mv-ln='\mv-ln -vi '"${os_gnu+"-r"}" \
+mv='\mv -vi' cp='\cp -vi' rm='\rm -v' ln='\ln -vi' chmod='\chmod -v' readlink='\readlink -v' umount='\umount -v' umount-fzf='\umount-fzf -v' mv-ln='\mv-ln -vi '"${os_gnu+"-r"}" \
 mount='\mount -v' chown='\chown -v' rmt='rmtrash -Iv -r' \
 mvT='mv -T' cpT='cp -T' lnT='ln -T' \
 \
@@ -73,8 +72,8 @@ minicom='\minicom -m -c on -D unix#/tmp/ttyS0' \
 df='\df -h' \
 free='\free -mt' \
 netstat='\netstat -tulpn' \
-ll.which='cmd-which -c "\$ ll"' \
-shellcheck.which='cmd-which -c shellcheck' \
+ll.which='com-which -c "\$ ll"' \
+shellcheck.which='com-which -c shellcheck' \
 \
 \
 userlist='cut -d: -f1 /etc/passwd' \
@@ -101,11 +100,9 @@ wget='\wget -c -t 5' \
 zsh='zsh --no-rcs' \
 gparted=/usr/lib/gparted/gpartedbin \
 dd-v="\\dd${os_gnu+" status=progress"}" \
-${os_gnu-dd="\\dd 2>/dev/null"} \
+dd='\\dd 2>/dev/null' \
 ;
-# NOTE:
-# alais sudo='\sudo ' is from ./_env ,
-# alias xargs is from ./Z
+
 
 
 if command. exa; then
@@ -133,8 +130,13 @@ case $NAME:$HOME in arcowo:/~arcowo) # we are home
 	alias minecraft-1.12.2='/~arcowo/0/game/MC/1.12.2/start' minecraft-1.16.5='/~arcowo/0/game/MC/1.16.5/start' mv++='/~arcowo/bin/_/mvpp/mv++'
 esac
 
+return
 
-# never used:
-# alias mount-grep='mount | grep'
-# alias mount-grep-pwd='(mount | grep -o "$PWD[^ ]*")'
+# NOTES:
+# alais sudo='\sudo ' is from ./_env ,
+# alias xargs is from ./Z
 
+# never used aliases:
+# mount-grep='mount | grep'
+# mount-grep-pwd='(mount | grep -o "$PWD[^ ]*")'
+# fd.err='>&2 '  fd.to2='>&2 '  fd.out='>&1 '  fd.to1='>&1 '

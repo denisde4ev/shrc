@@ -49,4 +49,4 @@ sh_require() {
 	. "$_sh_require_file"
 }
 
-alias sh-require=sh_require
+# alias sh-require=sh_require
