@@ -2,13 +2,14 @@
 history_current_command() {
 		local i
 		i=$(
-			set -fu; IFS=;
+			set -fue
+			IFS=''
 			history | {
-				r=''
+				unset r
 				while read -r i; do r=$i; done
 				echo-1l "$r"
 			}
-		)
+		) || return
 
 		# handle format s/^ *[0-9]* *//
 		i=${i#"${i%%[! ]*}"}   # trim start spaces

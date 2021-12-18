@@ -20,8 +20,8 @@
 
 case $(command -v com-which) in
 	*/*)
-		alias e.which='com-which --cmd=edit'
-		alias e.which.alias='alias | com-which --cmd=edit --read-alias'
+		alias e.which='com-which -c edit'
+		alias e.which.alias='alias | com-which --com=edit --read-alias'
 	;;
 	*)
 		e_which() { ( IFS=$'\n'; "${EDITOR:-vi}" $(which "$@") ) }

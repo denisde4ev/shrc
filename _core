@@ -5,44 +5,19 @@ alias \
 	echo-1l='printf %s\\n' \
 	command.='command >/dev/null -v' \
 	\
-	fori='for i in' fori{{='for i;{{' \
-	'{{=do' \
-	'}}=done' \
+	fori='for i in' fori{{='for i;{{' '{{=do' '}}=done' \
 	loop='while :;' pool='do :;done' elihw='do :;done' 'loop{{=while :;{{' \
 	and='(exit $?)&&' or='(exit $?)||' \
 ;
 
-# at least enshure that var is not defined when using local, dont ever use 'local i=1' or 'local i=$(ls)'
-command. __local || eval ' _local() {
-	while
-		case $# in 0) return 0; esac
-		eval "case \"\${${1%%=*}+x}\" in x) return 1; esac" &&\
-		case $1 in *=*) eval ": \${${1%%=*}=$(quote "${1#*=}")}"; esac &&\
-		shift
-	do :; done
-}; '
-
-
-command. com-which || eval '{ cmd_which(){(
-set -feu
-OPTIND=1;getopts c: _;x=$OPTARG
-! getopts "" _;shift $((OPTIND-1))  # expected non arg or "--"
-IFS=${NEW_LINE?}; set -- $(fori{{ which -- "$i"||echo-1l "$i";}})
-unset IFS; eval "${x:?} ${@+"\"\$@\""}" #"
-)};alias com-which=cmd_which;}'
-
+command. local     || . ~/B/%local.fallback
+command. com-which || . ~/B/%cmd-which.fallback
 
 
 # if ( i=_; : "${!i}" ) 2>/dev/null 1>/dev/null; then
 case $sh_is in
 	bash|ash|bb_ash|zsh) shuf_1() { local i;i=$(( ( ${RANDOM:?} % $# ) + 1 )); echo-1l "${!i}"; i; };;
-	 # *) shuf_1() { eval "( echo-1l \"\${$(( ( ${RANDOM:?} % $# ) + 1 ))}\" )"; };;
-
-	# alias history_current_command='history -p \!\!' history_current_command='history -p \!\!';
-	# history_current_command() {
-		# local i;i=$(IFS=; history | while read -r i; do ${NEW_LINE:+}; done)
-	# }
-
+	*)                   shuf_1() { eval "( echo-1l \"\${$(( ( ${RANDOM:?} % $# ) + 1 ))}\" )"; };;
 esac
 
 # GNUtector detect if GNU coreutils options are supported

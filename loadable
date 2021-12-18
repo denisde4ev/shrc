@@ -46,6 +46,7 @@ set-x='_set_x' \
 alias \
 YN_confirm='__load_loadable YN_confirm' \
 _cd__='__load_loadable _cd__' \
+__load_loadable_byfile='__load_loadable __load_loadable_byfile' \
 _cd_dot='__load_loadable _cd_dot' \
 _cd_plus='__load_loadable _cd_plus' \
 _cd_plusparents='__load_loadable _cd_plusparents' \
