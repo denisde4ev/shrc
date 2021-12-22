@@ -4,7 +4,7 @@
 
 alias \
 xmrig='( case $TERM in screen-*) xmrig ;; *) byobu new doas xmrig; esac )' \
-pop_to_i='{ unset i; i=$#; while case $i in 0|1) false; esac; do set -- "$@" "$1"; shift; i=$(( i - 1 )); done; i=$1; shift; }' \
+pop_to_i='{ i; i=$#; while case $i in 0|1) false; esac; do set -- "$@" "$1"; shift; i=$(( i - 1 )); done; i=$1; shift; }' \
 BAT='bat -A' \
 cut-f='cut -d " " -f' \
 CCCCCCC='sudo loadkeys carpalx; setxkbmap "us(carpalx)"' \
@@ -20,9 +20,11 @@ mongod='\mongod --logpath /dev/stdout' \
 cd.mktemp='cd "$(mktemp -d)"' \
 cd-='cd -' \
 \
-quote-this='printf %s\\n \!#:q' \
-quote='printf "%q\\n"' \
+path='( IFS=${PATHseparator:-":"}; set -f; echo-1l $PATH )' \
+printf.quote-this='printf %s\\n \!#:q' \
+printf.quote='printf "%q\\n"' \
 nbsp='printf \\uA0\\n' \
+\
 '-=echo ' \
 '?-=quote ' \
 '?-1l=echo-1l ' \
@@ -35,28 +37,27 @@ nbsp='printf \\uA0\\n' \
 grep='\grep --color=auto' \
 egrep='\egrep --color=auto' \
 pgrep='\pgrep --color=auto' \
-diff='\diff --color=auto' \
-diff-arch='diff --unified --recursive --text'   path='( IFS=${PATHseparator:-":"}; set -f; echo-1l $PATH )' \
+${os_gnu+diff='\diff --color=auto'} \
+diff-arch='diff --unified --recursive --text' \
 pacman-diffs='(find /etc 2>/dev/null -name "*.pacnew" -mtime -360 -type f | sed "s/.pacnew\$//")' \
 micro-diff='\micro-diff --color=auto' \
 \
 mktmp=mktemp \
 mkd=mkdir \
 \
-mv='\mv -vi' cp='\cp -vi' rm='\rm -v' ln='\ln -vi' chmod='\chmod -v' readlink='\readlink -v' umount='\umount -v' umount-fzf='\umount-fzf -v' mv-ln='\mv-ln -vi '"${os_gnu+"-r"}" \
+mv='\mv -vi' cp='\cp -vi' rm='\rm -v' ln='\ln -vi' chmod='\chmod -v' readlink='\readlink -v' umount='\umount -v' umount-fzf='\umount-fzf -v' mv-ln='\mv-ln -vi '${os_gnu+"-r"} \
 mount='\mount -v' chown='\chown -v' rmt='rmtrash -Iv -r' \
 mvT='mv -T' cpT='cp -T' lnT='ln -T' \
 \
 Iown='chown "${UID:-"$(id -u)"}:${GROUPSB-"$(id -g)"}"' \
-RootOwns='chmod root:root' \
-OurOwn=777  777='chmod 777'  755='chmod 755' \
-Iown.ug=Iown \
 Iown.u='chown "${UID:-"$(id -u)"}"' \
 Iown.g='chown "${UID:-"$(id -u)"}:${GROUPSB-"$(id -g)"}"' \
-192.grep='ip route get 1 | grep -C 1000 "192\\.168\\.[0-9]*\\.[0-9]*"' \
+0wn='chown 0:0' \
+777='chmod 777'  755='chmod 755' \
+192='ip route get 1 | rg -o "src [^ ]*" | cut-f 2' \
+myip='curl -s ipinfo.io/ip' \
 1.1='ping 1.1' \
 ping='\ping -c 128' \
-myip='curl -s ipinfo.io/ip' \
 \
 wc-l='\wc -l' \
 rsync='\rsync -azvhP' \
@@ -65,16 +66,19 @@ tb="nc termbin.com 9999" \
 sync='time \sync' \
 pv='time \pv' \
 \
+tt='time tt-split -showwpm -noskip -oneshot' \
+\
 sshd='"$(which \sshd)" -p 8022 -d -f ~/.ssh/sshd/sshd_config -h ~/.ssh/sshd/ssh_host_ed25519_key' \
 git.customssh='GIT_SSH_COMMAND="ssh -i ~/0/GH/deni2020/.ssh/id_ed25519" git push' \
 minicom='\minicom -m -c on -D unix#/tmp/ttyS0' \
 \
 df='\df -h' \
+du='\du -h' \
+dust='\dust --reverse --limit-filesystem' \
 free='\free -mt' \
 netstat='\netstat -tulpn' \
 ll.which='com-which -c "\$ ll"' \
 shellcheck.which='com-which -c shellcheck' \
-\
 \
 userlist='cut -d: -f1 /etc/passwd' \
 update-grub="sudo grub-mkconfig -o /boot/grub/grub.cfg" \
@@ -85,12 +89,7 @@ adb-kill-server='adb kill-server' \
 fori_in_shs='for i in posh yash dash bash mksh ash `: toysh` zsh' \
 fori_in_shs:='fori_in_shs ; {{ $i -c ":" ; }}' \
 \
-tt='eval "time tt-split"' \
-tt-no-raw='eval "time \\tt -showwpm -noskip -oneshot"' \
-tt-noraw=tt-no-raw \
-tt-split='\tt-split -showwpm -noskip -oneshot' \
-\
-reboot-firmware-setup='systemctl reboot --firmware-setup' reboot-toefi=reboot-firmware-setup \
+reboot-firmware-setup='systemctl reboot --firmware-setup' reboot-efi=reboot-firmware-setup \
 \
 startplasma-wayland='SHLVL= \startplasma-wayland' \
 byobu='SHLVL= \byobu' \
@@ -101,6 +100,8 @@ zsh='zsh --no-rcs' \
 gparted=/usr/lib/gparted/gpartedbin \
 dd-v="\\dd${os_gnu+" status=progress"}" \
 dd='\\dd 2>/dev/null' \
+${sh_is_bash+l.did='ll -d /did/!(.|..|*-part*)'} \
+${sh_is_bash-l.did='Zfind /did/ -maxdepth 1 -mindepth 1 -not -path "*-part*" | Zx ll -d --'} \
 ;
 
 
@@ -133,6 +134,7 @@ esac
 return
 
 # NOTES:
+
 # alais sudo='\sudo ' is from ./_env ,
 # alias xargs is from ./Z
 
@@ -140,3 +142,6 @@ return
 # mount-grep='mount | grep'
 # mount-grep-pwd='(mount | grep -o "$PWD[^ ]*")'
 # fd.err='>&2 '  fd.to2='>&2 '  fd.out='>&1 '  fd.to1='>&1 '
+
+
+ # '/did' is (Disk ID) a symlink to '/dev/block/by-id'

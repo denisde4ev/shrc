@@ -1,4 +1,4 @@
-#!/bin/false hint/sh
+#!/bin/sh
 
 cd -- "${0%/*}" || exit
 
@@ -14,8 +14,8 @@ mksquashfs . "${@-"B--$(date -I).squashfs"}" \
 	-regex \
 	-e 'B--[0-9-]+.squashfs' \
 	-e '\.git' \
+	-e '\.gitignore' \
 	-e '.*/\.git' \
 	-e '.*/.*/\.git' \
 	-e '.*/.*/.*/\.git' \
 ;
-	# -xattrs \

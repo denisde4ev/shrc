@@ -4,7 +4,7 @@
 
 # SHELL DETECTION:
 sh_is=${BASH_VERSION+bash}${KSH_VERSION+ksh}${NETBSD_SHELL+netbsd}${POSH_VERSION+posh}${SH_VERSION+sh}${YASH_VERSION+yash}${ZSH_VERSION+zsh}${BB_ASH_VERSION+bb_ash}
-sh_is=${sh_is:-${0##*/}}; sh_is=${sh_is#-} # -$0 login shells
+sh_is=${sh_is:-${0##*/}}; sh_is=${sh_is#-} # $0='-sh' when login shells
 
 unset sh_is_bash sh_is_zsh sh_is_ash sh_is_sh sh_isin_cmd
 case $sh_is in
@@ -15,9 +15,9 @@ case $sh_is in
 		case ${sh_is:-${0##*/}} in
 			dash|sh|mksh) ;;
 			\$|\$.sh) sh_isin_cmd=''; PS1='';;
-			ksh|netbsd|posh|yash) printf %s\\n >&2 '~/B/_main: note, you are using shell that is not yet well tested';;
-			_main|_main.sh)       printf %s\\n >&2 '~/B/_main: shell not detected! $0 seems to be _main?';;
-			*)                    printf %s\\n >&2 '~/B/_main: unrecognized shell, assuming sh';;
+			ksh|netbsd|posh|yash) printf %s\\n >&2 "~/B/_main: note, you are using shell that is not yet well tested";;
+			_main|_main.sh)       printf %s\\n >&2 "~/B/_main: shell not detected! \$0 seems to be '_main'?";;
+			*)                    printf %s\\n >&2 "~/B/_main: unrecognized shell, assuming sh";;
 		esac
 	;;
 esac
@@ -41,9 +41,9 @@ esac
 # case $- in *c*|*x*)false;; *);; esac  || # `$-` is bashism ...
 case $#:${sh_isin_cmd+1}:$({ :; } 2>&1) in 0::) ;; *) return 0; esac
 
-sh_is_=${sh_is_bash+bash}${sh_is_zsh+bash}${sh_is_ash+ash}${sh_is_sh+sh}
+sh_is_=${sh_is_bash+bash}${sh_is_zsh+zsh}${sh_is_ash+sh}${sh_is_sh+sh} # note ash runs *.sh files
 
 • ~/B/%[!_.%]*."$sh_is_"
 . ~/B/_fetch/_fetch"${sh_is_sh+".sh"}" >&2 0<&-
 
-:
+return 0

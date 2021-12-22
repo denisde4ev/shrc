@@ -4,8 +4,7 @@
 # https://wiki.archlinux.org/index.php/XDG_Base_Directory
 
 
-
-( : "${HOME:?}" ) && . ~/.config/user-dirs.dirs || return
+: "${HOME:?}" && . ~/.config/user-dirs.dirs || return
 
 export \
 XDG_DESKTOP_DIR=${XDG_DESKTOP_DIR:?} \
@@ -44,7 +43,7 @@ return
 
 # export LESSHISTFILE #https://stackoverflow.com/questions/26198926/why-does-lesshst-keep-showing-up-in-my
 
-#   XDG_CURRENT_DESKTOP        XDG_RUNTIME_DIR XDG_SEAT XDG_SESSION_CLASS XDG_SESSION_ID XDG_SESSION_TYPE  XDG_VIDEOS_DIR XDG_VTNR
+#   XDG_CURRENT_DESKTOP  XDG_RUNTIME_DIR XDG_SEAT XDG_SESSION_CLASS XDG_SESSION_ID XDG_SESSION_TYPE  XDG_VIDEOS_DIR XDG_VTNR
 # ( printf  'export '; set | grep -oPe '^XDG[^=]+(?==)' | tr '\n' ' '; )
 
 # export GTK2_RC_FILES=${XDG_CONFIG_HOME:?}/gtk-2.0/gtkrc  # ~/.gtkrc-2.0 seeems to not work??
