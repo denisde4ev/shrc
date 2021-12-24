@@ -2,17 +2,17 @@
 
 cd -- "${0%/*}" || exit
 
-mksquashfs . "${@-"B--$(date -I).squashfs"}" \
+mksquashfs . "${@-".B--$(date -I).squashfs"}" \
 	-not-reproducible \
 	-noappend \
 	-progress \
 	-mem 8G \
 	-exit-on-error \
 	-all-root \
-	-comp gzip -Xcompression-level 1 \
+	-comp gzip -Xcompression-level 3 \
 	\
 	-regex \
-	-e 'B--[0-9-]+.squashfs' \
+	-e '.B--[0-9-]+.squashfs' \
 	-e '\.git' \
 	-e '\.gitignore' \
 	-e '.*/\.git' \
