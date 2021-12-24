@@ -1,9 +1,9 @@
 #! /hint/sh
 
-cmd_which(){(
+com_which(){(
 set -feu
 OPTIND=1;getopts c: _;x=$OPTARG
 ! getopts "" _;shift $((OPTIND-1))  # expected non arg or "--"
 IFS=${NEW_LINE?}; set -- $(fori{{ which -- "$i"||echo-1l "$i";}})
 unset IFS; eval "${x:?} ${@+"\"\$@\""}" #"
-)};alias com-which=cmd_which;
+)};alias com-which=com_which;

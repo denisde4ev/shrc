@@ -11,13 +11,14 @@ alias \
 ;
 
 command. local     || . ~/B/%local.fallback
-command. com-which || . ~/B/%cmd-which.fallback
+command. com-which || . ~/B/%com-which.fallback
 
 
 # if ( i=_; : "${!i}" ) 2>/dev/null 1>/dev/null; then
 case $sh_is in
-	bash|ash|bb_ash|zsh) shuf_1() { local i;i=$(( ( ${RANDOM:?} % $# ) + 1 )); echo-1l "${!i}"; i; };;
-	*)                   shuf_1() { eval "( echo-1l \"\${$(( ( ${RANDOM:?} % $# ) + 1 ))}\" )"; };;
+	bash|zsh)   shuf_1() { i=$(( ( ${RANDOM:?} % $# ) + 1 )); echo-1l "${!i}"; i; };;
+	ash|bb_ash) shuf_1() { eval "( echo-1l \"\${$(( ( ${${RANDOM:?} % $# ) + 1 ))}\" )"; };;
+	*)          shuf_1() { eval "( echo-1l \"\${$(( ( $$            % $# ) + 1 ))}\" )"; };;
 esac
 
 # GNUtector detect if GNU coreutils options are supported
@@ -79,9 +80,8 @@ return
 # }
 #bash shuf:
 
-# # var_1l(){ set -f; eval "echo-1l \${${1}}";} # print var separated by IFS to \n
-# _tr_sh(){ ( set -f; IFS=$1; eval "set -- \${${3:-}}"; IFS=$2; printf %s\\n "$*"; ); } # supports 1 char only
-# # PATHseparator=$( PATH=1:2 ; printf %c "${PATH#1}" ) # expected Windows to use ';'
+
+_tr_s(){ ( set -f; IFS=$1; set -- $(cat); IFS=$2; printf %s\\n "$*"; ); }
 # command. env: || alias env:='IFS="${PATHseparator:-":"}" var_1l'
 
 # alias alias--='alias 2>&- --' # was used only 1 and now no mire since `alias cd-='cd -' -='cd -'`

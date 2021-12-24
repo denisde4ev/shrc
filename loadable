@@ -8,11 +8,17 @@ __load_loadable() {
 		return
 	}
 	# for now no bash specific fn-s
-	#case $sh_is in
-	#	bash) [ -r ~/B/_loadable/"$1".bash ] && . ~/B/_loadable/"$1".bash;;
-	#	*) false;;
-	#esac || \
-	. ~/B/_loadable/"$1".sh
+	case $sh_is in
+	bash)
+		if [ -r ~/B/_loadable/"$1".bash ]; then
+			. ~/B/_loadable/"$1".bash
+		else
+			. ~/B/_loadable/"$1".sh
+		fi
+		;;
+	*)
+		. ~/B/_loadable/"$1".sh
+	esac
 
 
 	# (not needed for now), if alias needed to execute, use:
@@ -42,6 +48,10 @@ set-x='_set_x' \
 
 # P='__load_loadable_byfile %%PacmanSyu.sh P' \
 
+${sh_is_bash+
+alias
+arg='__load_loadable arg'
+}
 # GENERATED USING: ( printf 'alias \\\n'; alias | rg "='__load_loadable" | sed 's/^alias //; s/$/ \\/'; printf ';\nreturn\n' )
 # CACHED LINE: {
 alias \

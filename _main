@@ -46,4 +46,4 @@ sh_is_=${sh_is_bash+bash}${sh_is_zsh+zsh}${sh_is_ash+sh}${sh_is_sh+sh} # note as
 • ~/B/%[!_.%]*."$sh_is_"
 . ~/B/_fetch/_fetch"${sh_is_sh+".sh"}" >&2 0<&-
 
-return 0
+i

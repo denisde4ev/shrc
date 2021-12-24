@@ -1,10 +1,9 @@
 #! /hint/sh
 
-( # isolate in subshell (...)
-	i=$(shuf_1 ~/B/_fetch/[!_.]*[!%~])
+i=$(shuf_1 ~/B/_fetch/[!_.]*[!%~]) || return
 
-	# if this exit, next case-in lines will not be executed
-	. "$i"
+( . "$i" )
 
-	case ${i##*/} in 16|color-eudaldgr|fetchName|_fetch.sh|%nofetch) false; esac
-) || PS1-ash
+case ${i##*/} in 16|color-eudaldgr|fetchName|_fetch.sh|%nofetch)
+	PS1-ash
+esac
