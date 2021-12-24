@@ -40,13 +40,14 @@ set-x='_set_x' \
 ;
 
 
+# P='__load_loadable_byfile %%PacmanSyu.sh P' \
 
-# GENERATED USING: printf 'alias \\\n'; alias | rg "='__load_loadable" | sed 's/^alias //; s/$/ \\/'; printf ';\n'
+# GENERATED USING: ( printf 'alias \\\n'; alias | rg "='__load_loadable" | sed 's/^alias //; s/$/ \\/'; printf ';\nreturn\n' )
 # CACHED LINE: {
 alias \
 YN_confirm='__load_loadable YN_confirm' \
-_cd__='__load_loadable _cd__' \
 __load_loadable_byfile='__load_loadable __load_loadable_byfile' \
+_cd__='__load_loadable _cd__' \
 _cd_dot='__load_loadable _cd_dot' \
 _cd_plus='__load_loadable _cd_plus' \
 _cd_plusparents='__load_loadable _cd_plusparents' \
@@ -56,8 +57,12 @@ _pwd_='__load_loadable _pwd_' \
 _set_x='__load_loadable _set_x' \
 _song='__load_loadable _song' \
 delayed_first_stdin='__load_loadable delayed_first_stdin' \
+every='__load_loadable every' \
 history_current_command='__load_loadable history_current_command' \
+history_last_command='__load_loadable history_last_command' \
 sh_require='__load_loadable sh_require' \
+some='__load_loadable some' \
+time='__load_loadable time' \
 ;
 return
 # }

@@ -1,6 +1,6 @@
 #!/ /hirt/bash
 
-some() {
+every() {
 	for i in "${PIPESTATUS[@]}"; do
 		(( ! i )) || return "$i"
 	done
