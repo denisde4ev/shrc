@@ -1,4 +1,4 @@
-#!/ /hint/bash
+#! /hint/bash
 
 
 # Shift+Tab: alias-expand-line

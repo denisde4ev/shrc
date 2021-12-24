@@ -1,4 +1,4 @@
-#!/ /hint/sh
+#! /hint/sh
 
 
 # NOT NEEDED, command_not_found_handle will load it 

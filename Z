@@ -1,4 +1,4 @@
-#!/ /hint/sh
+#! /hint/sh
 alias Z='Zout-printf' Zbat='Zin-bat' Zcat='Zin-cat' Zdirname='Zout-dirname' Zgrep='Zio-grep' Zhead='Zin-head' Zid='Zout-id' Zin-bat='bat -A' Zin-cat='cat -vte' Zin-head='head -z' Zin-read='read -r d ""' Zin-sed='sed -z' Zin-sort='soet -z' Zin-tail='tail -z' Zin-xargs='xargs -0 ' Zio-grep='grep -z          -Z' Zio-tr='tr \\0\\n \\n\\0' Zout-dirname='dirname -z' Zout-grep='grep -z' Zout-id='id -z' Zout-printf='printf "%s\0"' Zprintf='Zout-printf' Zread='Zin-read' Zsed='Zin-sed' Zsort='Zin-sort' Ztail='Zin-tail' Ztr='Zio-tr' Zx='Zxargs ' Zx%='Zx -I% ' Zxargs='Zin-xargs ' x='xargs ' x%='x -I% ' xargs='\xargs -d          \\n -r' xo='(x% open %)' ;return
 # cached line
 return;

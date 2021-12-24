@@ -1,4 +1,4 @@
-#!/ /hint/bash
+#! /hint/bash
 
 command_not_found_handle() {
 	: ::: command_not_found_handle "$@" ::: :

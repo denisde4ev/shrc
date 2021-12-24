@@ -1,4 +1,4 @@
-#!/ /hint/sh
+#! /hint/sh
 
 alias \
 	i='unset i' \

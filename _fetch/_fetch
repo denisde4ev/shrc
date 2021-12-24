@@ -1,4 +1,4 @@
-#!/ /hint/sh
+#! /hint/sh
 
 ( # isolate in subshell (...)
 	i=$(shuf_1 ~/B/_fetch/[!_.]*[!%~])

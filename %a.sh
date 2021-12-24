@@ -1,3 +1,3 @@
-#!/ /hint/sh
+#! /hint/sh
 
 alias '%%=fg'

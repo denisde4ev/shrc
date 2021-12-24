@@ -1,4 +1,4 @@
-#!/ /hint/sh
+#! /hint/sh
 
 # unalias -a # for now not a problem
 

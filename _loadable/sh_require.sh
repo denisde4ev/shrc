@@ -1,4 +1,4 @@
-#!/ /hint/sh
+#! /hint/sh
 
 case ${0##*/} in
 	sh__require.sh|sh_require)

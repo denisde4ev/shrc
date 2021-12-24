@@ -1,4 +1,4 @@
-#!/ /hint/sh
+#! /hint/sh
 
 # Arch Wiki: XDG Base Directory
 # https://wiki.archlinux.org/index.php/XDG_Base_Directory

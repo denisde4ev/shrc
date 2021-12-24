@@ -1,4 +1,4 @@
-#!/ /hint/sh
+#! /hint/sh
 
 # $EDITOR comes from ./_env
 

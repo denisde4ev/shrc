@@ -1,4 +1,4 @@
-#!/ /hint/sh
+#! /hint/sh
 
 # at least enshure that var is not defined when using local, dont ever use 'local i=1' or 'local i=$(ls)'
 local() {

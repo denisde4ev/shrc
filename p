@@ -1,4 +1,4 @@
-#!/ /hint/sh
+#! /hint/sh
 
 command. pacman || return
 

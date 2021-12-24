@@ -1,4 +1,4 @@
-#!/ /hint/sh
+#! /hint/sh
 
 # ll.parents='_ll_parents	'
 _ll_parents() {

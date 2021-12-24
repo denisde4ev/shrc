@@ -1,4 +1,4 @@
-#!/ /hint/sh
+#! /hint/sh
 
 if [ "$WAYLAND_DISPLAY" != '' ] && command. wl-copy; then
 	alias cin='wl-copy -n' cout='wl-paste'

@@ -1,4 +1,4 @@
-#!/ /hint/bash
+#! /hint/bash
 
 	#$(alias | sed -nEe 's/^alias ([^=]*which[^=]*).+/\1/p') \
 for i in \

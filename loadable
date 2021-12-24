@@ -1,4 +1,4 @@
-#!/ /hint/sh
+#! /hint/sh
 
 __load_loadable() {
 	unalias "$1" 2>&- || {
