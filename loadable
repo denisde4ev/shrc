@@ -10,7 +10,7 @@ __load_loadable() {
 	# for now no bash specific fn-s
 	case $sh_is in
 	bash)
-		if [ -r ~/B/_loadable/"$1".bash ]; then
+		if [ -e ~/B/_loadable/"$1".bash ]; then
 			. ~/B/_loadable/"$1".bash
 		else
 			. ~/B/_loadable/"$1".sh
@@ -48,13 +48,15 @@ set-x='_set_x' \
 
 # P='__load_loadable_byfile %%PacmanSyu.sh P' \
 
-${sh_is_bash+
-alias
-arg='__load_loadable arg'
-}
-# GENERATED USING: ( printf 'alias \\\n'; alias | rg "='__load_loadable" | sed 's/^alias //; s/$/ \\/'; printf ';\nreturn\n' )
-# CACHED LINE: {
+# ${sh_is_bash+
+# alias
+# arg='__load_loadable arg'
+# }
+##### TODOOOO: current cache does not separate non bash and sh versions, current cache uses bash's
+# # GENERATED USING: ( printf 'alias \\\n'; alias | rg "='__load_loadable" | sed 's/^alias //; s/$/ \\/'; printf ';\nreturn\n' )
+# # CACHED LINE: {
 alias \
+P='__load_loadable P' \
 YN_confirm='__load_loadable YN_confirm' \
 __load_loadable_byfile='__load_loadable __load_loadable_byfile' \
 _cd__='__load_loadable _cd__' \
@@ -66,21 +68,22 @@ _plus_='__load_loadable _plus_' \
 _pwd_='__load_loadable _pwd_' \
 _set_x='__load_loadable _set_x' \
 _song='__load_loadable _song' \
+arg='__load_loadable arg' \
 delayed_first_stdin='__load_loadable delayed_first_stdin' \
 every='__load_loadable every' \
 history_current_command='__load_loadable history_current_command' \
 history_last_command='__load_loadable history_last_command' \
+pacascii='__load_loadable pacascii' \
 sh_require='__load_loadable sh_require' \
 some='__load_loadable some' \
-time='__load_loadable time' \
 ;
 return
-# }
+# # }
 
 for i in ~/B/_loadable/[a-zA-Z0-9_]*.sh ${sh_is_bash+~/B/_loadable/[a-zA-Z0-9_]*.bash}; do
 	i=${i##*/}
 	i=${i%.*}
-	arg "$i"
+	# arg "$i"
 	# (dont use for now fn): eval "$i(){ __load_loadable $i \"\$@\" }"
 	alias "$i"="__load_loadable $i"
 done

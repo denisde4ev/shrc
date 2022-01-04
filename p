@@ -2,23 +2,6 @@
 
 command. pacman || return
 
-pacascii() {
-lolcat <<PACASCII >&2  # ASCII source: http://www.ascii-art.de/ascii/pqr/pacman.txt + my small edit
-=================================================.
-     .-.   .-.     .--.                          |
-    | OO| | OO|   / _.-' .-.   .-.  .-.    .''.  |
-    |   | |   |   \  '-. '-'   '-'  '-'    '..'  |
-    '^^^' '^^^'    '--'                          |
-===============.  .-.  .=================.       |
-               | |   | |                 |  .-.  |
-               | |   | |                 |  '-'  |
-               | '^^^' |                 |       |
-               |  .-.  |                 |  .-.  |
-               |  '-'  |                 |  '-'  |
-==============='       '================='       |
-PACASCII
-#'fix
-}
 
 # AUR helper assuming trizen is installed
 alias \
@@ -39,9 +22,10 @@ trizne='$ "pacascii;trize")' \
 trzen='$ "pacascii;trizen"' \
 \
 \
-p='trizen'  P='__load_loadable_byfile %%PacmanSyu.sh P' \
+p='trizen' \
 rm.pacmanlock='rm /var/lib/pacman/db.lck' \
 ;
+ # P='__load_loadable_byfile %%PacmanSyu.sh P' \
 # p='trizen'  P='( sudo sh -c "\YN_confirm \"cleanup before upgrade\" yes && pacman -Rus $(pacman -Qtdq); pacman -Sy && { \YN_confirm "update file database" no || pacman -Fy; }  && pacman -Su" && trizen -Sau )' \
 
 # p() {

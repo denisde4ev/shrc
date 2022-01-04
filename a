@@ -53,7 +53,7 @@ mktmp=mktemp \
 mkd=mkdir \
 \
 mv='\mv -vi' cp='\cp -vi' ln='\ln -vi' chmod='\chmod -v' chown='\chown -v' readlink='\readlink -v' \
-mvT='mv -T' cpT='cp -T' lnT='ln -T' \
+mvT='mv -T' cpT='cp -T' ln-fTv='\ln -fTv' \
 mount='\mount -v' \
 rm='\rm -v' rmt='rmtrash -v -r' \
 umount='\umount -v' umount-fzf='\umount-fzf -v' mv-ln='\mv-ln -vi'${os_gnu+" -r"} \
@@ -66,7 +66,7 @@ Iown.g='chown "${UID:-"$(id -u)"}:${GROUPSB-"$(id -g)"}"' \
 192='ip route get 1 | rg -o "src [^ ]*" | cut-f 2' \
 myip='curl -s ipinfo.io/ip' \
 1.1='ping 1.1' \
-ping='\ping -c 8' \
+ping='\ping -c 128' \
 \
 rsync='\rsync -azvhP' \
 fuserumount='fusermount -u' \

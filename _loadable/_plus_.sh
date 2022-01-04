@@ -73,8 +73,9 @@ local nl;nl='
 			;;
 			*)
 				local PS4;PS4=' \$ '
-				set -x # TODO: trap set +x
-				"$@"
+				local i=$1; shift
+				# TODO: trap set +x
+				eval "set -x; $i \"\$@\""
 				{ # this block code in MOST shells will not print
 					# local _lastexitstat;_lastexitstat=$?
 					# set +x;
@@ -170,7 +171,7 @@ local nl;nl='
 
 	case $1 in */*)
 		YN_confirm " \$ cd.. \$@$nl   #" y && {
-			_plus_cmd_verbose cd.. "$@"
+			_plus_cmd_verbose cd.. "$@" # TODOOO: cd.. is alias and does not work in "$@"
 			return
 			cd_warning
 		}

@@ -4,6 +4,6 @@ i=$(shuf_1 ~/B/_fetch/[!_.]*[!%~]) || return
 
 ( . "$i" )
 
-case ${i##*/} in 16|color-eudaldgr|fetchName|_fetch.sh|%nofetch)
+case ${i##*/} in 16|color-eudaldgr|mini-colors|fetchName|_fetch.sh|%nofetch)
 	PS1-ash
 esac

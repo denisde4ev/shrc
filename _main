@@ -1,6 +1,6 @@
 #! /hint/sh
 
-# unalias -a # for now not a problem
+#unalias -a # for now not a problem
 
 # SHELL DETECTION:
 sh_is=${BASH_VERSION+bash}${KSH_VERSION+ksh}${NETBSD_SHELL+netbsd}${POSH_VERSION+posh}${SH_VERSION+sh}${YASH_VERSION+yash}${ZSH_VERSION+zsh}${BB_ASH_VERSION+bb_ash}
@@ -46,4 +46,4 @@ sh_is_=${sh_is_bash+bash}${sh_is_zsh+zsh}${sh_is_ash+sh}${sh_is_sh+sh} # note as
 • ~/B/%[!_.%]*."$sh_is_"
 . ~/B/_fetch/_fetch"${sh_is_sh+".sh"}" >&2 0<&-
 
-i
+return 0

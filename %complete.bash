@@ -29,11 +29,11 @@ complete -F _tldr tldr
 _tldr() { complete -W "$(tldr 2>/dev/null --list)" tldr; }
 
 
-complete -F _minimal pwd
-
+complete -d pwd
 
 return
 
+# complete -F _minimal pwd
 
 
 # {
