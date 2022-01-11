@@ -5,7 +5,7 @@ history_current_command__nosubshell() {
 		unset i
 		IFS='' read -r i
 		while IFS='' read -r j; do i="$j"; j=$i; done
-		echo-1l "$r"
+		puts "$r"
 	} << EOF
 $(history)
 EOF
@@ -22,10 +22,10 @@ EOF
 		i=${i#"${i%%[! ]*}"}   # trim start spaces (again x2) just in case
 	esac
 	history_current_command=$1
-	# echo-1l "$r"
+	# puts "$r"
 }
 
 history_current_command() {
 	history_current_command__nosubshell "$@";
-	echo-1l "$history_current_command"
+	puts "$history_current_command"
 }

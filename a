@@ -21,14 +21,14 @@ mongod='\mongod --logpath /dev/stdout' \
 cd.mktemp='cd "$(mktemp -d)"' \
 cd-='cd -' \
 \
-path='( IFS=${PATHseparator:-":"}; set -f; echo-1l $PATH )' \
+path='( IFS=${PATHseparator:-":"}; set -f; puts $PATH )' \
 printf.quote-this='printf %s\\n \!#:q' \
 printf.quote='printf "%q\\n"' \
 nbsp='printf \\uA0\\n' \
 \
 '-=echo ' \
 '?-=quote ' \
-'?-1l=echo-1l ' \
+'?-1l=puts ' \
 'R!=history -r' \
 'S!=sudo \$ "$(history -p \!\!)"' \
 'D!=doas \$ "$(history -p \!\!)"' \

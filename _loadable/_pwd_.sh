@@ -4,6 +4,6 @@ _pwd_() {
 	case $1 in
 		-z) shift; fori{{ printf %s\\0 "$PWD/$i"; }};;
 		''|-*|-[LP]) \pwd;;
-		*) fori{{ echo-1l "$PWD/$i"; }};;
+		*) fori{{ puts "$PWD/$i"; }};;
 	esac
 }

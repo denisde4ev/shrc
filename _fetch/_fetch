@@ -1,4 +1,5 @@
 #! /hint/sh
+${shell_is_interactive-return}
 
 i=$(shuf_1 ~/B/_fetch/[!_.]*[!%~]) || return
 

@@ -7,7 +7,7 @@ history_current_command() {
 			history | {
 				unset r
 				while read -r i; do r=$i; done
-				echo-1l "$r"
+				puts "$r"
 			}
 		) || return
 
@@ -20,5 +20,5 @@ history_current_command() {
 		i=${i#"$1"}
 		# i=${i#"${i%%[! ]*}"}   # trim start spaces (again x2) just in case
 
-		echo-1l "$i"
+		puts "$i"
 }

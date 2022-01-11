@@ -2,7 +2,7 @@
 
 alias \
 	i='unset i' \
-	echo-1l='printf %s\\n' \
+	puts='printf %s\\n' \
 	command.='command >/dev/null -v' \
 	\
 	fori='for i in' fori{{='for i;{{' '{{=do' '}}=done' \
@@ -31,9 +31,8 @@ fi
 
 # if ( i=_; : "${!i}" ) 2>/dev/null 1>/dev/null; then
 case $sh_is in
-	bash|zsh)   shuf_1() { i=$(( ( ${RANDOM:?} % $# ) + 1 )); echo-1l "${!i}"; i; };;
-	ash|bb_ash) shuf_1() { eval "( echo-1l \"\${$(( ( ${${RANDOM:?} % $# ) + 1 ))}\" )"; };;
-	*)          shuf_1() { eval "( echo-1l \"\${$(( ( $$            % $# ) + 1 ))}\" )"; };;
+	bash|zsh)  shuf_1() { i=$(( ( ${RANDOM:?}   % $# ) + 1 )); puts "${!i}"; i; };;
+	*)         shuf_1() { i=$(( ( ${RANDOM:-$$} % $# ) + 1 )); eval "puts \"\${${i}}\""; i; };; # "$$" still got for 1 time usage
 esac
 
 # GNUtector detect if GNU coreutils options are supported
@@ -48,7 +47,7 @@ case ${OSTYPE:-$(uname -o)} in
 			ls) os_bb='';; # applet is build in
 			*/ls) false;;
 			*)
-			echo-1l >&2 \
+			puts >&2 \
 				"~/B/_core: got unexpected output" \
 				"~/B/_core: \$ command -v ls -> $i" \
 				"~/B/_core: \$?:$?" \
@@ -60,7 +59,7 @@ case ${OSTYPE:-$(uname -o)} in
 				0:*/busybox|busybox) os_bb='';;
 				0:*/toybox|toybox) os_bb=''; os_toybox='';;
 				*)
-				echo-1l >&2 \
+				puts >&2 \
 					"~/B/_core: well idk then what this OS this is, 'ls' seems to not be a symlink" \
 					"~/B/_core: \$ readlink -- \$(command -v ls) -> $i" \
 					"~/B/_core: \$?:$?" \
@@ -69,7 +68,7 @@ case ${OSTYPE:-$(uname -o)} in
 			esac
 		}
 	;;
-	*) echo-1l >&2 "~/B/_core: cannot detect current os GNU/(Busybox+Musl)/Android"; return 1;;
+	*) puts >&2 "~/B/_core: cannot detect current os GNU/(Busybox+Musl)/Android"; return 1;;
 esac
 i
 

@@ -9,7 +9,7 @@ alias PS1--+="PS1='\$( (exit \$?) || echo \"\\[\\e[31m\\]\$?\\[\\[\\e[m\")\[\\e[
 
 
 # GENERATED FROM:: 
-# ( PS1='\w \$ ' && . ~B/%PS.bash && PS1=PS1=${PS1@Q} && echo-1l "PS1-ash=${PS1@Q}" ) | cin
+# ( PS1='\w \$ ' && . ~B/%PS.bash && PS1=PS1=${PS1@Q} && puts "PS1-ash=${PS1@Q}" ) | cin
 
 
 # cin <<< alias\ PS1-ash="${PS1@Q}"

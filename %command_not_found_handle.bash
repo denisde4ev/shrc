@@ -11,7 +11,7 @@ command_not_found_handle() {
 	case $1 in
 	which)
 		i=$(command -v -- "$2") && \
-		case $i in */*) echo-1l "$i"; return; esac
+		case $i in */*) puts "$i"; return; esac
 		;;
 	*"#")
 		i=$(history_current_command "$1") && {
