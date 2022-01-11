@@ -5,7 +5,7 @@ if   case ${WAYLAND_DISPLAY+x} in x) command. wl-copy; esac; then
 elif case ${DISPLAY+x}         in x) command. xclip;   esac; then
 	alias cin='xclip -sel clip -r' cout='xclip -sel clip -o'
 	alias c.png=cin.png cin.png='xclip -selection clipboard -t image/png'                                                                                                                      # https://github.com/TAAPArthur/SystemConfig/blob/4dbf115e429aef736c9117105b1800a742b96217/bin/screenshot
-elif command. termux-clipboard-set && \
+elif command. termux-clipboard-set; then
 	alias cin=termux-clipboard-set cout=termux-clipboard-get
 else
 	return
