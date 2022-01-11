@@ -1,4 +1,4 @@
-#!/hint/bash
+#! /hint/bash
 
 # STRICTLY FOR BASH (maby zsh idk)
 

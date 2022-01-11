@@ -1,4 +1,3 @@
-#!/hint/bash
 
 _type_() {
 	local o=()
@@ -14,5 +13,3 @@ _type_() {
 	done
 	\type "${o[@]}" "${a[@]}" "$@"
 }
-
-alias 'type=_type_' '?=type' '??=type -a' # ?- is from ~/B/a

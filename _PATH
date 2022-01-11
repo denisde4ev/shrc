@@ -1,7 +1,8 @@
-#!/hint/bash
+#! /hint/bash
 
 case :$PATH: in *:$HOME/bin/@op5t-termux:*) return;esac
 PATH=\
+~/bin/_/firefox:\
 ~/bin/HOME-disallowed.d:\
 \
 ~/bin/home:\

@@ -18,7 +18,7 @@ YN_confirm() {
 
 	local respond;respond=''
 	read respond </dev/tty || {
-		case ${2:-} in [Yy]es|[Nn]?*) return 0; esac
+		case ${2:-} in [Yy]es) return 0; esac
 		return 5
 	}
 
@@ -30,15 +30,6 @@ YN_confirm() {
 		# fi
 		## For now fail to read  is not important,
 		## still will take default option, respond remains '' 
-
-
-	## todo: integrate this exit status from fzf
-	# EXIT STATUS
-	# 0      Normal exit
-	# 1      No match
-	# 2      Error
-	# 130    Interrupted with CTRL-C or ESC
-
 	
 	
 	case $respond in

@@ -13,6 +13,21 @@ alias \
 command. local     || . ~/B/%local.fallback
 command. com-which || . ~/B/%com-which.fallback
 
+if case $- in
+	-|'')
+		case $PS1 in
+			'') false;;
+			*) true;;
+		esac
+	;;
+	*i*) true;;
+	*) false;;
+esac; then
+	shell_is_interactive=''
+else
+	unset shell_is_interactive
+fi
+
 
 # if ( i=_; : "${!i}" ) 2>/dev/null 1>/dev/null; then
 case $sh_is in

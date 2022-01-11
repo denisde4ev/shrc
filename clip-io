@@ -1,11 +1,11 @@
 #! /hint/sh
 
-if [ "$WAYLAND_DISPLAY" != '' ] && command. wl-copy; then
+if   case ${WAYLAND_DISPLAY+x} in x) command. wl-copy; esac; then
 	alias cin='wl-copy -n' cout='wl-paste'
-elif [ "$DISPLAY" != '' ] && command. xclip; then
+elif case ${DISPLAY+x}         in x) command. xclip;   esac; then
 	alias cin='xclip -sel clip -r' cout='xclip -sel clip -o'
 	alias c.png=cin.png cin.png='xclip -selection clipboard -t image/png'                                                                                                                      # https://github.com/TAAPArthur/SystemConfig/blob/4dbf115e429aef736c9117105b1800a742b96217/bin/screenshot
-elif [ "$PREFIX" != '' ] && command. termux-clipboard-set; then
+elif command. termux-clipboard-set && \
 	alias cin=termux-clipboard-set cout=termux-clipboard-get
 else
 	return
@@ -24,7 +24,7 @@ alias \
 
 clip_io() {
 	[ -t 0 -a $# -eq 0 ] || {
-		printf %s "$*" # yes, use IFS
+		printf %s "$*"
 		[ -t 0 ] || cat
 	} | cin   && {
 		[ -t 1 ] || cout >&2

@@ -1,4 +1,4 @@
-#!/hint/sh
+#! /hint/sh
 
 
 case $- in *i*)

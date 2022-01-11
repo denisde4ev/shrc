@@ -1,4 +1,5 @@
-#!/ /hint/ash
+#! /hint/ash
+${shell_is_interactive-return}
 
 # NOTE: this file is symlinked from .ash to .bash version,
 # so keep syntax compatible with ash!

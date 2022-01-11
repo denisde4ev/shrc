@@ -43,7 +43,9 @@ pwd=_pwd_ \
 +='_plus_' \
 ll.parents='_ll_parents' \
 set-x='_set_x' \
+'type=_type_' '?=_type_' '??=_type_ -a' \
 ;
+# ?- is from ~/B/a
 
 
 # P='__load_loadable_byfile %%PacmanSyu.sh P' \

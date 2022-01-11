@@ -1,4 +1,4 @@
-#!/hint/ash
+#! /hint/ash
 # shellcheck shell=bash
 
 # [[ $0 = bash ]] &&

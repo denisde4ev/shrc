@@ -1,4 +1,4 @@
-#!/hint/bash
+#! /hint/bash
 
 ui=$(tty)
 [[ $ui != /dev/tty[0-9]* ]] &&

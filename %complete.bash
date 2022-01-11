@@ -1,4 +1,5 @@
 #! /hint/bash
+${shell_is_interactive-return}
 
 	#$(alias | sed -nEe 's/^alias ([^=]*which[^=]*).+/\1/p') \
 for i in \
@@ -29,11 +30,14 @@ complete -F _tldr tldr
 _tldr() { complete -W "$(tldr 2>/dev/null --list)" tldr; }
 
 
-complete -d pwd
+if command. _minimal; then
+	complete -F _minimal pwd
+else
+	complete -d pwd
+fi
 
 return
 
-# complete -F _minimal pwd
 
 
 # {

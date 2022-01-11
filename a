@@ -1,13 +1,9 @@
 #! /hint/sh
-
-
-
 alias \
 \
 whatislove='( printf "What is love?\\nOh baby, don\\x27t hurt me\\nDon\\x27t hurt me\\nNo more...\\n" )' \
 whatislove.stderr='( printf "What is love?\\nOh baby, don\\x27t hurt me\\n"; printf "Don\\x27t hurt me\\n" >&2; printf "No more...\\n" )' \
 foo='echo bar' \
-\
 \
 \
 xmrig='( case $TERM in screen-*) xmrig ;; *) byobu new doas xmrig; esac )' \
