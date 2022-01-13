@@ -1,9 +1,7 @@
 #! /hint/sh
 ${shell_is_interactive-return}
 
-i=$(shuf_1 ~/B/_fetch/[!_.]*[!%~]) || return
-
-( . "$i" )
+( cd ~/B/_fetch && . "$(       shuf_1 ./[!_.%]*[!%~])"          )  >&2 0<&-
 
 case ${i##*/} in 16|color-eudaldgr|mini-colors|fetchName|_fetch.sh|%nofetch)
 	PS1-ash

@@ -1,3 +1,4 @@
+
 #! /hint/sh
 
 alias \
@@ -10,24 +11,19 @@ alias \
 	and='(exit $?)&&' or='(exit $?)||' \
 ;
 
-command. local     || . ~/B/%local.fallback
-command. com-which || . ~/B/%com-which.fallback
+command. local     || . ~/B/_fallback/%local
+command. com-which || . ~/B/_fallback/%com-which
 
-if case $- in
+case $- in
 	-|'')
 		case $PS1 in
-			'') false;;
-			*) true;;
+		'') unset shell_is_interactive;;
+		*) shell_is_interactive='';;
 		esac
 	;;
-	*i*) true;;
-	*) false;;
-esac; then
-	shell_is_interactive=''
-else
-	unset shell_is_interactive
-fi
-
+	*i*) shell_is_interactive='';;
+	*) unset shell_is_interactive;;
+esac
 
 # if ( i=_; : "${!i}" ) 2>/dev/null 1>/dev/null; then
 case $sh_is in
@@ -36,11 +32,11 @@ case $sh_is in
 esac
 
 # GNUtector detect if GNU coreutils options are supported
-unset os_gnu os_an os_busybox os_toybox
+unset os_gnu os_an os_busybox os_toybox os_win
 case ${OSTYPE:-$(uname -o)} in
 	linux-gnu|GNU/Linux)   os_gnu='';; # check for GNU+Busybox is not important for now
 	linux-android|Android) os_an='';; # Termux? but it could be busybox toybox termux or any other shell app ..
-	# TODO windows
+	MS/Windows) os_win='';;
 	linux-musl|Linux) # Alpine, KISS
 		i=$(command -v ls)
 		case $i in # note: this will fail if ls is alias or fn
@@ -68,7 +64,7 @@ case ${OSTYPE:-$(uname -o)} in
 			esac
 		}
 	;;
-	*) puts >&2 "~/B/_core: cannot detect current os GNU/(Busybox+Musl)/Android"; return 1;;
+	*) puts >&2 "~/B/_core: cannot detect current os ${OSTYPE:-$(uname -o)} in GNU || (Busybox+Musl) || Android || WINDOWS"; return 1;;
 esac
 i
 

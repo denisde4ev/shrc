@@ -27,14 +27,15 @@ esac
 #  check what wiki says in this case.
 [ -e ~/.config/user-dirs.dirs ] && . ~/B/_homedir-vars
 
-. ~/B/_env
-. ~/B/_PATH
-. ~/B/_core
-
 # big dot / "BULLET" (U+2022) -> alias •=source_all :
 . ~/B/_U+2022•
 
-•  ~/B/[!_.%]*[!%~] ~/B/[!_.%~]
+• \
+	~/B/_env \
+	~/B/_PATH \
+	~/B/_core \
+	~/B/[!_.%]*[!%~] ~/B/[!_.%~] \
+;
 
 
 # has args OR if xtrace(set -x) is on, then dont execute shell specific 'rc' and fetch/color script:
@@ -43,7 +44,10 @@ case $#:${sh_isin_cmd+1}:$({ :; } 2>&1) in 0::) ;; *) return 0; esac
 
 sh_is_=${sh_is_bash+bash}${sh_is_zsh+zsh}${sh_is_ash+sh}${sh_is_sh+sh} # note ash runs *.sh files
 
-• ~/B/%[!_.%]*."$sh_is_"
-. ~/B/_fetch/_fetch"${sh_is_sh+".sh"}" >&2 0<&-
+• \
+	~/B/%[!_.%]*."$sh_is_" \
+	~/B/_loadable/LOADABLE \
+	~/B/_fetch/_fetch"${sh_is_sh+".sh"}" \
+;
 
 return 0
