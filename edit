@@ -3,7 +3,7 @@
 # $EDITOR comes from ./_env
 
 [ "${EDITOR:-}" != '' ] || {
-	for i in edit micro nano vim vi ed less most more cat CAT false; do
+	for i in micro nano vim vi ed edit less most more cat CAT false; do
 		command. "$i" || continue
 		case $i in
 			false) return;;
@@ -24,8 +24,7 @@ case $(command -v com-which) in
 		alias e.which.alias='alias | com-which --com=edit --read-alias'
 	;;
 	*)
-		e_which() { ( IFS=$'\n'; "${EDITOR:-vi}" $(which "$@") ) }
-		alias e.which=e_which
+		alias e.which=e_which # note this fn comes from ~/B/_loadable/
 	;;
 esac
 

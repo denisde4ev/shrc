@@ -57,7 +57,7 @@ set-x='_set_x' \
 ##### TODOOOO: current cache does not separate non bash and sh versions, current cache uses bash's
 # # GENERATED USING: ( printf 'alias \\\n'; alias | rg "='__load_loadable" | sed 's/^alias //; s/$/ \\/'; printf ';\nreturn\n' )
 # # CACHED LINE: {
-alias \
+false && alias \
 P='__load_loadable P' \
 YN_confirm='__load_loadable YN_confirm' \
 __load_loadable_byfile='__load_loadable __load_loadable_byfile' \
@@ -78,7 +78,7 @@ history_last_command='__load_loadable history_last_command' \
 pacascii='__load_loadable pacascii' \
 sh_require='__load_loadable sh_require' \
 some='__load_loadable some' \
-;
+&& \
 return
 # # }
 

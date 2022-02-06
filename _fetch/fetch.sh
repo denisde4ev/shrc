@@ -92,7 +92,7 @@ printf "$_r${c:+"\\33[3${c}m"}%s" "$a" # prints ASCII
 
 
 
-ui=$(tty);
+ui=$(tty) || : # gots false when "no a tty"
 case $ui in /dev/tty*) false;; esac && \
 if [ "${DE-}:${WM-}" != : ]; then    ui="${DE+DE}${DE+${WM+/}}${WM+WM}      ${DE+${WM+$'\33[3D'}}$DE${DE+${WM+/}}$WM"
 elif [ "${XDG_CURRENT_DESKTOP-}:${DESKTOP_SESSION-}" != : ];   then ui="DE:      ${XDG_CURRENT_DESKTOP-}${XDG_CURRENT_DESKTOP+${DESKTOP_SESSION+, }}${DESKTOP_SESSION-}"
@@ -103,12 +103,13 @@ elif [ -r ~/.xinitrc ]||[ -r ~/.xsession ]; then
 		pidof -- "$i" >/dev/null 2>&1 && x=$x$i' '
 	done
 	[ "${x%" "}" != '' ] && ui="WM:      ${x%" "}"
-else false
+else
+	false # leave ui as `tty` output
 fi || \
 ui="TTY:     ${ui#/dev/}${SSH_TTY+, ssh}"
 
 
-b=''
+b='' # detect battery
 for i in /sys/class/power_supply/{{BAT,axp288_fuel_gauge,CMB}*,battery}; do
 	[ -r "$i/capacity" ] || continue
 	read capacity < "$i"/capacity

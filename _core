@@ -1,4 +1,3 @@
-
 #! /hint/sh
 
 alias \
@@ -11,8 +10,7 @@ alias \
 	and='(exit $?)&&' or='(exit $?)||' \
 ;
 
-command. local     || . ~/B/_fallback/%local
-command. com-which || . ~/B/_fallback/%com-which
+. ~/B/_fallback/_fallback
 
 case $- in
 	-|'')

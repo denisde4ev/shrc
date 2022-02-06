@@ -1,0 +1,8 @@
+#! /hint/sh
+
+__e_which() { (
+	IFS=${NEW_LINE:-$'\n'}
+	edit $(which "$@")
+) }
+
+alias e.which=__e_which

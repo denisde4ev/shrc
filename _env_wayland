@@ -1,0 +1,18 @@
+#! /hint/sh
+return 
+export \
+GDK_BACKEND=wayland \
+QT_QPA_PLATFORM=wayland-egl \
+CLUTTER_BACKEND=wayland \
+SDL_VIDEODRIVER=wayland \
+\
+MOZ_ENABLE_WAYLAND=1 \
+\
+\
+QT_SCALE_FACTOR=1 \
+QT_WAYLAND_DISABLE_WINDOWDECORATION=1 \
+XDG_SESSION_TYPE=wayland \
+\
+QT_QPA_PLATFORMTHEME=qt5ct \
+MOZ_WEBRENDER=1 \
+;

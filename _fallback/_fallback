@@ -1,0 +1,10 @@
+#! /hint/sh
+
+
+for i in ~/B/_fallback/[!_.%]*[!%~]; do
+	command. "${i##*/}" || . "$i"
+done
+i
+
+# command. com-which || . ~/B/_fallback/com-which
+# command. local || . ~/B/_fallback/local

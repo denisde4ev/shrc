@@ -54,10 +54,10 @@ mount='\mount -v' \
 rm='\rm -v' rmt='rmtrash -v -r' \
 umount='\umount -v' umount-fzf='\umount-fzf -v' mv-ln='\mv-ln -vi'${os_gnu+" -r"} \
 \
+Imount='mount --options "uid=${UID:-"$(id -n)"},gid=${GROUPS?:-"$(id -g)"}"' \
 Iown='chown "${UID:-"$(id -u)"}:${GROUPSB-"$(id -g)"}"' \
 Iown.u='chown "${UID:-"$(id -u)"}"' \
 Iown.g='chown "${UID:-"$(id -u)"}:${GROUPSB-"$(id -g)"}"' \
-0wn='chown 0:0' \
 777='chmod 777'  755='chmod 755' \
 192='ip route get 1 | rg -o "src [^ ]*" | cut-f 2' \
 myip='curl -s ipinfo.io/ip' \
@@ -106,6 +106,10 @@ dd-v="\\dd${os_gnu+" status=progress"}" \
 dd='\\dd 2>/dev/null' \
 ${sh_is_bash+l.did='ll -d /did/!(.|..|*-part*)'} \
 ${sh_is_bash-l.did='Zfind /did/ -maxdepth 1 -mindepth 1 -not -path "*-part*" | Zx ll -d --'} \
+\
+x='xargs ' xargs='\xargs -d \\n -r' \
+x%='x -I% ' \
+xo='(x% open %)' \
 ;
 
 
@@ -131,9 +135,11 @@ fi
 
 # ${os_gnu-return} # return if not gnu os
 
-case $NAME:$HOME in arcowo:/~arcowo) # we are home
-	alias minecraft-1.12.2='/~arcowo/0/game/MC/1.12.2/start' minecraft-1.16.5='/~arcowo/0/game/MC/1.16.5/start' mv++='/~arcowo/bin/_/mvpp/mv++'
+case $NAME:$HOME in
+	arcowo:/~arcowo) ;; # we are home
+	*) return;;
 esac
+	alias minecraft-1.12.2='/~arcowo/0/game/MC/1.12.2/start' minecraft-1.16.5='/~arcowo/0/game/MC/1.16.5/start' mv++='/~arcowo/bin/_/mvpp/mv++'
 
 return
 
@@ -146,6 +152,6 @@ return
 # mount-grep='mount | grep'
 # mount-grep-pwd='(mount | grep -o "$PWD[^ ]*")'
 # fd.err='>&2 '  fd.to2='>&2 '  fd.out='>&1 '  fd.to1='>&1 '
-
+# 0wn='chown 0:0' \
 
  # '/did' is (Disk ID) a symlink to '/dev/block/by-id'

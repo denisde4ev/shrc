@@ -2,7 +2,7 @@
 
 case :$PATH: in *:$HOME/bin/@op5t-termux:*) return;esac
 PATH=\
-~/bin/_/firefox:\
+~/bin/_/bins-trap:\
 ~/bin/HOME-disallowed.d:\
 \
 ~/bin/home:\

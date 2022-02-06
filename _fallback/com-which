@@ -1,0 +1,12 @@
+#! /hint/sh
+
+alias com-which=com_which;
+
+com_which(){(
+	set -feu
+	OPTIND=1;getopts c: _;x=$OPTARG
+	! getopts "" _;shift $((OPTIND-1))  # expected non arg or "--"
+	IFS=${NEW_LINE?};
+	set -- $(fori{{ which -- "$i"||puts "$i";}})
+	unset IFS; eval "${x:?} ${@+"\"\$@\""}" #"
+)}

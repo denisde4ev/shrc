@@ -1,6 +1,15 @@
 
 # set-x='_set_x'
 _set_x() { (
+	case $1 in .)
+		shift
+		SH_SOURCE=$1
+		shift
+		set -x;
+		. "$SH_SOURCE"
+		exit
+	esac
+
 	com=$1; shift
 	if compath=$(command -v "$com") && [ -x "$compath" ]; then
 		arg "compath" "$@"
