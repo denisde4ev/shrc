@@ -1,7 +1,9 @@
 #! /hint/sh
 
 alias \
-	i='unset i' \
+	i='{ case ${i+x} in       x) puts "warning: ${FUNCNAME+"(in $FUNCNAME)"} i is defined with value: $i"        >&2; esac }; unset i' \
+	I='{ case ${i+x} in x) ;; *) puts "warning: ${FUNCNAME+"(in $FUNCNAME)"} i was not defined but unset was requested" >&2; esac }; unset i' \
+	i{='i' }i='I' \
 	puts='printf %s\\n' \
 	command.='command >/dev/null -v' \
 	\
@@ -25,8 +27,8 @@ esac
 
 # if ( i=_; : "${!i}" ) 2>/dev/null 1>/dev/null; then
 case $sh_is in
-	bash|zsh)  shuf_1() { i=$(( ( ${RANDOM:?}   % $# ) + 1 )); puts "${!i}"; i; };;
-	*)         shuf_1() { i=$(( ( ${RANDOM:-$$} % $# ) + 1 )); eval "puts \"\${${i}}\""; i; };; # "$$" still got for 1 time usage
+	bash|zsh)  shuf_1() { i; i=$(( ( ${RANDOM:?}   % $# ) + 1 )); puts "${!i}"; I; };;
+	*)         shuf_1() { i; i=$(( ( ${RANDOM:-$$} % $# ) + 1 )); eval "puts \"\${${i}}\""; I; };; # "$$" still got for 1 time usage
 esac
 
 # GNUtector detect if GNU coreutils options are supported
