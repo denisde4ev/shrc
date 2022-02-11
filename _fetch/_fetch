@@ -1,7 +1,11 @@
 #! /hint/sh
 ${shell_is_interactive-return}
 
-( cd ~/B/_fetch && . "$(       shuf_1 ./[!_.%]*[!%~])"          )  >&2 0<&-
+( i{
+	cd ~/B/_fetch && \
+	shuf_1_toi ./[!_.%]*[!%~] && \
+	. "$i"
+}i )  >&2 0<&-
 #### testing: ( cd ~/B/_fetch && i=./fetch.sh; echo ========= $i ===== ; . "$i"          )  >&2 0<&-
 
 case ${i##*/} in 16|color-eudaldgr|mini-colors|fetchName|_fetch.sh|%nofetch)

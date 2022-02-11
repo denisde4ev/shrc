@@ -1,5 +1,6 @@
 #! /hint/sh
 alias \
+B='cd ~/B' \
 \
 whatislove='( printf "What is love?\\nOh baby, don\\x27t hurt me\\nDon\\x27t hurt me\\nNo more...\\n" )' \
 whatislove.stderr='( printf "What is love?\\nOh baby, don\\x27t hurt me\\n"; printf "Don\\x27t hurt me\\n" >&2; printf "No more...\\n" )' \
@@ -51,7 +52,7 @@ mkd=mkdir \
 mv='\mv -vi' cp='\cp -vi' ln='\ln -vi' chmod='\chmod -v' chown='\chown -v' readlink='\readlink -v' \
 mvT='mv -T' cpT='cp -T' ln-fTv='\ln -fTv' \
 mount='\mount -v' \
-rm='\rm -v' rmt='rmtrash -v -r' \
+rm='\rm -v' micro-diff-rm='\micro-diff-rm -v' rmt='rmtrash -v -r' \
 umount='\umount -v' umount-fzf='\umount-fzf -v' mv-ln='\mv-ln -vi'${os_gnu+" -r"} \
 \
 Imount='mount --options "uid=${UID:-"$(id -n)"},gid=${GROUPS?:-"$(id -g)"}"' \
@@ -135,11 +136,12 @@ fi
 
 # ${os_gnu-return} # return if not gnu os
 
-case $NAME:$HOME in
-	arcowo:/~arcowo) ;; # we are home
-	*) return;;
+case ${USER-}:${HOME-} in
+arcowo:/~arcowo) # we are home
+	alias minecraft-1.12.2='/~arcowo/0/game/MC/1.12.2/start' minecraft-1.16.5='/~arcowo/0/game/MC/1.16.5/start'
+	;;
+*) return;;
 esac
-	alias minecraft-1.12.2='/~arcowo/0/game/MC/1.12.2/start' minecraft-1.16.5='/~arcowo/0/game/MC/1.16.5/start' mv++='/~arcowo/bin/_/mvpp/mv++'
 
 return
 

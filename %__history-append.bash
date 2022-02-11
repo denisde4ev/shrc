@@ -37,11 +37,10 @@ _prompt_command_append() {
 case $TERM in
 	# xterm*|rxvt*|Eterm|aterm|kterm|gnome*) PROMPT_COMMAND='printf "\033]0;%s\007"  "'"$(a=\\$ eval echo '"\\${a@P} "')"'${PWD/#$HOME/\~}"' ;;
 	xterm*|rxvt*|Eterm|aterm|kterm|gnome*) 
-		if [ -n "$SSH_TTY" ]; then
-			PROMPT_COMMAND='printf "\033]0;%s\007"  "${USER:-$(id -un)}@${HOSTNAME:-$(hostname)} ${PWD/#$HOME/\~}"'
-		else
-			PROMPT_COMMAND='printf "\033]0;%s\007"  "$(a=\\\$ eval echo \"\${a@P} \") ${PWD/#$HOME/\~}"'
-		fi
+		case ${SSH_TTY+x} in
+			x) PROMPT_COMMAND='printf "\033]0;%s\007"  "${USER:-$(id -un)}@${HOSTNAME:-$(hostname)} ${PWD/#$HOME/\~}"';;
+			*) PROMPT_COMMAND='printf "\033]0;%s\007"  "$(a=\\\$ eval echo \"\${a@P} \") ${PWD/#$HOME/\~}"';;
+		esac
 	;;
 	screen*) PROMPT_COMMAND='printf "\033_%s\033\\"  "'"$(a=\\\$ eval echo \"\${a@P} \")"'${PWD/#$HOME/\~}"' ;;
 esac

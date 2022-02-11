@@ -83,8 +83,8 @@ set -x
 ps1=$(
 <<< "$PS1" sed -Ee '
 s%\\\[|\\\]%%g;
-s%\\u%\${USER}%g;
-s%\\h%${HOSTNAME:-$(o=$?;hostname;exit $o)}%g;
+s%\\u%\${USER:-\\\$USER}%g;
+s%\\h%${HOSTNAME-\\\$HOSTNAME}%g;
 # s%\\[Ww]%\${PWD##*/}%g;
 s%\\[Ww]%\$(o=$?;case "$PWD" in /)echo /;;~)echo "~";;*)basename -- "$PWD";;esac;exit $o)%g;
 s%\\e%$e%g;

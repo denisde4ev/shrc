@@ -1,3 +1,10 @@
 #! /hint/sh
-source_all() { i{; for i;do . "$i"; done; }i; }
+
+source_all() {
+	local source_all__file
+	for source_all__file; do
+		. "$source_all__file"
+	done
+	unset source_all__file
+}
 alias •=source_all 'â€¢'=source_all

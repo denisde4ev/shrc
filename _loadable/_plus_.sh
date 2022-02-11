@@ -169,30 +169,37 @@ local nl;nl='
 	esac
 
 
-	if [ -f "$1" ] ; then
-		case $1 in
-			*.tar.bz2)   tar xjf "$1"   ;;
-			*.tar.gz)    tar xzf "$1"   ;;
-			*.bz2)       bunzip2 "$1"   ;;
-			*.rar)       unrar x "$1"   ;;
-			*.gz)        gunzip "$1"    ;;
-			*.tar)       tar xf "$1"    ;;
-			*.tbz2)      tar xjf "$1"   ;;
-			*.tgz)       tar xzf "$1"   ;;
-			*.zip)       unzip "$1"     ;;
-			*.Z)         uncompress "$1";;
-			*.7z)        7z x "$1"      ;;
-			*.deb)       ar x "$1"      ;;
-			*.tar.xz)    tar xf "$1"    ;;
-			*.tar.zst)   tar xf "$1"    ;;
-			*)           echo "'"$1"' cannot be extracted via ex()" ;;
-		esac
-	fi
+	i{
+		[ $# -eq 1 ] && case $1 in
+			*.tar.bz2)   i='tar xjf   ';;
+			*.tar.gz)    i='tar xzf   ';;
+			*.bz2)       i='bunzip2   ';;
+			*.rar)       i='unrar x   ';;
+			*.gz)        i='gunzip    ';;
+			*.tar)       i='tar xf    ';;
+			*.tbz2)      i='tar xjf   ';;
+			*.tgz)       i='tar xzf   ';;
+			*.zip)       i='unzip     ';;
+			*.Z)         i='uncompress';;
+			*.7z)        i='7z x      ';;
+			*.deb)       i='ar x      ';;
+			*.tar.xz)    i='tar xf    ';;
+			*.tar.zst)   i='tar xf    ';;
+			*) false;;
+		esac && {
 
+			YN_confirm " \$ $i \$@$nl   #" y && {
+				_plus_cmd_verbose "$i" "$@"
+				return
+				cd_warning
+			}
+		}
+	}i
 
 	case $1 in */*)
 		YN_confirm " \$ cd.. \$@$nl   #" y && {
-			_plus_cmd_verbose cd.. "$@" # TODOOO: cd.. is alias and does not work in "$@"
+			 # TODOOO: check if in interactive shell, cd.. is alias and does not work in "$@"
+			_plus_cmd_verbose cd.. "$@"
 			return
 			cd_warning
 		}

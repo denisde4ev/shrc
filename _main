@@ -1,5 +1,7 @@
 #! /hint/sh
 
+set -u
+
 #unalias -a # for now not a problem
 
 # SHELL DETECTION:

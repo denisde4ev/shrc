@@ -1,8 +1,7 @@
 #! /hint/sh
-
 alias \
-	i='{ case ${i+x} in       x) puts "warning: ${FUNCNAME+"(in $FUNCNAME)"} i is defined with value: $i"        >&2; esac }; unset i' \
-	I='{ case ${i+x} in x) ;; *) puts "warning: ${FUNCNAME+"(in $FUNCNAME)"} i was not defined but unset was requested" >&2; esac }; unset i' \
+	i='{ case ${i+x} in       x) puts "warning: ${FUNCNAME+"(in fn $FUNCNAME)"} ${BASH_SOURCE+"(in file $BASH_SOURCE +$BASH_LINENO )"} i is defined with value: $i"        >&2; esac }; unset i' \
+	I='{ case ${i+x} in x) ;; *) puts "warning: ${FUNCNAME+"(in fn $FUNCNAME)"} ${BASH_SOURCE+"(in file $BASH_SOURCE +$BASH_LINENO )"} i was not defined but unset was requested" >&2; esac }; unset i' \
 	i{='i' }i='I' \
 	puts='printf %s\\n' \
 	command.='command >/dev/null -v' \
@@ -27,8 +26,8 @@ esac
 
 # if ( i=_; : "${!i}" ) 2>/dev/null 1>/dev/null; then
 case $sh_is in
-	bash|zsh)  shuf_1() { i; i=$(( ( ${RANDOM:?}   % $# ) + 1 )); puts "${!i}"; I; };;
-	*)         shuf_1() { i; i=$(( ( ${RANDOM:-$$} % $# ) + 1 )); eval "puts \"\${${i}}\""; I; };; # "$$" still got for 1 time usage
+	bash|zsh)  shuf_1_toi() { i=$(( ( ${RANDOM:?}   % $# ) + 1 )); i="${!i}"; unset shuf_1_ind; };;
+	*)         shuf_1_toi() { i=$(( ( ${RANDOM:-$$} % $# ) + 1 )); eval "i=\"\${${i}}\""; unset shuf_1_ind; };; # "$$" still got for 1 time usage
 esac
 
 # GNUtector detect if GNU coreutils options are supported
@@ -38,6 +37,7 @@ case ${OSTYPE:-$(uname -o)} in
 	linux-android|Android) os_an='';; # Termux? but it could be busybox toybox termux or any other shell app ..
 	MS/Windows) os_win='';;
 	linux-musl|Linux) # Alpine, KISS
+		i{
 		i=$(command -v ls)
 		case $i in # note: this will fail if ls is alias or fn
 			ls) os_bb='';; # applet is build in
@@ -62,11 +62,13 @@ case ${OSTYPE:-$(uname -o)} in
 				;	
 				return 1
 			esac
+		}i
 		}
 	;;
 	*) puts >&2 "~/B/_core: cannot detect current os ${OSTYPE:-$(uname -o)} in GNU || (Busybox+Musl) || Android || WINDOWS"; return 1;;
 esac
-i
+
+
 
 return
 
