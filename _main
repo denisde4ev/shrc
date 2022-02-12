@@ -1,5 +1,4 @@
 #! /hint/sh
-
 set -u
 
 #unalias -a # for now not a problem
@@ -31,6 +30,8 @@ esac
 
 # big dot / "BULLET" (U+2022) -> alias •=source_all :
 . ~/B/_U+2022•
+
+
 
 • \
 	~/B/_env \

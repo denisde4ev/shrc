@@ -2,6 +2,7 @@
 ${shell_is_interactive-return}
 
 	#$(alias | sed -nEe 's/^alias ([^=]*which[^=]*).+/\1/p') \
+i{
 for i in \
 cd.which \
 com-which \
@@ -24,6 +25,7 @@ do
 	# command arg expand:
 	complete -F _command "$i"
 done
+}i
 
 
 complete -F _tldr tldr

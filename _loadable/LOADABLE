@@ -82,6 +82,7 @@ some='__load_loadable some' \
 return
 # # }
 
+i{
 for i in ~/B/_loadable/[a-zA-Z0-9_]*.sh ${sh_is_bash+~/B/_loadable/[a-zA-Z0-9_]*.bash}; do
 	i=${i##*/}
 	i=${i%.*}
@@ -89,7 +90,7 @@ for i in ~/B/_loadable/[a-zA-Z0-9_]*.sh ${sh_is_bash+~/B/_loadable/[a-zA-Z0-9_]*
 	# (dont use for now fn): eval "$i(){ __load_loadable $i \"\$@\" }"
 	alias "$i"="__load_loadable $i"
 done
-
+}i
 
 # _plus_(){     __load_loadable _plus_     "$@"; };
 # YN_confirm(){ __load_loadable YN_confirm "$@"; };

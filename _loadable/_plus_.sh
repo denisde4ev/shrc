@@ -170,28 +170,28 @@ local nl;nl='
 
 
 	i{
+		local i=''
 		[ $# -eq 1 ] && case $1 in
-			*.tar.bz2)   i='tar xjf   ';;
-			*.tar.gz)    i='tar xzf   ';;
-			*.bz2)       i='bunzip2   ';;
-			*.rar)       i='unrar x   ';;
-			*.gz)        i='gunzip    ';;
-			*.tar)       i='tar xf    ';;
-			*.tbz2)      i='tar xjf   ';;
-			*.tgz)       i='tar xzf   ';;
-			*.zip)       i='unzip     ';;
-			*.Z)         i='uncompress';;
-			*.7z)        i='7z x      ';;
-			*.deb)       i='ar x      ';;
-			*.tar.xz)    i='tar xf    ';;
-			*.tar.zst)   i='tar xf    ';;
-			*) false;;
+			*.tar.bz2) i='tar xjf';;
+			*.tar.gz) i='tar xzf';;
+			*.tar.xz) i='tar xf';;
+			*.tar.zst) i='tar xf';;
+			*.tar) i='tar xf';;
+			*.rar) i='unrar x';;
+			*.tbz2) i='tar xjf';;
+			*.tgz) i='tar xzf';;
+			*.bz2) i='bunzip2';;
+			*.zip) i='unzip';;
+			*.deb) i='ar x';;
+			*.gz) i='gunzip';;
+			*.7z) i='7z x';;
+			*.Z) i='uncompress';;
+			*) i='false'; false;;
 		esac && {
 
 			YN_confirm " \$ $i \$@$nl   #" y && {
-				_plus_cmd_verbose "$i" "$@"
+				_plus_cmd_verbose $i "$@"
 				return
-				cd_warning
 			}
 		}
 	}i
@@ -219,15 +219,7 @@ local nl;nl='
 	return 126 # 127 -1 = 126 comman/action not found (todo: find if this is the ?convention?)
 }
 
-# todo, is it needed?
-# case $1 in
-	# _plus_) ;;  # Dont create recursion
-	# *)
-	# ;;
-# esac
-
 case ${0##*/} in
 	_plus_|+|_plus_.sh|+.sh) _plus_ "$@";;
 	*) alias +=_plus_;;
 esac
-
