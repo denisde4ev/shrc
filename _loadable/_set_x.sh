@@ -1,12 +1,13 @@
-
-# set-x='_set_x'
+#! /hint/sh
+# alis set-x='_set_x'
 _set_x() { (
-	case $1 in .)
+	case $1 in ".")
 		shift
-		SH_SOURCE=$1
-		shift
-		set -x;
-		. "$SH_SOURCE"
+		i
+		i=$1; shift
+		set -x
+		. "$i"
+		set +x
 		exit
 	esac
 
@@ -17,7 +18,10 @@ _set_x() { (
 		# then run it in separate shell (assuming path is shell script) to have xtrace 
 		"${SHELL-bash}" -x "$compath" "$@";
 	else
-		set -x; eval "$com ${@:+"\"\$@\""}"
-		# $ "set -x; $@"
+		set -x
+		# dont: $ "set -x; $@", reason: what if the command/fn/alias is only in the current shell
+		eval "$com ${@:+"\"\$@\""}" # todo find a way to quote this?
+		set +x
+		exit
 	fi
 ) }

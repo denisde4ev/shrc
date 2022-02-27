@@ -2,7 +2,7 @@
 
 cd -- "${0%/*}" || exit
 
-mksquashfs . "${@-".B--$(date -I).squashfs"}" \
+mksquashfs . ".B--$(date -I).squashfs" \
 	-not-reproducible \
 	-noappend \
 	-progress \

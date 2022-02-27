@@ -1,0 +1,43 @@
+#! /hint/sh
+# NOTE: INVISIBLE CHARACTERS!
+
+case $TERM in
+	xterm-256color|linux)  tput_reset="(B[m";;
+	*|screen.xterm-256color) tput_reset='[m';;
+esac
+case $TERM in xterm-256color|linux|screen.xterm-256color)
+	tput_bold='[1m';tput_black='[30m';tput_red='[31m';tput_green='[32m';tput_yellow='[33m';tput_blue='[34m';
+	tput_magenta='[35m';tput_cyan='[36m';tput_white='[37m';tput_underline='[4m';tput_nounderline='[24m';
+	return;
+esac
+
+if command. tput ; then
+tput_bold=$(tput bold)
+tput_black=$(tput setaf 0)
+tput_red=$(tput setaf 1)
+tput_green=$(tput setaf 2)
+tput_yellow=$(tput setaf 3)
+tput_blue=$(tput setaf 4)
+tput_magenta=$(tput setaf 5)
+tput_cyan=$(tput setaf 6)
+tput_white=$(tput setaf 7)
+tput_reset=$(tput sgr0)
+tput_underline=$(tput smul)
+tput_nounderline=$(tput rmul)
+else
+tput_bold="[1m"
+tput_black="[30m"
+tput_red="[31m"
+tput_green="[32m"
+tput_yellow="[33m"
+tput_blue="[34m"
+tput_magenta="[35m"
+tput_cyan="[36m"
+tput_white="[37m"
+#tput_reset="(B[m"
+tput_underline="[4m"
+tput_nounderline="[24m"
+fi
+
+# TODO: one day create minimal tput shell script and try to support Windows BusyBox ash
+

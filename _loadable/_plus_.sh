@@ -119,7 +119,7 @@ local nl;nl='
 	esac
 
 
-	case $1 in
+	case $1 in # detect git URL:
 		-*|file:*) false;;
 		git@?*) true;;
 		http://[!/]*|https://[!/]*)
@@ -129,6 +129,7 @@ local nl;nl='
 				*) false;;
 			esac
 		;;
+
 		# same as js: /\/.*:/.test(i)
 		*/*:*) false ;;
 		# same as js: /^[^\/]+\w:\w[^\/]+$/.test(i)
@@ -151,10 +152,8 @@ local nl;nl='
 			cd "$dir"
 			return
 		else
-			echo >&2 "Note: $dir includes -dash, will pit '--' AND additional arguments will be ignored"
-			_plus_cmd_verbose git clone -- "$giturl" "$dir" && \
-			cd ./"$dir" &&  { ll 2>/dev/null || :; }
-			return
+			puts "err: 2-nd arg (\$2) contains dash(-) at the start, refusing to run"
+			return 2
 		fi
 		cd_warning
 		# TODO:! cd_warning fn

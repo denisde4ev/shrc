@@ -34,17 +34,17 @@ esac
 
 # some common files for edit:
 alias \
-	e.trizen.conf='edit ~/.config/trizen/trizen.conf' \
-	e.pacman.conf='edit /etc/pacman.conf' e.pacman='e.pacman.conf' \
-	e.pacman_mirrorlist='edit /etc/pacman.d/mirrorlist' \
-	e.resolv='edit /etc/resolv.conf' \
-	e.known_hosts='edit ~/.ssh/known_hosts' \
-	e.ssh_config='edit ~/.ssh/config' \
-	e.TODO='edit ~/0/TODO' \
-	e.doas='vidoas' vidoas='\doas "${EDITOR:-vi}" /etc/doas.conf' \
-	e='-encoding=utf-16' \
-	\
-	\
-	ew=e.which e=edit \
+e.trizen.conf='edit ~/.config/trizen/trizen.conf' \
+e.pacman.conf='edit /etc/pacman.conf' e.pacman='e.pacman.conf' \
+e.pacman_mirrorlist='edit /etc/pacman.d/mirrorlist' \
+e.resolv='edit /etc/resolv.conf' \
+e.known_hosts='edit ~/.ssh/known_hosts' \
+e.ssh_config='edit ~/.ssh/config' \
+e.TODO='edit ~/0/TODO' \
+e.doas='vidoas' vidoas='\doas "${EDITOR:-vi}" /etc/doas.conf' \
+e.16='e -encoding=utf-16' \
+\
+\
+ew=e.which e=edit \
 ;
 #	c.open='cout | x open' \ # never used

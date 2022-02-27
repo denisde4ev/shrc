@@ -1,12 +1,22 @@
 #! /hint/sh
 
-# at least enshure that var is not defined when using local, dont ever use 'local i=1' or 'local i=$(ls)'
+# at least enshure that var is not defined when using local, pls dont ever use `local i=1` or `local i=$(ls)`
 local() {
-	# todomaybe: use --unset flag to unset if var is found
 	# when no args returns 0, as expected
 	while case $# in 0) return 0; esac; done
-		eval "case \"\${${1%%=*}+defined}\" in defined) unset ${1%%=*}; return 1; esac" &&\
-		case $1 in *=*) eval ": \${${1%%=*}=$(quote "${1#*=}")}"; esac &&\
+		eval
+			"case \"\${${1%%=*}+x}\" in" \
+				"x) return 1;;" \
+			"esac" \
+		&& \
+		case $1 in
+			*=*) eval ": \"\${${1%%=*}=$(quote "${1#*=}")}\"";;
+		esac \
+		&& \
 		shift
 	done
 };
+
+# DONT: `unset`,
+# REASON: uper scope function may cause bug by unsetting it.
+# scripts should detect exit code from the 'local()' function!

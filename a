@@ -1,18 +1,22 @@
 #! /hint/sh
 alias \
-B='cd ~/B' \
+%%%='%% & exit' \
 \
+\
+foo='echo bar' \
 whatislove='( printf "What is love?\\nOh baby, don\\x27t hurt me\\nDon\\x27t hurt me\\nNo more...\\n" )' \
 whatislove.stderr='( printf "What is love?\\nOh baby, don\\x27t hurt me\\n"; printf "Don\\x27t hurt me\\n" >&2; printf "No more...\\n" )' \
-foo='echo bar' \
 \
+B='cd ~/B' \
+CCCCCCC='sudo loadkeys carpalx; setxkbmap "us(carpalx)"' \
+\
+7z-mx9='7z a -r -t7z -m0=lzma2 -mx=9 -myx=9 -mqs=on -ms=on'\
 \
 xmrig='( case $TERM in screen-*) xmrig ;; *) byobu new doas xmrig; esac )' \
 pop_to_i='{ i; i=$#; while case $i in 0|1) false; esac; do set -- "$@" "$1"; shift; i=$(( i - 1 )); done; i=$1; shift; }' \
 BAT='bat -A' \
 cut-f='cut -d " " -f' \
 wc-l='\wc -l' \
-CCCCCCC='sudo loadkeys carpalx; setxkbmap "us(carpalx)"' \
 IFS='set -f; IFS="$new_line"' \
 bash-debugger-start='debugger=1 bash-debugger' \
 argv='(arg "$@")' \
@@ -45,9 +49,6 @@ ${os_gnu+
 } \
 diff-arch='diff --unified --recursive --text' \
 pacman-diffs='(find /etc 2>/dev/null -name "*.pacnew" -mtime -360 -type f | sed "s/.pacnew\$//")' \
-\
-mktmp=mktemp \
-mkd=mkdir \
 \
 mv='\mv -vi' cp='\cp -vi' ln='\ln -vi' chmod='\chmod -v' chown='\chown -v' readlink='\readlink -v' \
 mvT='mv -T' cpT='cp -T' ln-fTv='\ln -fTv' \
@@ -103,8 +104,7 @@ startx='SHLVL= startx ~/.config/xorg-xinit/xinitrc' \
 wget='\wget -c -t 5' \
 zsh='zsh --no-rcs' \
 gparted=/usr/lib/gparted/gpartedbin \
-dd-v="\\dd${os_gnu+" status=progress"}" \
-dd='\\dd 2>/dev/null' \
+dd="\\dd${os_gnu+" status=progress"}" \
 ${sh_is_bash+l.did='ll -d /did/!(.|..|*-part*)'} \
 ${sh_is_bash-l.did='Zfind /did/ -maxdepth 1 -mindepth 1 -not -path "*-part*" | Zx ll -d --'} \
 \
@@ -122,8 +122,6 @@ alias \
 	l='exa -alF --git --time-style iso --group-directories-first -a' \
 	llT='exa -alF --time-style iso --group-directories-first -Th' \
 	llT0='llT --level 0' llT1='llT --level 1' llT2='llT --level 2' llT3='llT --level 3' llT4='llT --level 4' llT5='llT --level 5' \
-	lg='ll -g' \
-	llg='lg' \
 ;
 else
 alias \
@@ -157,3 +155,4 @@ return
 # 0wn='chown 0:0' \
 
  # '/did' is (Disk ID) a symlink to '/dev/block/by-id'
+
