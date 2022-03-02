@@ -1,0 +1,11 @@
+#!/bin/sh
+if [ -r "$PREFIX"/etc/os-release ];then
+. "$PREFIX"/etc/os-release
+elif [ -r /etc/os-release ];then
+. /etc/os-release
+else
+NAME=Unknown
+ANSI_COLOR="0;3$(( RANDOM % 8 ))"
+fi
+
+printf "\\33[${ANSI_COLOR}m%s \\33[1mOS:\\33[m %s\\n" "/${NAME%${NAME#?}}\\" "${NAME%% *}"

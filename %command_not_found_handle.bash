@@ -35,16 +35,13 @@ command_not_found_handle() {
 			*) trizen "$@"; return;;
 		esac
 		;;
-	[a-zA-Z0-9]*.)
-		i;local i
-		i=${1%.};
-		YN_confirm n "Run '$i${*#"$i."}' and exit?" && {
+		*.which)
+			i{
+			local i; i=${1%.which}
 			shift
-			exec "$i" "$@" # NOTE: this won't exit the main shell, reason: in bash command_not_found_handle is in subshell
-			I
+			com-which -c "$ $i" "$@"
+			}i
 			return
-		}
-		I
 		;;
 	esac
 
