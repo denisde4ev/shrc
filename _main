@@ -1,5 +1,4 @@
 #! /hint/sh
-set -u
 
 #unalias -a # for now not a problem
 
@@ -35,8 +34,8 @@ esac
 
 • \
 	~/B/_env \
-	~/B/_PATH \
 	~/B/_core \
+	~/B/_PATH \
 	~/B/[!_.%]*[!%~] ~/B/[!_.%~] \
 	~/B/_loadable/LOADABLE \
 ;

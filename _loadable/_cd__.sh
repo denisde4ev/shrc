@@ -1,12 +1,15 @@
-#! /hint/sh
 
+# TODO: separate CD and cd.. command/fn/aliases
 
 _cd__() { # alias 'cd..' '..'
 	local OPTIND=1 || return
+	i{
 	getopts '' i && {
 		echo "${FUNCNAME-_cd__}: fn does not support arguments, got arg: '$i'" >&2
+		I
 		return 2
 	}
+	}i
 	shift $((OPTIND-1)) # shift the '--'
 
 
@@ -30,25 +33,27 @@ _cd__() { # alias 'cd..' '..'
 	
 					 # todo: '}i' wont keep return status
 
-	case $# in
+	case $# in # todo: move most of this to new fn cd-i?
 		0) cd ..;;
 		1)
 			case $1 in # match $1 arg - when only 1 arg
-				npm|node) i="$(npm root)" && cd "${i%/node_modules}";;
+				npm|node) i{; i="$(npm root)" && cd "${i%/node_modules}"; }i;;
 				git)                            cd "$(git rev-parse --show-toplevel)";;
-				/)                              cd /;;
-				'~')                            cd '/~arcowo';; # hard-coded path
-				root)                           cd ~root;;
+
+				torrents)                       cd ~/d/' '/torrents;;
+				torrentss)                      cd ~/d/' '/torrentss;;
+				[Vv][Bb]ox|[Vv]irtual[Bb]ox)    cd ~/d/' '/VirtualBoxVMs;;
+				[Vv][Bb]oxs|[Vv]irtual[Bb]oxs)  cd ~/d/' '/VirtualBoxVMss;;
+
 				dow|dl|downloads|download)      cd "${XDG_DOWNLOAD_DIR:-"$HOME/Downloads"}";;
 				doc|docs|documents|document)    cd "${XDG_DOCUMENTS_DIR:-"$HOME/Documents"}";;
 				desk|desktops|desktop)          cd "${XDG_DESKTOP_DIR:-"$HOME/Desktop"}";;
 				pic|p|pics|pic)                 cd "${XDG_PICTURES_DIR:-$HOME/Pictures}";;
 				ss|shot|screenshots|screenshot) cd "${XDG_PICTURES_DIR:-$HOME/Pictures}/Screenshots";;
 				did|/did)                       cd /dev/disk/by-id;; # also /did is my symlink to it
-				todo|TODO)                      cd ~/0/TODO.d;;
-				GH|gh)                          cd ~/0/GH;;
-				[Bb])                           cd ~/B;;
-				http*|https*)
+				todo|TODO)                      cd "${TODO_DIR:-"$HOME/0/TODO.d"}";;
+
+				http*|https*) # TODO: consider should thsi code be here or in other fn, like cd+/cd-
 					case $1 in
 						http://?*.?*/*|https://?*.?*/*) i{
 							i=${1#http}; i=${i#s}; i=${i#://}
@@ -63,7 +68,7 @@ _cd__() { # alias 'cd..' '..'
 					esac
 				;;
 
-				/dev/*|/did/*) i{
+				/dev/*|/did/*) i{ # TODO: move this to new cd-i fn.
 					if [ -L "$1" ]; then
 						i=$(readlink "$1")
 					else
@@ -98,13 +103,18 @@ _cd__() { # alias 'cd..' '..'
 		;;
 		*)
 			case $1 in # match $1 arg - when more args
-				which|which-ll) i{
-					i=$1; shift
+				which|which-ll)
+					set -- "$1" "$2" "$(which "$2")"
+					# oh. this is just because can not unset i before calling same fn.
+					# and also exit status is lost...
 
-					path="$(which "$@")" || return
-					case $path in */*) _cd__ "$path" || return; esac
-					case $i in which-ll) ll -d -- "$PWD/$@" || return; esac
-				}i ;;
+					case $3 in
+						*/*) _cd__ "$3" || return $?;;
+						*) puts >&2 "got bad path from which: '$3'"; return 1;;
+					esac
+
+					case $1 in which-ll) ll -d -- "$2"; esac
+				;;
 				*) echo >&2 not matched; return 2;;
 			esac
 		;;

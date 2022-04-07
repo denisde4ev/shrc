@@ -31,3 +31,9 @@ bind '"\b": shell-backward-kill-word'
 
 # disable Meta+S it is overwrited by OS but sometimes does't work
 bind '"\030@ss": "_"'
+
+
+## # media player controls fallback: (never tested)
+## bind '"\EO1P": ##pause/resume'
+## bind '"\EO3Q": ##rext'
+## bind '"\EO3R": ##prev'
