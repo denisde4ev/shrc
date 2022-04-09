@@ -6,7 +6,7 @@ mksquashfs . ".B--$(date -I).squashfs" \
 	-not-reproducible \
 	-noappend \
 	-progress \
-	-mem 8G \
+	-mem 1G \
 	-exit-on-error \
 	-all-root \
 	-comp gzip -Xcompression-level 3 \

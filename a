@@ -3,6 +3,7 @@ alias \
 %%%='%% & exit' \
 \
 \
+\
 foo='echo bar' \
 whatislove='( printf "What is love?\\nOh baby, don\\x27t hurt me\\nDon\\x27t hurt me\\nNo more...\\n" )' \
 whatislove.stderr='( printf "What is love?\\nOh baby, don\\x27t hurt me\\n"; printf "Don\\x27t hurt me\\n" >&2; printf "No more...\\n" )' \
@@ -112,9 +113,11 @@ dd="\\dd${os_gnu+" status=progress"}" \
 ${sh_is_bash+l.did='ll -d /did/!(.|..|*-part*)'} \
 ${sh_is_bash-l.did='Zfind /did/ -maxdepth 1 -mindepth 1 -not -path "*-part*" | Zx ll -d --'} \
 \
-x='xargs ' xargs='\xargs -d \\n -r' \
+xargs='\xargs -d \\n -r' \
+x='xargs ' \
 x%='x -I% ' \
 xo='(x% open %)' \
+\
 \
 '__'=_before_command_not_found_handle \
 sudo.='__ sudo.' \
@@ -123,6 +126,7 @@ open.='__ open.' \
 thunar.='__ thunar.' \
 gparted.='__ gparted.' \
 qdirstat.='__ qdirstat.' \
+konsole.='__ konsole.' \
 \
 ;
 
@@ -147,7 +151,9 @@ fi
 
 case ${USER-}:${HOME-} in
 arcowo:/~arcowo) # we are home
-	alias minecraft-1.12.2='/~arcowo/0/game/MC/1.12.2/start' minecraft-1.16.5='/~arcowo/0/game/MC/1.16.5/start'
+	alias \
+		minecraft-1.12.2='/~arcowo/0/game/MC/1.12.2/start' minecraft-1.16.5='/~arcowo/0/game/MC/1.16.5/start' \
+		HOME-disallowed='\HOME-disallowed --homepath ~arcowo' \
 	;;
 *) return;;
 esac

@@ -68,18 +68,30 @@ _cd__() { # alias 'cd..' '..'
 					esac
 				;;
 
-				/dev/*|/did/*) i{ # TODO: move this to new cd-i fn.
+				/did__/*) i{
+					i=$(readlink -f $1) && \
+					sudo mount -v /dev/"${i##*/}" /mnt/_/"${i##*/}" &&
+					{
+						cd "/mnt/did/${1}"
+					}
+				}i;;
+				/did/*|/dev/*) i{ # TODO: move this to new cd-i fn.
 					if [ -L "$1" ]; then
-						i=$(readlink "$1")
+						i=$(readlink -f "$1")
 					else
 						i=$1
 					fi && \
 					cd /mnt/_/"${i##*/}" && \
 					if (
 						# also auto mount it if folder is empty (not porpper mount detection but it good enugh)
-						set -- /mnt/_/"${i##*/}"/* && \
-						[ ! -e "$1" ] && \
-						sudo mount -v /dev/"${i##*/}" /mnt/_/"${i##*/}"
+						{
+							# if empty  
+							set -- /mnt/_/"${i##*/}"/* && \
+							[ ! -e "$1" ]
+						} && {
+							# if empty then mount it
+							sudo mount -v /dev/"${i##*/}" /mnt/_/"${i##*/}"
+						}
 					); then
 						cd /mnt/_/"${i##*/}"
 					fi

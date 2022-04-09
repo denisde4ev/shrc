@@ -4,8 +4,8 @@ ${shell_is_interactive-return}
 i{
 
 shuf_1_toi ~/B/_fetch/[!_.%]*[!%~] && \
+( . "$i" ) >&2
 
-( . "$i" )  >&2 0<&-
 case ${i##*/} in 16|color-eudaldgr|mini-colors|fetchName|_fetch.sh|%nofetch)
 	PS1-ash
 esac

@@ -23,7 +23,7 @@ case $sh_is in
 esac
 
 
-# TODO: but what if is not in .config ? and then we have no $XDG_CONFIG_HOME ..
+# todo: but what if is not in .config ? and then we have no $XDG_CONFIG_HOME ..
 #  check what wiki says in this case.
 [ -e ~/.config/user-dirs.dirs ] && . ~/B/_homedir-vars
 
@@ -36,7 +36,7 @@ esac
 	~/B/_env \
 	~/B/_core \
 	~/B/_PATH \
-	~/B/[!_.%]*[!%~] ~/B/[!_.%~] \
+	~/B/[a-z]*[!\~\!\@\#\$\%\^\&\*] ~/B/[a-z] \
 	~/B/_loadable/LOADABLE \
 ;
 
@@ -48,9 +48,10 @@ case $#:${sh_isin_cmd+1}:$({ :; } 2>&1) in 0::) ;; *) return 0; esac
 sh_is_=${sh_is_bash+bash}${sh_is_zsh+zsh}${sh_is_ash+sh}${sh_is_sh+sh} # note ash runs *.sh files
 
 • \
-	~/B/%[!_.%]*."$sh_is_" \
+	~/B/%[a-z]*."$sh_is_" \
 	~/B/_fetch/_fetch"${sh_is_sh+".sh"}" \
 ;
 
 i
+
 return 0

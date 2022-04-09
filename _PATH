@@ -1,6 +1,6 @@
 #! /hint/bash
 
-# case :$PATH: in *:$HOME/bin/@op5t-termux:*) return;esac
+case :$PATH: in *:$HOME/bin/@op5t-termux:*) return;esac
 PATH=\
 ~/bin/_/bins-trap:\
 ~/bin/HOME-disallowed.d:\
@@ -8,10 +8,14 @@ PATH=\
 ~/bin/home:\
 \
 ~/bin:\
-~/.bin:\
+~/.local/bin:\
 ${os_gnu+~/bin/bin.bash:}\
-~/.bin/local:\
+\
 "$PATH${PATH:+:}"\
-~/bin/songs:\
+\
+~/.local/bin/songs:\
 ~/bin/node:\
-~/bin/@op5t-termux
+\
+~/bin/@/chroots:\
+~/bin/@/ssh\
+;

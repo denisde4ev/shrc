@@ -18,7 +18,7 @@ arco*)a=\
    / . \  
   / / _ \ 
  /`     `\';;
-artix)a=\
+artix*)a=\
 "     .    
     / \\   
    /.  \\  
@@ -80,7 +80,7 @@ printf '\e[m\n\e[5A'
 
 
 
-ui=$(tty)
+ui=$(tty) || :
 case $ui in /dev/tty*) ! :; esac && \
 if [[ ${DE-}${WM-} ]]; then ui="${DE:+DE}${DE:+${WM:+/}}${WM:+WM}:      ${DE:+${WM:+$'\e[3D'}}$DE${DE:+${WM:+/}}$WM"
 elif [[ ${XDG_CURRENT_DESKTOP-}${DESKTOP_SESSION-} ]];   then ui="DE:      ${XDG_CURRENT_DESKTOP:-}${XDG_CURRENT_DESKTOP:+${DESKTOP_SESSION:+, }}${DESKTOP_SESSION:-}"

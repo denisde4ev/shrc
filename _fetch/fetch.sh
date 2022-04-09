@@ -21,7 +21,7 @@ case $os in
   / / _ \ 
  /`     `\
 ';;
-[Aa]rtix)a="
+[Aa]rtix*)a="
      .     
     / \\   
    /.  \\  
