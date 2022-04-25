@@ -4,6 +4,9 @@ alias \
 \
 \
 \
+todo='e ~/d/todo.md' \
+sampler='sampler --config /~arcowo/.config/sampler/sampler.yml' \
+PP='P --noconfirm' \
 foo='echo bar' \
 whatislove='( printf "What is love?\\nOh baby, don\\x27t hurt me\\nDon\\x27t hurt me\\nNo more...\\n" )' \
 whatislove.stderr='( printf "What is love?\\nOh baby, don\\x27t hurt me\\n"; printf "Don\\x27t hurt me\\n" >&2; printf "No more...\\n" )' \
@@ -132,20 +135,44 @@ konsole.='__ konsole.' \
 
 if command. exa; then
 alias \
-	ls='exa -aF' \
-	ll='exa -alF --git --time-style iso --group-directories-first -g' \
-	l='exa -alF --git --time-style iso --group-directories-first -a' \
-	llT='exa -alF --time-style iso --group-directories-first -Th' \
-	llT0='llT --level 0' llT1='llT --level 1' llT2='llT --level 2' llT3='llT --level 3' llT4='llT --level 4' llT5='llT --level 5' \
+ls='exa -aF' \
+ll='exa -alF --git --time-style iso --group-directories-first -g' \
+l='exa -alF --git --time-style iso --group-directories-first -a' \
+llT='exa -alF --time-style iso --group-directories-first -Th' \
+llT0='llT --level 0' llT1='llT --level 1' llT2='llT --level 2' llT3='llT --level 3' llT4='llT --level 4' llT5='llT --level 5' \
 ;
 else
 alias \
-	ls='\ls --color=auto' \
-	ll='ls -alF --group-directories-first' \
-	l='ll' \
+ls='\ls --color=auto' \
+ll='ls -alF --group-directories-first' \
+l='ll' \
 ;
 fi
 
+
+if command. pacman; then
+alias \
+pacmna='pacascii;pacman' \
+pamcna='pacascii;pacman' \
+pacamn='pacascii;pacman' \
+pacmana='pacascii;pacman' \
+paccman='pacascii;pacman' \
+\
+\
+trien='pacascii;trizen' \
+rizen='pacascii;trizen' \
+trizzen='pacascii;trizen' \
+trizeen='pacascii;trizen' \
+trizn='pacascii;trizen' \
+trize='pacascii;trizen' \
+trizne='pacascii;trize' \
+trzen='pacascii;trizen' \
+\
+\
+p='trizen' \
+rm.pacmanlock='rm /var/lib/pacman/db.lck' \
+;
+fi
 
 # ${os_gnu-return} # return if not gnu os
 

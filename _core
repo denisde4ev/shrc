@@ -13,8 +13,6 @@ alias \
 	and='(exit $?)&&' or='(exit $?)||' \
 ;
 
-. ~/B/_fallback/_fallback
-
 case $- in
 	-|'')
 		case $PS1 in

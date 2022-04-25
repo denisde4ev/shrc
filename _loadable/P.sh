@@ -7,13 +7,17 @@ P(){
 
 		set -x
 
-		[ "$cleanup" = 0 ] && pacman -Rus $(pacman -Qtdq)
+		[ "$cleanup" = 0 ] && pacman -Rus $(pacman -Qtdq "$@") "$@"
 		
-		pacman -Sy || exit
+		pacman -Sy "$@" || exit
 		if [ "$db_up" ]; then
-			 pacman -Fy | exit
+			 pacman -Fy "$@" || exit
 		fi
-		pacman -Su || exit
-	' && \
-	trizen -Sau
+		pacman "$@" -Su || exit
+	' -s "$@" && \
+	case $@ in
+		*--noconfirm*) ;;
+		*) trizen -Sau "$@" ;;
+	esac
 }
+

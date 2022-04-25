@@ -1,21 +1,24 @@
 #! /hint/bash
 
-case :$PATH: in *:$HOME/bin/@op5t-termux:*) return;esac
+case :${PATH:?}: in *:${HOME:?}/bin/@op5t-termux:*|::) return; esac
+
 PATH=\
-~/bin/_/bins-trap:\
-~/bin/HOME-disallowed.d:\
+$HOME/bin/_/bins-trap:\
+$HOME/bin/HOME-disallowed.d:\
 \
-~/bin/home:\
+$HOME/bin/home:\
 \
-~/bin:\
-~/.local/bin:\
-${os_gnu+~/bin/bin.bash:}\
+$HOME/bin:\
+$HOME/.local/bin:\
+${os_gnu+$HOME/bin/bin.bash:}\
 \
-"$PATH${PATH:+:}"\
+$PATH${PATH:+:}\
 \
-~/.local/bin/songs:\
-~/bin/node:\
+$HOME/bin/songs:\
+$HOME/bin/node:\
 \
-~/bin/@/chroots:\
-~/bin/@/ssh\
+$HOME/bin/@/chroots:\
+$HOME/bin/@/ssh\
+${SSH_CLIENT:+":$HOME/bin/ssh-client"}\
 ;
+

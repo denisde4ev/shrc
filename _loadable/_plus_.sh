@@ -94,11 +94,11 @@ local nl;nl='
 
 
 	case $1 in +|x)
-		YN_confirm " \$ chmod +x \$1$nl   #" y && {
+		YN_confirm y " \$ chmod +x \$1" "   #" && {
 			shift # remove the (+|x)
 			_plus_cmd_verbose chmod -v +x -- "$1" || return
 			_plus_cmd_verbose ll -d -- "$1"
-			YN_confirm " \$ \"\$@\"$nl   #" y && {
+			YN_confirm y " \$ \"\$@\"" "   #" && {
 				case $1 in
 					*/*) _plus_cmd_verbose "$@";;
 					*) _plus_cmd_verbose ./"$@";;
@@ -110,7 +110,7 @@ local nl;nl='
 	esac
 
 	case $1 in [0-9][0-9][0-9]|[0-9][0-9][0-9][0-9]|[ugo][+-=]*|[+-=][rwx]*)
-		YN_confirm " \$ chmod '$1' \$@$nl   #" y && {
+		YN_confirm y " \$ chmod '$1' \$@" "   #" && {
 			_plus_cmd_verbose chmod -v -- "$@" || return
 			shift # remove MODE arg1
 			_plus_cmd_verbose ll -d -- "$@"
@@ -135,7 +135,7 @@ local nl;nl='
 		# same as js: /^[^\/]+\w:\w[^\/]+$/.test(i)
 		[!:]*[A-Za-z0-9_]:[A-Za-z0-9_]*[!:]*) true;;
 		*) false;;
-	esac && YN_confirm " \$ git clone \$@ && cd \$_$nl   #" y && {
+	esac && YN_confirm y " \$ git clone \$@ && cd \$_" "   #" && {
 		giturl=$1; shift
 
 		if [ "${2-}" != '' ] && _plus__no_opt "$2"; then
@@ -161,7 +161,7 @@ local nl;nl='
 
 	# case ${1%%[:/]*} in http|https)
 	case $1 in http:?*[a-zA-Z0-9_]*|https:?*[a-zA-Z0-9_]*)
-		YN_confirm " \$ wget \$@$nl   #" y && {
+		YN_confirm y " \$ wget \$@" "   #" && {
 			_plus_cmd_verbose wget -c -v "$@"
 			return
 		}
@@ -188,7 +188,7 @@ local nl;nl='
 			*) i='false'; false;;
 		esac && {
 
-			YN_confirm " \$ $i \$@$nl   #" y && {
+			YN_confirm y " \$ $i \$@" "   #" && {
 				_plus_cmd_verbose $i "$@"
 				return
 			}
@@ -196,7 +196,7 @@ local nl;nl='
 	}i
 
 	case $1 in */*)
-		YN_confirm " \$ cd.. \$@$nl   #" y && {
+		YN_confirm y " \$ cd.. \$@" "   #" && {
 			 # TODOOO: check if in interactive shell, cd.. is alias and does not work in "$@"
 			_plus_cmd_verbose cd.. "$@"
 			return

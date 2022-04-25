@@ -1,0 +1,10 @@
+#! /hint/sh
+
+i{
+for i in ~/B/_fallback/[a-z_]*[!%~]; do
+	command. "${i##*/}" \|\| . "$i"
+
+##	command. "${i##*/}"
+##	echo command. "${i##*/}" $?
+done
+}i

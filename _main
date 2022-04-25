@@ -36,7 +36,8 @@ esac
 	~/B/_env \
 	~/B/_core \
 	~/B/_PATH \
-	~/B/[a-z]*[!\~\!\@\#\$\%\^\&\*] ~/B/[a-z] \
+	~/B/_fallback/FALLBACK \
+	~/B/[a-z]*[!\~\!\@\#\$\%\^\&\*] \
 	~/B/_loadable/LOADABLE \
 ;
 

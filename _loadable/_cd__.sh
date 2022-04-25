@@ -81,7 +81,7 @@ _cd__() { # alias 'cd..' '..'
 					else
 						i=$1
 					fi && \
-					cd /mnt/_/"${i##*/}" && \
+					cd /mnt/_/"${i##*/}" || return
 					if (
 						# also auto mount it if folder is empty (not porpper mount detection but it good enugh)
 						{
