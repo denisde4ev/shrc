@@ -2,9 +2,8 @@
 alias \
 %%%='%% & exit' \
 \
-\
-\
 todo='e ~/d/todo.md' \
+TODO='cd ~/d/TODO.d' \
 sampler='sampler --config /~arcowo/.config/sampler/sampler.yml' \
 PP='P --noconfirm' \
 foo='echo bar' \
@@ -158,7 +157,6 @@ pacamn='pacascii;pacman' \
 pacmana='pacascii;pacman' \
 paccman='pacascii;pacman' \
 \
-\
 trien='pacascii;trizen' \
 rizen='pacascii;trizen' \
 trizzen='pacascii;trizen' \
@@ -167,7 +165,6 @@ trizn='pacascii;trizen' \
 trize='pacascii;trizen' \
 trizne='pacascii;trize' \
 trzen='pacascii;trizen' \
-\
 \
 p='trizen' \
 rm.pacmanlock='rm /var/lib/pacman/db.lck' \

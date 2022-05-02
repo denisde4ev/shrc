@@ -68,7 +68,7 @@ local nl;nl='
 	_plus_cmd_verbose() { # verbose the cmd
 		case $- in
 			*x*)
-				: ::: 'XTRACE DETECTED => WILL NOT USE:' 'set +x' ::: :
+				: ::: 'XTRACE DETECTED => WILL NOT USE:' 'set +x'  ::: :
 				"$@"
 			;;
 			*)

@@ -1,1 +1,3 @@
 printf %s\\n '/ᐠ｡ꞈ｡ᐟ\' | lolcat
+# important note: I recommend using rust-lolcat(-git),
+# other lolcat implemenation does not like the those unicode chars

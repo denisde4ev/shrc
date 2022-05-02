@@ -1,16 +1,18 @@
 #! /hint/sh
 alias \
-	ii='{ case ${i+x} in      x) puts "warning: ${FUNCNAME+"(in fn $FUNCNAME)"} ${BASH_SOURCE+"(in file $BASH_SOURCE +$BASH_LINENO )"} i is defined with value: $i"        >&2; esac; }' \
-	i='{ ii; unset i; }' \
-	I='{ case ${i+x} in x) ;; *) puts "warning: ${FUNCNAME+"(in fn $FUNCNAME)"} ${BASH_SOURCE+"(in file $BASH_SOURCE +$BASH_LINENO )"} i was not defined but unset was requested" >&2; esac }; unset i' \
-	i{='i' }i='I' \
-	\
-	puts='printf %s\\n' \
-	command.='command >/dev/null -v' \
-	\
-	fori='for i in' fori{{='for i;{{' '{{=do' '}}=done' \
-	loop='while :;' pool='do :;done' elihw='do :;done' 'loop{{=while :;{{' \
-	and='(exit $?)&&' or='(exit $?)||' \
+ii='{ case ${i+x} in      x) puts "warning: ${FUNCNAME+"(in fn $FUNCNAME)"} ${BASH_SOURCE+"(in file $BASH_SOURCE +$BASH_LINENO )"} i is defined with value: $i"        >&2; esac; }' \
+i='{ ii; unset i; }' \
+I='{ case ${i+x} in x) ;; *) puts "warning: ${FUNCNAME+"(in fn $FUNCNAME)"} ${BASH_SOURCE+"(in file $BASH_SOURCE +$BASH_LINENO )"} i was not defined but unset was requested" >&2; esac }; unset i' \
+i{='i' }i='I' \
+\
+puts='printf %s\\n' \
+command.='command >/dev/null -v' \
+\
+fori='for i in' fori{{='for i;{{' '{{=do' '}}=done' \
+loop\{='while :; do' \
+and='(exit $?)&&' or='(exit $?)||' \
+goto_continue='while :;' \
+goto_break='break;' \
 ;
 
 case $- in

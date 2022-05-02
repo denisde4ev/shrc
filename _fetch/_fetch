@@ -1,13 +1,15 @@
 #! /hint/sh
 ${shell_is_interactive-return}
 
+
+
 i{
+	shuf_1_toi ~/B/_fetch/[!_.%]*[!%~] || return
+	_fetch=$i
+}i
 
-shuf_1_toi ~/B/_fetch/[!_.%]*[!%~] && \
-( . "$i" ) >&2
+( . "$_fetch" ) >&2
 
-case ${i##*/} in 16|color-eudaldgr|mini-colors|fetchName|_fetch.sh|%nofetch)
+case ${_fetch##*/} in 16|color-eudaldgr|mini-colors|fetchName|_fetch.sh|%nofetch)
 	PS1-ash
 esac
-
-}i

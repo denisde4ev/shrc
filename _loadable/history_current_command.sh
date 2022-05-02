@@ -1,15 +1,17 @@
 
 history_current_command() {
 		local i
-		i=$(
-			set -fue
-			IFS=''
-			history | {
-				unset r
-				while read -r i; do r=$i; done
-				puts "$r"
-			}
-		) || return
+
+		#i=$(
+		#	set -fue
+		#	IFS=''
+		#	history | {
+		#		unset r
+		#		while read -r i; do r=$i; done
+		#		puts "$r"
+		#	}
+		#) || return
+		i=$(history | tail -n 1)
 
 		# handle format s/^ *[0-9]* *//
 		i=${i#"${i%%[! ]*}"}   # trim start spaces

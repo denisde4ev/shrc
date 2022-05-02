@@ -53,6 +53,4 @@ sh_is_=${sh_is_bash+bash}${sh_is_zsh+zsh}${sh_is_ash+sh}${sh_is_sh+sh} # note as
 	~/B/_fetch/_fetch"${sh_is_sh+".sh"}" \
 ;
 
-i
-
-return 0
+unset i # (not expected to be set), just in case
