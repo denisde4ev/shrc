@@ -52,10 +52,11 @@ command_not_found_handle() {
 		;;
 
 	*.which)
-		_arg=${1%.which}; shift
-		com-which -c "$ $_arg" "$@"
+		_comm=${1%.which}; shift
+		com-which -c "$ $_comm" "$@"
 		exi=$?
 		;;
+
 
 	@*)
 		# YN_confirm Yes "do you want to run: ssh ${1#@} \$@" || break
@@ -65,6 +66,24 @@ command_not_found_handle() {
 		;;
 
 	esac
+
+	${exi+break}
+	
+	case $comm in
+		*.pwd)     shift; _comm=${comm%.pwd};     set -- "$@" "$PWD";;
+		*.frompwd) shift; _comm=${comm%.frompwd}; set -- "$PWD" "$@";;
+		*..)       shift; _comm=${comm%..}; _arg=${1%/*}; shift; set -- "$_arg" "$@";;
+		*) break;;
+	esac
+
+	case $(command -v $_comm) in
+		*/*) "$_comm" "$@";;
+		[a-zA-Z_@]*) eval "$_comm"' "$@"';;
+		*) "$_comm" "$@";;
+	esac
+	exi=$?
+
+	
 	goto_break }}
 
 

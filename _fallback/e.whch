@@ -2,6 +2,7 @@
 
 __e_which() { (
 	IFS=${NEW_LINE:-$'\n'}
+	set -f
 	edit $(which "$@")
 ) }
 

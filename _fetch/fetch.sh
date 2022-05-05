@@ -126,6 +126,8 @@ u=\\33[3$((${EUID-$(id -u)}?3:1))m${USER-$(id -un)}\\33[m
 h=${HOSTNAME-$(hostname)}\\33[3
 w=\\33[3${c}m${PWD##*/}\\33[m
 printf "\\33[${l}C$u@$h $w\\n"
+# todo: fix bug when "$h $w" are glued togeder on terminal output
+# reason is something to do with escape sequence
 
 
 : "${SHELL=$0}"
