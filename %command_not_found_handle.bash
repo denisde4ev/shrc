@@ -3,7 +3,8 @@
 command_not_found_handle() {
 	: ::: command_not_found_handle "$@" ::: :
 	# consider: '2>/dev/null' to be quiet on xtrace shell
-	local comm _comm _arg exi; comm="$1"
+
+	local comm _comm _arg exi; comm="$1"; shift
 	# _comm _arg i  = temp vars
 	# exi  = matched and executed command exit code
 
@@ -11,7 +12,7 @@ command_not_found_handle() {
 	case $comm in
 
 	which)
-		_arg=$(command -v -- "$1") || break
+		_arg=$(command -v -- "$comm") || break
 		case $_arg in */*)
 			puts "$_arg"
 			exi=$?
@@ -19,8 +20,8 @@ command_not_found_handle() {
 		;;
 
 	*"#")
-		${shell_is_interactive-break} # TODO
-		_arg=$(history_current_command) && shift $# || break
+		${shell_is_interactive-break}
+		_arg=$(history_current_command) || break
 
 		# note/(unfixable bug):
 		# this can be miss matched pretty easily
@@ -31,65 +32,73 @@ command_not_found_handle() {
 		#
 		# however because I want to use something like: `set-x echo# 1`, I will keep it like this
 		# it is not easy to do this miss match exept on purpose
-
 		case $_arg in *"$comm "*) ;; *)
 			puts "command_not_found_handle err: _arg='$_arg' is not in *'$comm '*" >&2
 			exi=127
-			break
+			_arg=''
 		esac
-		_arg=${_arg#*"$comm "}
-		_arg=${_arg#"#"}
-		## NOTE: do not give me _comm=(some alias not expecting args) there is no point in it,
-		# just leave the default shell syntax error
-		eval "${comm%"#"}"' "$_arg"'
-		exi=$?
+		case ${_arg:+x} in x)
+			_arg=${_arg#*"$comm "}
+			_arg=${_arg#"#"}
+			## NOTE: do not give me _comm=(some alias not expecting args) there is no point in it,
+			# just leave the default shell syntax error
+			eval " ${comm%"#"}"' "$_arg"'
+			exi=$?
+		esac
 		;;
 
-	-[A-Z]*)
-		case $comm in -*[!A-Za-z]*) break; esac # must have only letters
-		trizen "$@"
-		exi=$?
-		;;
 
 	*.which)
-		_comm=${1%.which}; shift
-		com-which -c "$ $_comm" "$@"
+		com-which -c "$ ${comm%.which}" "$@"
 		exi=$?
 		;;
 
-
-	@*)
-		# YN_confirm Yes "do you want to run: ssh ${1#@} \$@" || break
-		_arg=${1#@}; shift
-		ssh "$_arg" "$@"
+	*.c|*.copy|*.pipecopy)
+		eval " ${comm%.*}"' "$@" | clip_io'
 		exi=$?
 		;;
 
 	esac
 
-	${exi+break}
-	
+	goto_continue {{
 	case $comm in
-		*.pwd)     shift; _comm=${comm%.pwd};     set -- "$@" "$PWD";;
-		*.frompwd) shift; _comm=${comm%.frompwd}; set -- "$PWD" "$@";;
-		*..)       shift; _comm=${comm%..}; _arg=${1%/*}; shift; set -- "$_arg" "$@";;
+		*.topwd)   _comm=${comm%.*};                      set -- "$@" "$PWD";;
+		*.pwd)     _comm=${comm%.*};                      set -- "$PWD" "$@";;
+		*..)       _comm=${comm%..}; _arg=${1%/*}; shift; set -- "$_arg" "$@";;
 		*) break;;
 	esac
 
-	case $(command -v $_comm) in
+	case $(command -v -- "$_comm") in
 		*/*) "$_comm" "$@";;
-		[a-zA-Z_@]*) eval "$_comm"' "$@"';;
+		[a-zA-Z_@]*) eval " $_comm"' "$@"';;
 		*) "$_comm" "$@";;
 	esac
 	exi=$?
-
-	
 	goto_break }}
+
+	goto_break }}
+
+	goto_continue {{
+	case $comm in
+		-[A-Z]*)
+			case $comm in -*[!A-Za-z]*) break; esac # must have only letters
+			trizen "$@" # note: hardcoded preferred aur helper
+			exi=$?
+			;;
+
+		@*|root@*)
+			ssh "${comm#@}" "$@"
+			exi=$?
+			;;
+	esac
+	goto_break }}
+
+
 
 
 	case ${exi+x} in '')
 		printf %s\\n "${0##*/}: $comm: command not found" >&2
-		return 127
+		exi=127
 	esac
 
 	eval "unset comm _comm _arg i; return '$exi'"

@@ -48,10 +48,6 @@ return
 
 
 
-# c.which='com-which -c "$ clip_io"'      # USED INSTEAD: (which dstn | cin) or my modern (?? dstn | c)
-
-
-
 # not working: # only English (ASCII) chars wark properly
 #  alias c.toUpperCase='(cout | tr "[:lower:]абвгдежзийклмнопрсуфхцчшщюяѝ" "[:upper:]АБВГДЕЖЗИЙКЛМНОПРСУФХЦЧШЩЮЯЍ")'
 #  alias c.toLowerCase='(cout | tr "[:upper:]АБВГДЕЖЗИЙКЛМНОПРСУФХЦЧШЩЮЯЍ" "[:lower:]абвгдежзийклмнопрсуфхцчшщюяѝ")'

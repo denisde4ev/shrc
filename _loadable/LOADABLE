@@ -23,7 +23,7 @@ __load_loadable() {
 
 	# (not needed for now), if alias needed to execute, use:
 	# local i;i=$1; shift
-	# eval "$i ${@:+"\"\${@}\""}"  #"
+	# eval " $i ${@:+"\"\${@}\""}"  #"
 	"$@"
 }
 
@@ -87,7 +87,7 @@ for i in ~/B/_loadable/[a-zA-Z0-9_]*.sh ${sh_is_bash+~/B/_loadable/[a-zA-Z0-9_]*
 	i=${i##*/}
 	i=${i%.*}
 	# arg "$i"
-	# (dont use for now fn): eval "$i(){ __load_loadable $i \"\$@\" }"
+	# (dont use for now fn): eval " $i(){ __load_loadable $i \"\$@\" }"
 	alias "$i"="__load_loadable $i"
 done
 }i

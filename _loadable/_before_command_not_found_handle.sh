@@ -6,7 +6,7 @@ _before_command_not_found_handle() {
 		i=${1%.};
 		YN_confirm n "Run '$i${*#"$i."}' and exit?" && {
 			shift
-			eval "$i" "$@"& # NOTE: this won't exit the main shell, reason: in bash command_not_found_handle is in subshell
+			eval " $i" "$@"& # NOTE: this won't exit the main shell, reason: in bash command_not_found_handle is in subshell
 			exit
 			I
 			return

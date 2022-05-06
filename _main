@@ -41,16 +41,13 @@ esac
 	~/B/_loadable/LOADABLE \
 ;
 
+sh_is_=${sh_is_bash+bash}${sh_is_zsh+zsh}${sh_is_ash+sh}${sh_is_sh+sh} # note ash runs *.sh files
+
+• ~/B/%[a-z]*."$sh_is_"
 
 # has args OR if xtrace(set -x) is on, then dont execute shell specific 'rc' and fetch/color script:
 # case $- in *c*|*x*)false;; *);; esac  || # `$-` is bashism ...
 case $#:${sh_isin_cmd+1}:$({ :; } 2>&1) in 0::) ;; *) return 0; esac
+. ~/B/_fetch/_fetch"${sh_is_sh+".sh"}"
 
-sh_is_=${sh_is_bash+bash}${sh_is_zsh+zsh}${sh_is_ash+sh}${sh_is_sh+sh} # note ash runs *.sh files
-
-• \
-	~/B/%[a-z]*."$sh_is_" \
-	~/B/_fetch/_fetch"${sh_is_sh+".sh"}" \
-;
-
-unset i # (not expected to be set), just in case
+ii

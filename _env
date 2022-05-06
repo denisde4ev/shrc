@@ -15,6 +15,7 @@ PATHSEP=/ \
 \
 NEW_LINE='
 ' \
+TAB_CHAR='	' \
 ;
 # : "${NEW_LINE:=$'\n'}"
 

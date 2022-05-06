@@ -2,6 +2,7 @@
 alias \
 %%%='%% & exit' \
 \
+datei='date -I' \
 todo='e ~/d/todo.md' \
 TODO='cd ~/d/TODO.d' \
 sampler='sampler --config /~arcowo/.config/sampler/sampler.yml' \
@@ -21,12 +22,13 @@ BAT='bat -A' \
 bat='\bat --style header,numbers,rule,snip' \
 cut-f='cut -d " " -f' \
 wc-l='\wc -l' \
-IFS='set -f; IFS="$new_line"' \
+IFS='set -f; IFS="${NEW_LINE:-$new_line}"' \
 bash-debugger-start='debugger=1 bash-debugger' \
 argv='(arg "$@")' \
 fd.swap='3>&2 2>&1 1>&3 '  fd.copy-err='tee /dev/stderr' \
 \
 mongod='\mongod --logpath /dev/stdout' \
+llw='ll.which' \
 cdw='cd.which' \
 cw='cd.which' \
 cd.mktemp='cd "$(mktemp -d)"' \
@@ -90,8 +92,6 @@ du='\du -h' \
 dust='\dust --reverse --limit-filesystem' \
 free='\free -mt' \
 netstat='\netstat -tulpn' \
-ll.which='com-which -c "\$ ll"' \
-shellcheck.which='com-which -c shellcheck' \
 \
 userlist='cut -d: -f1 /etc/passwd' \
 update-grub="sudo grub-mkconfig -o /boot/grub/grub.cfg" \

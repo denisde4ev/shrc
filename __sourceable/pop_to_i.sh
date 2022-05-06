@@ -1,12 +1,25 @@
 #! /hint/sh
 {
-	unset i;
-	i=$#;
-	while case $i in 0|1) false; esac; do # while i is not 0|1
-		set -- "$@" "$1"
-		shift
-		i=$(( i - 1 ))
-	done
-	i=$1
-	shift
+	unset i
+	i=$#
+
+	case $i in
+		0) return 1;;
+		???*)
+			eval \
+				"i=\${$i};" \
+				"set -- $(seq "$(( i - 1 ))" | sed 's/^/"\${/;  s/$/}" \\/; $ a;')" \
+			&& \
+			[ $# -eq $(( i - 1 )) ]
+		;;
+		*) 
+			while case $i in 1) false; esac; do
+				set -- "$@" "$1"
+				shift
+				i=$(( i - 1 ))
+			done
+			i=$1; shift
+		;;
+	esac
+
 }

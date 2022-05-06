@@ -8,5 +8,5 @@ com_which(){(
 	! getopts "" _;shift $((OPTIND-1))  # expected non arg or "--"
 	IFS=${NEW_LINE?};
 	set -- $(fori{{ which -- "$i"||puts "$i";}})
-	unset IFS; eval "${x:?} ${@+"\"\$@\""}" #"
+	unset IFS; eval " ${x:?} ${@+"\"\$@\""}" #"
 )}

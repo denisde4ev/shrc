@@ -40,7 +40,7 @@ r=$red; b=$cyan w=$reset y=$yellow
 fi
 	# e=$(printf \\\33);
 	# r="$e[31m";b="$e[36m";w="$e[m";y="$e[33m";
-i= eval 'for i in r b w y underline; do eval "$i=\\\\[\$$i\\\\]";done'
+i= eval 'for i in r b w y underline; do eval " $i=\\\\[\$$i\\\\]";done'
 
 # PS1='[\u@\h \W'"$(((SHLVL==1))||echo \ $SHLVL)"']\$ '
 
