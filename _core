@@ -1,9 +1,6 @@
 #! /hint/sh
+# i_was_not_set__check=
 alias \
-ii='{ case ${i+x} in      x) puts "warning: ${FUNCNAME+"(in fn $FUNCNAME)"} ${BASH_SOURCE+"(in file $BASH_SOURCE +$BASH_LINENO )"} i is defined with value: $i"        >&2; esac; }' \
-i='{ ii; unset i; }' \
-I='{ case ${i+x} in x) ;; *) puts "warning: ${FUNCNAME+"(in fn $FUNCNAME)"} ${BASH_SOURCE+"(in file $BASH_SOURCE +$BASH_LINENO )"} i was not defined but unset was requested" >&2; esac }; unset i' \
-i{='i' }i='I' \
 \
 puts='printf %s\\n' \
 command.='command >/dev/null -v' \
@@ -13,6 +10,18 @@ loop\{='while :; do' \
 and='(exit $?)&&' or='(exit $?)||' \
 goto_continue='while :;' \
 goto_break='break;' \
+\
+\
+print-error-trace='printf %s "warning: ${BASH_SOURCE+"(in file $BASH_SOURCE +$BASH_LINENO ) "}${FUNCNAME+"(in fn $FUNCNAME) "}"' \
+expect-unseted-i='{ case ${i+x} in x) print-error-trace >&2; puts >&2   "i is defined, i=${i+"\'\''"}${i-(unseted)}${i+"\'\''"}";   esac; }' \
+expect-seted-i='{ case ${i+x} in "")  print-error-trace >&2; puts >&2   "i is unset, i=${i+"\'\''"}${i-(unseted)}${i+"\'\''"}";   esac; }' \
+unset-unseted-i='{ expect-unseted-i; unset i; }' \
+unset-seted-i='{ expect-seted-i; unset i; }' \
+i{=unset-unseted-i \
+}i=unset-seted-i \
+i='print-error-trace >&2 ; arg "i called" >&2' \
+ii='print-error-trace >&2 ; arg "ii called" >&2' \
+I='print-error-trace >&2 ; arg "I called" >&2' \
 ;
 
 case $- in
@@ -27,9 +36,10 @@ case $- in
 esac
 
 # if ( i=_; : "${!i}" ) 2>/dev/null 1>/dev/null; then
+# DONT: unset i inside of _toi fns. instead the top level fn/script should check if it is set.
 case $sh_is in
-	bash|zsh)  shuf_1_toi() { i=$(( ( ${RANDOM:?}   % $# ) + 1 )); i="${!i}"; unset shuf_1_ind; };;
-	*)         shuf_1_toi() { i=$(( ( ${RANDOM:-$$} % $# ) + 1 )); eval "i=\"\${${i}}\""; unset shuf_1_ind; };; # "$$" still got for 1 time usage
+	bash|zsh)  shuf_1_toi() { expect-unseted-i; i=$(( ( ${RANDOM:?}   % $# ) + 1 )); i="${!i}"; unset shuf_1_ind; };;
+	*)         shuf_1_toi() { expect-unseted-i; i=$(( ( ${RANDOM:-$$} % $# ) + 1 )); eval "i=\"\${${i}}\""; unset shuf_1_ind; };; # "$$" still got for 1 time usage
 esac
 
 # GNUtector detect if GNU coreutils options are supported

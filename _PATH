@@ -3,22 +3,22 @@
 case :${PATH:?}: in *:${HOME:?}/bin/@op5t-termux:*|::) return; esac
 
 PATH=\
-$HOME/bin/_/bins-trap:\
-$HOME/bin/HOME-disallowed.d:\
+$HOME/.local/bin/_/bins-trap:\
+$HOME/.local/bin/HOME-disallowed.d:\
 \
-$HOME/bin/home:\
+$HOME/.local/bin/home:\
 \
-$HOME/bin:\
 $HOME/.local/bin:\
-${os_gnu+$HOME/bin/bin.bash:}\
+$HOME/.local/bin-external:\
+${os_gnu+$HOME/.local/bin/bin.bash:}\
 \
 $PATH${PATH:+:}\
 \
-$HOME/bin/songs:\
-$HOME/bin/node:\
+$HOME/.local/bin/songs:\
+$HOME/.local/bin/node:\
 \
-$HOME/bin/@/chroots:\
-$HOME/bin/@/ssh\
-${SSH_CLIENT:+":$HOME/bin/ssh-client"}\
+$HOME/.local/bin/@/chroots:\
+$HOME/.local/bin/@/ssh\
+${SSH_CLIENT:+":$HOME/.local/bin/ssh-client"}\
 ;
 

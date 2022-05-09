@@ -55,7 +55,7 @@ return 0
 false && ( set -eux # when cache is cleared use this:
 
 
-/~arcowo/bin/home/_/mkdirs -q
+/~/.local/bin/home/_/mkdirs -q
 
 mkdir --verbose -p \
 	"$(readlink -f ~/.local/share/cargo)" \

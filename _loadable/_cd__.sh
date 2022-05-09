@@ -1,31 +1,29 @@
-
+#! /hint/sh
 # TODO: separate CD and cd.. command/fn/aliases
 
-_cd__() { # alias 'cd..' '..'
-	local OPTIND=1 || return
-	i{
-	getopts '' i && {
-		echo "${FUNCNAME-_cd__}: fn does not support arguments, got arg: '$i'" >&2
-		I
+_cd__() { # alias 'cd..' '..' 'CD'
+	local i OPTIND=1 || return
+	unset-unseted-i
+	getopts : i && {
+		echo "${FUNCNAME-_cd__}: fn does not support arguments, got: '$1'" >&2
+		unset-seted-i
 		return 2
 	}
-	}i
-	shift $((OPTIND-1)) # shift the '--'
+	unset-seted-i
+	shift $((OPTIND-1)) # shift the '--' if has
 
 
-	local i
 
-	# TODO: (this one still works if uncomment)
 	case $@ in
 		0|*[!0-9]*) ;;
 		[!0]*) # if arg is positive num, todo fix?
-			cd "$( i{
+			cd "$( unset-unseted-i; {
 					i=${1:-1}
 					while [ 0 -lt "$i" ]; do
 						printf %s ../
 						i=$(( i - 1 ))
 					done
-			}i )"
+			} ;unset-seted-i )"
 			return
 		;;
 	esac
@@ -37,13 +35,17 @@ _cd__() { # alias 'cd..' '..'
 		0) cd ..;;
 		1)
 			case $1 in # match $1 arg - when only 1 arg
-				npm|node) i{; i="$(npm root)" && cd "${i%/node_modules}"; }i;;
+				npm|node) unset-unseted-i; i="$(npm root)" && cd "${i%/node_modules}"; unset-seted-i;;
 				git)                            cd "$(git rev-parse --show-toplevel)";;
+				part)                           cd "$(get-part-mounted .)";;
 
 				torrents)                       cd ~/d/' '/torrents;;
 				torrentss)                      cd ~/d/' '/torrentss;;
 				[Vv][Bb]ox|[Vv]irtual[Bb]ox)    cd ~/d/' '/VirtualBoxVMs;;
 				[Vv][Bb]oxs|[Vv]irtual[Bb]oxs)  cd ~/d/' '/VirtualBoxVMss;;
+
+				bin)                            cd ~/.local/bin;;
+				B)                              cd ~/.config/bash/bashrc.d;;
 
 				dow|dl|downloads|download)      cd "${XDG_DOWNLOAD_DIR:-"$HOME/Downloads"}";;
 				doc|docs|documents|document)    cd "${XDG_DOCUMENTS_DIR:-"$HOME/Documents"}";;
@@ -53,9 +55,11 @@ _cd__() { # alias 'cd..' '..'
 				did|/did)                       cd /dev/disk/by-id;; # also /did is my symlink to it
 				todo|TODO)                      cd "${TODO_DIR:-"$HOME/0/TODO.d"}";;
 
+				dd-gh|gh-dd)                    cd '/^/ https:/github.com/denisde4ev';;
 				http*|https*) # TODO: consider should thsi code be here or in other fn, like cd+/cd-
 					case $1 in
-						http://?*.?*/*|https://?*.?*/*) i{
+						http://?*.?*/*|https://?*.?*/*)
+							unset-unseted-i
 							i=${1#http}; i=${i#s}; i=${i#://}
 							i=/^/\ https:/"${i%/*}"
 							[ -d "$i" ] || mkdir -pv -- "$i"
@@ -63,25 +67,31 @@ _cd__() { # alias 'cd..' '..'
 							i=${1##*/}; i=${i%.git}
 							[ -d "$i" ] || git clone -- "$1" "./$i"
 							cd "./$i"
-						}i;;
+							unset-seted-i
+						;;
 						*) cd /^/\ https:;;
 					esac
 				;;
 
-				/did__/*) i{
+				/did__/*)
+					unset-unseted-i
 					i=$(readlink -f $1) && \
 					sudo mount -v /dev/"${i##*/}" /mnt/_/"${i##*/}" &&
 					{
 						cd "/mnt/did/${1}"
 					}
-				}i;;
-				/did/*|/dev/*) i{ # TODO: move this to new cd-i fn.
+					unset-seted-i
+				;;
+				/did/*|/dev/*)
+					unset-unseted-i
 					if [ -L "$1" ]; then
 						i=$(readlink -f "$1")
 					else
 						i=$1
 					fi && \
-					cd /mnt/_/"${i##*/}" || return
+					cd /mnt/_/"${i##*/}" || {
+						eval "unset-seted-i;"return" $?"
+					}
 					if (
 						# also auto mount it if folder is empty (not porpper mount detection but it good enugh)
 						{
@@ -95,11 +105,13 @@ _cd__() { # alias 'cd..' '..'
 					); then
 						cd /mnt/_/"${i##*/}"
 					fi
-				}i;;
+					unset-seted-i
+				;;
 
 				*/*) cd "${@%/*}";; # my favorite one: `cd.. /dir/to/file` will result in `cd /dir/to`
 
-				@*) i{
+				@*)
+					unset-unseted-i
 					i=/~/0/chroots/"${1#@}"
 					if [ -d "$i" ]; then
 						cd "$i" && \
@@ -107,8 +119,9 @@ _cd__() { # alias 'cd..' '..'
 					else
 						_cd__ which-ll "$1" && return
 					fi
-				}i ;;
-				_[a-zA-Z]*) if [ -e ~/B/"$@" ]; then cd ~/B/"$@"; else cd ~/B/"$@"*; fi ;;
+					unset-seted-i
+				;;
+				_[a-zA-Z]*) if [ -e ~/B/"$1" ]; then cd ~/B/"$1"; else cd ~/B/"$1"*; fi ;;
 				*) echo >&2 1 arg, not matched; return 2;;
 			esac
 			printf %s\\n "cd $(quote "$PWD")"
@@ -125,7 +138,7 @@ _cd__() { # alias 'cd..' '..'
 						*) puts >&2 "got bad path from which: '$3'"; return 1;;
 					esac
 
-					case $1 in which-ll) ll -d -- "$2"; esac
+					case $1 in which-ll) ${LL_COMMAND:-ls -al} -d -- "$2"; esac
 				;;
 				*) echo >&2 not matched; return 2;;
 			esac

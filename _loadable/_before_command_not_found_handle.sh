@@ -1,20 +1,25 @@
 
 _before_command_not_found_handle() {
+	while :; do # goto: continue
 	case $1 in
 	[a-zA-Z0-9]*.)
-		i;local i
+		unset-unseted-i; local i
 		i=${1%.};
-		YN_confirm n "Run '$i${*#"$i."}' and exit?" && {
+		YN_confirm N "Run '$i${*#"$i."}' and return?" && { # note if cant read will return 0
 			shift
-			eval " $i" "$@"& # NOTE: this won't exit the main shell, reason: in bash command_not_found_handle is in subshell
-			exit
-			I
+			eval " $i" "${1+\"\$@\"}"& # NOTE: this won't exit the main shell, reason: in bash command_not_found_handle is in subshell
+			return
+			unset-seted-i
 			return
 		}
-		I
+		unset-seted-i
+		break # no need to print comm. n. fonud
 		;;
 	esac
+	break; done # goto break
+
 	if command. command_not_found_handle; then
-		( command_not_found_handle "$@"; )
+		command_not_found_handle "$@"
 	fi
+
 }

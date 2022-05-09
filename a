@@ -1,5 +1,7 @@
 #! /hint/sh
 alias \
+@op5-cin='@op5 /data/data/com.termux/files/home/bin/termux/cin' \
+@op5-cout='@op5 /data/data/com.termux/files/home/bin/termux/cout' \
 %%%='%% & exit' \
 \
 datei='date -I' \
@@ -17,7 +19,6 @@ CCCCCCC='sudo loadkeys carpalx; setxkbmap "us(carpalx)"' \
 7z-mx9='7z a -r -t7z -m0=lzma2 -mx=9 -myx=9 -mqs=on -ms=on' \
 \
 xmrig='( case $TERM in screen-*) xmrig ;; *) byobu new doas xmrig; esac )' \
-pop_to_i='{ i; i=$#; while case $i in 0|1) false; esac; do set -- "$@" "$1"; shift; i=$(( i - 1 )); done; i=$1; shift; }' \
 BAT='bat -A' \
 bat='\bat --style header,numbers,rule,snip' \
 cut-f='cut -d " " -f' \
@@ -31,7 +32,8 @@ mongod='\mongod --logpath /dev/stdout' \
 llw='ll.which' \
 cdw='cd.which' \
 cw='cd.which' \
-cd.mktemp='cd "$(mktemp -d)"' \
+cd.tmp='cd "$(mktemp -d -t tmp.shpid$$.XXXX)"' \
+cd.mktemp='cd.tmp' \
 cd-='cd -' \
 CD='cd..' \
 \
@@ -56,6 +58,7 @@ ${os_gnu+
 	diff='\diff -s --color=auto' \
 	micro-diff='\micro-diff -s --color=auto' \
 } \
+edit-genpath='edit-genpath -u' \
 diff-arch='diff --unified --recursive --text' \
 pacman-diffs='(find /etc 2>/dev/null -name "*.pacnew" -mtime -360 -type f | sed "s/.pacnew\$//")' \
 \
@@ -77,7 +80,7 @@ ping='\ping -c 128' \
 \
 rsync='\rsync -azvhP' \
 fuserumount='fusermount -u' \
-tb="nc termbin.com 9999" \
+termbin="nc termbin.com 9999" \
 sync='time \sync' \
 pv='time \pv' \
 \
@@ -130,24 +133,25 @@ gparted.='__ gparted.' \
 qdirstat.='__ qdirstat.' \
 konsole.='__ konsole.' \
 \
+ll='${LL_COMMAND:-ls -al}' \
+\
 ;
 
 if command. exa; then
+export LSLONG_COMMAND="exa -alF --git --time-style iso --group-directories-first -g"
 alias \
 ls='exa -aF' \
-ll='exa -alF --git --time-style iso --group-directories-first -g' \
 l='exa -alF --git --time-style iso --group-directories-first -a' \
 llT='exa -alF --time-style iso --group-directories-first -Th' \
 llT0='llT --level 0' llT1='llT --level 1' llT2='llT --level 2' llT3='llT --level 3' llT4='llT --level 4' llT5='llT --level 5' \
 ;
 else
+export LSLONG_COMMAND='ls -alF --group-directories-first'
 alias \
 ls='\ls --color=auto' \
-ll='ls -alF --group-directories-first' \
 l='ll' \
 ;
 fi
-
 
 if command. pacman; then
 alias \
@@ -197,3 +201,4 @@ return
 
  # '/did' is (Disk ID) a symlink to '/dev/block/by-id'
 
+# path='pts "$PATH" | tr : \\n'

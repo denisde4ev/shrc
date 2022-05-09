@@ -2,26 +2,31 @@
 
 # $EDITOR comes from ./_env
 
-[ "${EDITOR:-}" != '' ] || {
-	for i in micro nano vim vi ed edit less most more cat CAT false; do
-		command. "$i" || continue
-		case $i in
-			false) return;;
-			ed|less|most|more|cat|CAT) alias edit >&2;; # warn when using ed/pager/cat for editor
-
+case ${EDITOR+x} in '')
+	i{
+	for i in micro nano vim vi ed edit less most more cat CAT; do
+		command. "$EDITOR" || continue
+		case $EDITOR in
+			ed|less|most|more|cat|CAT) puts "warn: EDITOR=$EDITOR" >&2; break;; # warn when using ed/pager/cat for editor
 			# how to do iiit ??? ### read) alias edit="CAT"
-			# CAT is from ~/B/fn (loaded after this file - reason alphabetical order)
+			# CAT is from ~/B/_loadable or bin/CAT (loaded after this file - reason alphabetical order)
 		esac
-
-		alias edit="$i"
 		break
+
 	done
-}
+	}i
+esac
+
 
 case $(command -v com-which) in
 	*/*)
-		alias e.which='com-which -c edit'
-		alias e.which.alias='alias | com-which --com=edit --read-alias'
+		# NOTE: facky way to using internal alias to expand another alais in middle of the line..
+		alias \
+			__com-which-c='com-which -c ' \
+			\
+			e.which='__com-which-c edit' \
+			e.which.alias='alias | __com-which-c edit --read-alias' \
+		;
 	;;
 	*)
 		alias e.which=e_which # note this fn comes from ~/B/_loadable/
@@ -34,6 +39,7 @@ esac
 
 # some common files for edit:
 alias \
+edit='"${EDITOR:?}"' \
 e.trizen.conf='edit ~/.config/trizen/trizen.conf' \
 e.pacman.conf='edit /etc/pacman.conf' e.pacman='e.pacman.conf' \
 e.pacman_mirrorlist='edit /etc/pacman.d/mirrorlist' \

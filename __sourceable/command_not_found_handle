@@ -1,0 +1,149 @@
+#!/bin/bash
+
+# TODO: fix/implement alias ___=command_might_be_found_handle
+
+
+: ::: command_not_found_handle "$@" ::: :
+# consider: '2>/dev/null' to be quiet on xtrace shell
+
+# local comm _comm _arg exi; comm="$1"; shift
+unset comm _comm _arg exi; comm="$1"; shift
+# _comm _arg i  = temp vars
+# exi  = matched and executed command exit code
+
+while :; do # label: handling
+	while :; do # label: multiple_checks
+		while :; do # label: check_exact_or_end
+
+			case $comm in
+
+			#which)
+				#command -v -- "$comm"
+				#exi=$?
+				#;;
+
+			*"#")
+				${shell_is_interactive-break 1} # if (!shell_is_interactive) then break check_exact_or_end
+				_arg=$(history_current_command)
+
+				# note/(unfixable bug):
+				# this can be miss matched pretty easily
+				# for example: `: 'echo# '; echo# 1`
+				# after `: 'echo#'` will output:
+				#   actual: '; echo# 1"
+				#   wanted: 1
+				#
+				# however because I want to use something like: `set-x echo# 1`, I will keep it like this
+				# it is not easy to do this miss match exept on purpose
+				case $_arg in *"$comm "*) ;; *)
+					puts "command_not_found_handle err: _arg='$_arg' is not in *'$comm '*" >&2
+					exi=127
+					_arg=''
+				esac
+				case ${_arg:+x} in x)
+					_arg=${_arg#*"$comm "}
+					_arg=${_arg#"#"}
+					## NOTE: do not give me _comm=(some alias not expecting args) there is no point in it,
+					# just leave the default shell syntax error
+					eval " ${comm%"#"}"' "$_arg"' 
+					exi=$?
+				esac
+				;;
+
+
+			*.which)
+				com-which -c "$ ${comm%.which}" "$@"
+				exi=$?
+				;;
+
+			*.c|*.copy|*.pipecopy)
+				eval " ${comm%.*}"' "$@" | clip_io'
+				exi=$?
+				;;
+			*)
+				# goto next check
+				break 1 # break check_exact_or_end
+			esac
+
+			# when found action go to end
+			# when found a handle do not print end error
+			break 3 # break handling
+		break; done # label-end: check_exact_or_end
+		
+
+		while :; do # label: check_end_and_executWithAlias
+			case $comm in
+				*.topwd)   _comm=${comm%.*};                      set -- "$@"  "$PWD";;
+				*.pwd)     _comm=${comm%.*};                      set -- "$PWD"  "$@";;
+				*...)      _comm=${comm%.};  _arg=${1%/*}; shift; set -- "$_arg" "$@";; # note: this is to be done in recursion, example: echo... a/b/c/d  will print 'a/b',  and adding just 1 dot more: echo.... a/b/c/d  will print 'a' 
+				*..)       _comm=${comm%..}; _arg=${1%/*}; shift; set -- "$_arg" "$@";;
+				*) break 1;; # goto next check # break check_and_executWithAlias
+			esac
+
+			case $(command -v -- "$_comm") in
+				*/*) "$_comm" "$@";;
+				[a-zA-Z_@]*) eval " $_comm"' "$@"';;
+				*) "$_comm" "$@";;
+			esac
+			exi=$?
+			# when found a handle do not print end error
+			break 3 # break handling
+		break; done # label-end: check_end_and_executWithAlias
+
+		while :; do # label: check_begin
+			case $comm in
+			-[A-Z]*)
+				case $comm in -*[!A-Za-z]*) break 1; esac # must have only letters # break check_begin
+				trizen "$comm" "$@" # note: hardcoded preferred aur helper
+				exi=$?
+				;;
+
+			@*|root@*)
+				ssh "${comm#@}" "$(arg "$@")" # NOTE: USING ARG USED TO ESCAPE an interactive conmmand
+				exi=$?
+				;;
+
+			song-*)
+				{
+					YN_confirm -S y "song: $comm does not exist, do you want to create it now?" || break 1 # break check_begin
+					exi=127
+					song_gen "${comm#"song-"}" || break 1 # break check_begin
+					exi=$?
+					YN_confirm -S y "after song_gen: do you want to run '$comm' now?" || break 1 # break check_begin
+				}  </dev/tty >/dev/tty 2>/dev/tty
+				"$comm" "$@"
+				exi=$?
+				;;
+			..[a-zA-Z_0-9]*) # todo: text this one
+				eval 'cd..' "${comm#".."}" "$@"
+				exi=$?
+				;;
+			*)
+				# goto next check
+				break 1 # break check_begin
+				;;
+			esac
+			# when found a handle do not print end error
+			break 3 # break handling
+		break; done # label-end: check_begin
+
+		# if cant handle then goto err pninting
+		break 2 # break handling 
+
+	break; done # label-end: multiple_checks
+	
+
+	${exi+echo "not expected to get exi var here, ( exi=${exi+"'"}${exi-"(unset)"}${exi+"'"} ), fix this in command_not_found_handle"} >&2
+
+	printf %s\\n "bash: $comm: command not found" >&2
+	exi=127
+
+break; done # label-end: handling
+
+
+case ${exi-} in '')
+	echo "expected to get exi var here, ( exi=${exi+"'"}${exi-"(unset)"}${exi+"'"} ), fix this in command_not_found_handle" >&2
+esac
+
+eval "unset comm _comm _arg exi; return '$exi'"
+

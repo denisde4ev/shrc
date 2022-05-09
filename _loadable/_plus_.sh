@@ -11,7 +11,7 @@
 # 			*) { echo "err: can\'t load YN_confirm function" >&2; return; exit; };;
 # 		esac
 # 		# # require function YN_confirm from YN_confirm
-# 		# command -v sh_require >/dev/null || . /~arcowo/bin/shsource.d/sh_require.sh
+# 		# command -v sh_require >/dev/null || . /~arcowo/.local/bin/shsource.d/sh_require.sh
 # 		# case $i in
 # 		# 	sh_require) ;; # all ok sh_require is function
 # 		# 	'alias sh_require='?*) ;; # still hope it is ok ..
@@ -22,7 +22,7 @@
 # 		# 	;;
 # 		# esac || return || exit
 # 		# ;
-# 		# sh_require -f /~arcowo/bin/YN_confirm YN_confirm YN_confirm || return || exit
+# 		# sh_require -f /~arcowo/.local/bin/YN_confirm YN_confirm YN_confirm || return || exit
 # 	;;
 # esac
 

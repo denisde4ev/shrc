@@ -1,29 +1,23 @@
 #! /hint/sh
 
 __load_loadable() {
-	unalias "$1" 2>&- || {
-		# ?already loaded? if no alias is used then execute it,
-		# DO NOT USE FUNCTION! if fn used this will result in recursion
+	unalias "$1" 2>/dev/null || {
+		# NOTE: fn should not try to load itself/(or longer version of itself)
+		# in function body. Or this will create recursion here
 		"$@"
 		return
 	}
+
 	# for now no bash specific fn-s
-	case $sh_is in
-	bash)
-		if [ -e ~/B/_loadable/"$1".bash ]; then
-			. ~/B/_loadable/"$1".bash
-		else
-			. ~/B/_loadable/"$1".sh
-		fi
-		;;
-	*)
+	if [ -e ~/B/_loadable/"$1"."$sh_is" ]; then
+		. ~/B/_loadable/"$1"."$sh_is"
+	elif case "$sh_is" in "$sh_is_") false;; *) [ -e ~/B/_loadable/"$1"."$sh_is_" ]; esac; then
+		. ~/B/_loadable/"$1"."$sh_is_"
+	else
 		. ~/B/_loadable/"$1".sh
-	esac
+	fi
 
-
-	# (not needed for now), if alias needed to execute, use:
-	# local i;i=$1; shift
-	# eval " $i ${@:+"\"\${@}\""}"  #"
+	# note: no aliases allowed
 	"$@"
 }
 
@@ -44,43 +38,10 @@ pwd=_pwd_ \
 ll.parents='_ll_parents' \
 set-x='_set_x' \
 'type=_type_' '?=_type_' '??=_type_ -a' \
+e.loadable='_edit_loadable ' \
 ;
 # ?- is from ~/B/a
 
-
-# P='__load_loadable_byfile %%PacmanSyu.sh P' \
-
-# ${sh_is_bash+
-# alias
-# arg='__load_loadable arg'
-# }
-##### TODOOOO: current cache does not separate non bash and sh versions, current cache uses bash's
-# # GENERATED USING: ( printf 'alias \\\n'; alias | rg "='__load_loadable" | sed 's/^alias //; s/$/ \\/'; printf ';\nreturn\n' )
-# # CACHED LINE: {
-false && alias \
-P='__load_loadable P' \
-YN_confirm='__load_loadable YN_confirm' \
-__load_loadable_byfile='__load_loadable __load_loadable_byfile' \
-_cd__='__load_loadable _cd__' \
-_cd_dot='__load_loadable _cd_dot' \
-_cd_plus='__load_loadable _cd_plus' \
-_cd_plusparents='__load_loadable _cd_plusparents' \
-_ll_parents='__load_loadable _ll_parents' \
-_plus_='__load_loadable _plus_' \
-_pwd_='__load_loadable _pwd_' \
-_set_x='__load_loadable _set_x' \
-_song='__load_loadable _song' \
-arg='__load_loadable arg' \
-delayed_first_stdin='__load_loadable delayed_first_stdin' \
-every='__load_loadable every' \
-history_current_command='__load_loadable history_current_command' \
-history_last_command='__load_loadable history_last_command' \
-pacascii='__load_loadable pacascii' \
-sh_require='__load_loadable sh_require' \
-some='__load_loadable some' \
-&& \
-return
-# # }
 
 i{
 for i in ~/B/_loadable/[a-zA-Z0-9_]*.sh ${sh_is_bash+~/B/_loadable/[a-zA-Z0-9_]*.bash}; do
@@ -89,8 +50,6 @@ for i in ~/B/_loadable/[a-zA-Z0-9_]*.sh ${sh_is_bash+~/B/_loadable/[a-zA-Z0-9_]*
 	# arg "$i"
 	# (dont use for now fn): eval " $i(){ __load_loadable $i \"\$@\" }"
 	alias "$i"="__load_loadable $i"
+	## arg "$i"="__load_loadable $i"
 done
 }i
-
-# _plus_(){     __load_loadable _plus_     "$@"; };
-# YN_confirm(){ __load_loadable YN_confirm "$@"; };

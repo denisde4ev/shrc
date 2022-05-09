@@ -34,6 +34,8 @@ linux|screen*) export EDITOR=${EDITOR-nano};;
 *)             export EDITOR=${EDITOR-micro};;
 esac
 
+	
+
 # note $new_line is from ~/B/_core
 
 # some enviromnent aliases, (for now all are for PAGER var fix)
@@ -48,3 +50,9 @@ man='MANPAGER=most \man' \
 HELP='MANPAGER=most \HELP' \
 systemctl='PAGER= systemctl' \
 ;
+
+
+
+# todo: remove this after Arch fixes their /etc/profile.d/locale.sh
+export LC_ALL="${LC_ALL:-C}"
+
