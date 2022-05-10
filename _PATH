@@ -12,7 +12,7 @@ $HOME/.local/bin:\
 $HOME/.local/bin-external:\
 ${os_gnu+$HOME/.local/bin/bin.bash:}\
 \
-$PATH${PATH:+:}\
+${PATH:?}${PATH:+:}\
 \
 $HOME/.local/bin/songs:\
 $HOME/.local/bin/node:\
