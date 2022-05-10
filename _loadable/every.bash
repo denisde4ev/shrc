@@ -1,4 +1,4 @@
-#!/ /hirt/bash
+#! /hirt/bash
 
 every() {
 	for i in "${PIPESTATUS[@]}"; do

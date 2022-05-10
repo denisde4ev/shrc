@@ -133,7 +133,7 @@ while :; do # label: handling
 	break; done # label-end: multiple_checks
 	
 
-	${exi+echo "not expected to get exi var here, ( exi=${exi+"'"}${exi-"(unset)"}${exi+"'"} ), fix this in command_not_found_handle"} >&2
+	${exi+pnintf %s\\n "not expected to get exi var here, ( exi=${exi+"'"}${exi-"(unset)"}${exi+"'"} ), fix this in command_not_found_handle, called with:" "$@"} >&2
 
 	printf %s\\n "bash: $comm: command not found" >&2
 	exi=127
@@ -142,7 +142,7 @@ break; done # label-end: handling
 
 
 case ${exi-} in '')
-	echo "expected to get exi var here, ( exi=${exi+"'"}${exi-"(unset)"}${exi+"'"} ), fix this in command_not_found_handle" >&2
+	pnintf %s\\n "expected to get exi var here, ( exi=${exi+"'"}${exi-"(unset)"}${exi+"'"} ), fix this in command_not_found_handle, called with:" "$@" >&2
 esac
 
 eval "unset comm _comm _arg exi; return '$exi'"
