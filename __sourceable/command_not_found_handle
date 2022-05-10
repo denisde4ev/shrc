@@ -2,6 +2,7 @@
 
 # TODO: fix/implement alias ___=command_might_be_found_handle
 
+# (debug) case $i in ___set___) set ;;esac
 
 : ::: command_not_found_handle "$@" ::: :
 # consider: '2>/dev/null' to be quiet on xtrace shell
@@ -142,7 +143,7 @@ break; done # label-end: handling
 
 
 case ${exi-} in '')
-	pnintf %s\\n "expected to get exi var here, ( exi=${exi+"'"}${exi-"(unset)"}${exi+"'"} ), fix this in command_not_found_handle, called with:" "$@" >&2
+	printf %s\\n "expected to get exi var here, ( exi=${exi+"'"}${exi-"(unset)"}${exi+"'"} ), fix this in command_not_found_handle, called with:" "$@" >&2
 esac
 
 eval "unset comm _comm _arg exi; return '$exi'"
