@@ -1,1 +1,1 @@
-/^/ https:/github.com/denisde4ev/YN_confirm.sh/raw/master/YN_confirm.sh
+/^/ https://github.com/denisde4ev/YN_confirm.sh/raw/master/YN_confirm.sh

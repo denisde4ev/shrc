@@ -21,7 +21,8 @@ ew \
 x \
 '?' \
 '??' \
-e.loadable
+e.loadable \
+
 do
 	# command arg expand:
 	complete -F _command "$i"
