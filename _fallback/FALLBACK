@@ -2,7 +2,10 @@
 
 i{
 for i in ~/B/_fallback/[a-z_]*[!%~]; do
-	command. "${i##*/}" \|\| . "$i"
+	command. "${i##*/}" || {
+		puts "note: using fallback for command '$i'"
+		. "$i"
+	}
 
 ##	command. "${i##*/}"
 ##	echo command. "${i##*/}" $?

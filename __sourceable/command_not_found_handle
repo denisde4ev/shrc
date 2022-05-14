@@ -117,7 +117,7 @@ while :; do # label: handling
 				exi=$?
 				;;
 
-			@*|root@*)
+			@*|root@*|u@*|user@*)
 				ssh "${comm#@}" "$(arg "$@")" # NOTE: USING ARG USED TO ESCAPE an interactive conmmand
 				exi=$?
 				;;
