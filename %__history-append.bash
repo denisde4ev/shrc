@@ -22,10 +22,10 @@ shopt -s expand_aliases # expand aliases
 # "}history -a;" # After each command, append to the history file and reread it
 # PROMPT_COMMAND="(echo 1;history -a;) 2>&-"
 
-PROMPT_COMMAND=
+case ${NEW_LINE:+x} in '') return; esac
 
 _prompt_command_append() {
-	PROMPT_COMMAND="${PROMPT_COMMAND:+"$PROMPT_COMMAND; "}$1"
+	PROMPT_COMMAND="${PROMPT_COMMAND:+"$PROMPT_COMMAND${NEW_LINE:-$'\n'}"}$1"
 }
 
 # case ${TERM} in
@@ -36,7 +36,7 @@ _prompt_command_append() {
 # PROMPT_COMMAND='printf "\033]0;%s\007" "${PWD/#$HOME/\~}"; history -a'
 case $TERM in
 	# xterm*|rxvt*|Eterm|aterm|kterm|gnome*) PROMPT_COMMAND='printf "\033]0;%s\007"  "'"$(a=\\$ eval echo '"\\${a@P} "')"'${PWD/#$HOME/\~}"' ;;
-	xterm*|rxvt*|Eterm|aterm|kterm|gnome*) 
+	xterm*|rxvt*|Eterm|aterm|kterm|gnome*)
 		case ${SSH_TTY+x} in
 			x) PROMPT_COMMAND='printf "\033]0;%s\007"  "${USER:-$(id -un)}@${HOSTNAME:-$(hostname)} ${PWD/#$HOME/\~}"';;
 			*) PROMPT_COMMAND='printf "\033]0;%s\007"  "$(a=\\\$ eval echo \"\${a@P} \") ${PWD/#$HOME/\~}"';;
@@ -47,7 +47,7 @@ esac
 
 _prompt_command_append 'history -a'
 
-PROMPT_COMMAND="{ $PROMPT_COMMAND ; } 2>&-" #dont print to console in set -x
+PROMPT_COMMAND="{$NEW_LINE$PROMPT_COMMAND$NEW_LINE} 2>&-" #dont print to console in set -x
 # bats_battery_status=$(bats)
 # _prompt_command_append 'printf "\033]0;%s\007" "${bats_battery_status}"'
 
