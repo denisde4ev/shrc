@@ -1,0 +1,41 @@
+#!/bin/bash
+
+bold='[1m'
+# black='[30m'
+# red='[31m'
+# green='[32m'
+# yellow='[33m'
+blue='[34m'
+# magenta='[35m'
+# cyan='\33[36m'
+# white='\33[37m'
+reset='(B[m'
+# underline='[4m'
+# nounderline='[24m'
+
+ui=$(tty)
+if   [[ $ui = /dev/tty* ]];                            then uitype=TTY; ui=$'\e[1D'${ui##*/tty}
+elif [[ $DE ]];                                        then uitype=DE;  ui=$DE
+elif [[ $WM ]];                                        then uitype=WM;  ui=$WM
+elif [[ $XDG_CURRENT_DESKTOP || $DESKTOP_SESSION ]];   then uitype=DE;  ui=${XDG_CURRENT_DESKTOP-}${XDG_CURRENT_DESKTOP+ }${DESKTOP_SESSION-}
+elif [[ -f ~/.xinitrc ]];                              then uitype=WM;  ui=$(sed -ne 's/^exec //p' ~/.xinitrc)
+elif [[ -f ~/.xsession ]];                             then uitype=WM;  ui=$(tail -n 1 ~/.xsession | cut -d ' ' -f 2)
+                                                       else uitype=UI;  ui=unknown
+fi
+
+lc=$reset$bold$blue         # labels
+nc=$reset$bold$blue         # user and hostname
+ic=$reset                   # info
+c0=$reset$blue              # first color
+
+ps='$nc \u$ic@${nc}\h$reset' # output like prompt string
+
+printf %s\\n \
+"" \
+"        $c0/\\$reset       ${ps@P}" \
+"       $c0/  \\$reset      $lc OS:       $ic ArcoLinux$reset" \
+"      $c0/ /\\ \\$reset     $lc KERNEL:   $ic $(uname -sr)$reset" \
+"     $c0/ /  \\ \\$reset    $lc UPTIME:   $ic $(uptime -p | sed 's/up //')$reset" \
+"    $c0/ /    \\ \\$reset   $lc PACKAGES: $ic $(pacman -Q|wc -l)$reset" \
+"   $c0/ / -----\\ \\$reset  $lc SHELL:    $ic ${SHELL##*/}$reset" \
+"  $c0/_/  \`\`\`\`-.\\_\\$reset $lc $uitype:       $ic ${ui##*/}$reset"

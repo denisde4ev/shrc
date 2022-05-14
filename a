@@ -3,6 +3,7 @@ alias \
 @op5-cin='@op5 /data/data/com.termux/files/home/bin/termux/cin' \
 @op5-cout='@op5 /data/data/com.termux/files/home/bin/termux/cout' \
 %%%='%% & exit' \
+nyx='sudo -u tor nyx' \
 \
 datei='date -I' \
 todo='e ~/d/todo.md' \

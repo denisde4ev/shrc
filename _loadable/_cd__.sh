@@ -36,27 +36,32 @@ _cd__() { # alias 'cd..' '..' 'CD'
 		1)
 			case $1 in # match $1 arg - when only 1 arg
 				npm|node) unset-unseted-i; i="$(npm root)" && cd "${i%/node_modules}"; unset-seted-i;;
-				git)                            cd "$(git rev-parse --show-toplevel)";;
-				part)                           cd "$(get-part-mounted .)";;
+				git)                              cd "$(git rev-parse --show-toplevel)";;
+				part)                             cd "$(get-part-mounted .)";;
 
-				torrents)                       cd ~/d/' '/torrents;;
-				torrentss)                      cd ~/d/' '/torrentss;;
-				[Vv][Bb]ox|[Vv]irtual[Bb]ox)    cd ~/d/' '/VirtualBoxVMs;;
-				[Vv][Bb]oxs|[Vv]irtual[Bb]oxs)  cd ~/d/' '/VirtualBoxVMss;;
+				torrents)                         cd ~/d/' '/torrents;;
+				torrentss)                        cd ~/d/' '/torrentss;;
+				[Vv][Bb]ox|[Vv]irtual[Bb]ox)      cd ~/d/' '/VirtualBoxVMs;;
+				[Vv][Bb]oxs|[Vv]irtual[Bb]oxs)    cd ~/d/' '/VirtualBoxVMss;;
 
-				bin)                            cd ~/.local/bin;;
-				B)                              cd ~/.config/bash/bashrc.d;;
+				bin)                              cd ~/.local/bin;;
+				B)                                cd ~/.config/bash/bashrc.d;;
+				_loadable|loadable)               cd ~/B/_loadable;;
+				__sourcable|_sourcable|sourcable) cd ~/B/__sourcable;;
 
-				dow|dl|downloads|download)      cd "${XDG_DOWNLOAD_DIR:-"$HOME/Downloads"}";;
-				doc|docs|documents|document)    cd "${XDG_DOCUMENTS_DIR:-"$HOME/Documents"}";;
-				desk|desktops|desktop)          cd "${XDG_DESKTOP_DIR:-"$HOME/Desktop"}";;
-				pic|p|pics|pic)                 cd "${XDG_PICTURES_DIR:-$HOME/Pictures}";;
-				ss|shot|screenshots|screenshot) cd "${XDG_PICTURES_DIR:-$HOME/Pictures}/Screenshots";;
-				did|/did)                       cd /dev/disk/by-id;; # also /did is my symlink to it
-				todo|TODO)                      cd "${TODO_DIR:-"$HOME/0/TODO.d"}";;
+				gh|GH)                            cd '/^/ https:/github.com';;
+				gh-dd|ghdd)                       cd '/^/ https:/github.com/denisde4ev';;
+				http|https|http:|https:)          cd '/^/ https:';;
 
-				dd-gh|gh-dd)                    cd '/^/ https:/github.com/denisde4ev';;
-				http*|https*) # TODO: consider should thsi code be here or in other fn, like cd+/cd-
+				dow|dl|downloads|download)        cd "${XDG_DOWNLOAD_DIR:-"$HOME/Downloads"}";;
+				doc|docs|documents|document)      cd "${XDG_DOCUMENTS_DIR:-"$HOME/Documents"}";;
+				desk|desktops|desktop)            cd "${XDG_DESKTOP_DIR:-"$HOME/Desktop"}";;
+				pic|p|pics|pic)                   cd "${XDG_PICTURES_DIR:-$HOME/Pictures}";;
+				ss|shot|screenshots|screenshot)   cd "${XDG_PICTURES_DIR:-$HOME/Pictures}/Screenshots";;
+				did|/did)                         cd /dev/disk/by-id;; # also /did is my symlink to it
+				todo|TODO)                        cd "${TODO_DIR:-"$HOME/0/TODO.d"}";;
+
+				http*|https*) # TODO: consider should this code be here or in other fn, like cd+/cd-
 					case $1 in
 						http://?*.?*/*|https://?*.?*/*)
 							unset-unseted-i

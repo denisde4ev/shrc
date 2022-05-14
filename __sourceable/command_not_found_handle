@@ -7,10 +7,14 @@
 : ::: command_not_found_handle "$@" ::: :
 # consider: '2>/dev/null' to be quiet on xtrace shell
 
-# local comm _comm _arg exi; comm="$1"; shift
-unset comm _comm _arg exi; comm="$1"; shift
-# _comm _arg i  = temp vars
+case ${FUNCNAME:+x} in # not posix
+	x) local comm _comm _arg exi;;
+	:) unset comm _comm _arg exi;;
+esac
+comm="$1"; shift
+
 # exi  = matched and executed command exit code
+# _comm _arg i  = temp vars
 
 while :; do # label: handling
 	while :; do # label: multiple_checks
@@ -36,6 +40,7 @@ while :; do # label: handling
 				#
 				# however because I want to use something like: `set-x echo# 1`, I will keep it like this
 				# it is not easy to do this miss match exept on purpose
+
 				case $_arg in *"$comm "*) ;; *)
 					puts "command_not_found_handle err: _arg='$_arg' is not in *'$comm '*" >&2
 					exi=127
@@ -61,6 +66,17 @@ while :; do # label: handling
 				eval " ${comm%.*}"' "$@" | clip_io'
 				exi=$?
 				;;
+
+			# *.loadable)
+				# case $1 in
+					# __load_loadable) _comm=$2;;
+					# *) _comm=$1;;
+				# esac
+				# "${comm%.*}" ~/B/_loadable/"$_comm".*
+				# ;;
+
+
+			
 			*)
 				# goto next check
 				break 1 # break check_exact_or_end
@@ -74,10 +90,12 @@ while :; do # label: handling
 
 		while :; do # label: check_end_and_executWithAlias
 			case $comm in
-				*.topwd)   _comm=${comm%.*};                      set -- "$@"  "$PWD";;
-				*.pwd)     _comm=${comm%.*};                      set -- "$PWD"  "$@";;
-				*...)      _comm=${comm%.};  _arg=${1%/*}; shift; set -- "$_arg" "$@";; # note: this is to be done in recursion, example: echo... a/b/c/d  will print 'a/b',  and adding just 1 dot more: echo.... a/b/c/d  will print 'a' 
-				*..)       _comm=${comm%..}; _arg=${1%/*}; shift; set -- "$_arg" "$@";;
+				*.topwd)               _comm=${comm%.*};                      set -- "$@"     "$PWD";;
+				*.tooldpwd)            _comm=${comm%.*};                      set -- "$@"  "$OLDPWD";;
+				*.pwd|*.frompwd)       _comm=${comm%.*};                      set -- "$PWD"     "$@";;
+				*.oldpwd|*.fromoldpwd) _comm=${comm%.*};                      set -- "$OLDPWD"  "$@";;
+				*...)                  _comm=${comm%.};  _arg=${1%/*}; shift; set -- "$_arg" "$@";; # note: this is to be done in recursion, example: echo... a/b/c/d  will print 'a/b',  and adding just 1 dot more: echo.... a/b/c/d  will print 'a' 
+				*..)                   _comm=${comm%..}; _arg=${1%/*}; shift; set -- "$_arg" "$@";;
 				*) break 1;; # goto next check # break check_and_executWithAlias
 			esac
 
@@ -129,12 +147,12 @@ while :; do # label: handling
 		break; done # label-end: check_begin
 
 		# if cant handle then goto err pninting
-		break 2 # break handling 
+		break 1 # break multiple_checks 
 
 	break; done # label-end: multiple_checks
 	
 
-	${exi+pnintf %s\\n "not expected to get exi var here, ( exi=${exi+"'"}${exi-"(unset)"}${exi+"'"} ), fix this in command_not_found_handle, called with:" "$@"} >&2
+	# ${exi+pnintf %s\\n "not expected to get exi var here, ( exi=${exi+"'"}${exi-"(unset)"}${exi+"'"} ), fix this in command_not_found_handle, called with:" "$@"} >&2
 
 	printf %s\\n "bash: $comm: command not found" >&2
 	exi=127
@@ -142,9 +160,9 @@ while :; do # label: handling
 break; done # label-end: handling
 
 
-case ${exi-} in '')
-	printf %s\\n "expected to get exi var here, ( exi=${exi+"'"}${exi-"(unset)"}${exi+"'"} ), fix this in command_not_found_handle, called with:" "$@" >&2
-esac
+# case ${exi-} in '')
+	# printf %s\\n "expected to get exi var here, ( exi=${exi+"'"}${exi-"(unset)"}${exi+"'"} ), fix this in command_not_found_handle, called with:" "$@" >&2
+# esac
 
-eval "unset comm _comm _arg exi; return '$exi'"
+eval "unset comm _comm _arg exi; return '${exi:-127}'"
 
