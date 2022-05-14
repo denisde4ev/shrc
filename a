@@ -134,7 +134,7 @@ gparted.='__ gparted.' \
 qdirstat.='__ qdirstat.' \
 konsole.='__ konsole.' \
 \
-ll='${LL_COMMAND:-ls -al}' \
+ll='${LSLONG_COMMAND:-ls -al}' \
 \
 ;
 

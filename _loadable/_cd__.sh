@@ -143,7 +143,7 @@ _cd__() { # alias 'cd..' '..' 'CD'
 						*) puts >&2 "got bad path from which: '$3'"; return 1;;
 					esac
 
-					case $1 in which-ll) ${LL_COMMAND:-ls -al} -d -- "$2"; esac
+					case $1 in which-ll) ${LSLONG_COMMAND:-ls -al} -d -- "$2"; esac
 				;;
 				*) echo >&2 not matched; return 2;;
 			esac
