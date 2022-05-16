@@ -29,7 +29,7 @@ case $(command -v com-which) in
 		;
 	;;
 	*)
-		alias e.which=e_which # note this fn comes from ~/B/_loadable/
+		alias e.which='com-which -c "${EDITOR:-vi}"' # note this fn comes from ~/B/_loadable/
 	;;
 esac
 
