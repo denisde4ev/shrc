@@ -1,0 +1,25 @@
+exec paleofetch
+
+# lang: (bin)
+
+#Name            : arcolinux-paleofetch-git
+#Version         : 21.07-01
+#Description     : Configuration files for ArcoLinux Iso
+#Architecture    : any
+#URL             : https://github.com/arcolinux/arcolinux-paleofetch
+#Licenses        : GPL3
+#Groups          : None
+#Provides        : arcolinux-paleofetch-git
+#Depends On      : libx11
+#Optional Deps   : None
+#Required By     : None
+#Optional For    : None
+#Conflicts With  : paleofetch  paleofetch-git  paleofetch-croco
+#Replaces        : None
+#Installed Size  : 31.20 KiB
+#Packager        : Erik Dubois <erik.dubois@gmail.com>
+#Build Date      : Fri Jul 2 23:26:51 2021
+#Install Date    : Tue May 17 19:17:03 2022
+#Install Reason  : Explicitly installed
+#Install Script  : Yes
+#Validated By    : Signature

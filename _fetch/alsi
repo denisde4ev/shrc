@@ -1,0 +1,25 @@
+exec alsi
+
+# lang: perl 
+
+# Name            : alsi
+# Version         : 0.4.9-1
+# Description     : ALSI: a configurable system information tool for Arch Linux.
+# Architecture    : any
+# URL             : https://github.com/trizen/alsi
+# Licenses        : GPLv3
+# Groups          : None
+# Provides        : None
+# Depends On      : perl>=5.14.2  perl-data-dump
+# Optional Deps   : scrot: for taking screenshots. [installed]
+# Required By     : None
+# Optional For    : None
+# Conflicts With  : None
+# Replaces        : None
+# Installed Size  : 30.16 KiB
+# Packager        : Erik Dubois <erik.dubois@gmail.com>
+# Build Date      : Tue Mar 1 08:24:38 2022
+# Install Date    : Tue May 17 19:14:34 2022
+# Install Reason  : Explicitly installed
+# Install Script  : No
+# Validated By    : Signature

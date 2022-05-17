@@ -4,12 +4,15 @@ ${shell_is_interactive-return}
 
 
 i{
-	shuf_1_toi ~/B/_fetch/[!_.%]*[!%~] || return
+	shuf_1_toi ~/B/_fetch/[a-z]*[!%~] || return
 	_fetch=$i
 }i
 
 ( . "$_fetch" ) >&2
 
-case ${_fetch##*/} in 16|color-eudaldgr|mini-colors|fetchName|_fetch.sh|%nofetch)
-	PS1-ash
+case ${_fetch##*/} in
+16|color-eudaldgr|mini-colors|fetchName|_fetch.sh|%nofetch)
+PS1-ash
 esac
+
+# bottom lines of https://gitlab.com/thelinuxcast/my-dots/-/blob/1a52be85e4162bfbe1d44a608e5709e415bb58a7/bash/.bashrc
