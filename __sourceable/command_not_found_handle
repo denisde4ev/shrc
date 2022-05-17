@@ -67,13 +67,12 @@ while :; do # label: handling
 				exi=$?
 				;;
 
-			# *.loadable)
-				# case $1 in
-					# __load_loadable) _comm=$2;;
-					# *) _comm=$1;;
-				# esac
-				# "${comm%.*}" ~/B/_loadable/"$_comm".*
-				# ;;
+			*.loadable) # alias e.loadalbe
+				##_arg=$(\type "$1")
+				case $1 in __load_loadable) _arg=$2;; *) _arg=$1;; esac
+				eval " ${comm%.loadable}" '~/B/_loadable/"$_arg".*' || puts "note: please expand the alias before calling using command_not_found_handle"
+				exi=$?
+				;;
 
 
 			
@@ -94,8 +93,8 @@ while :; do # label: handling
 				*.tooldpwd)            _comm=${comm%.*};                      set -- "$@"  "$OLDPWD";;
 				*.pwd|*.frompwd)       _comm=${comm%.*};                      set -- "$PWD"     "$@";;
 				*.oldpwd|*.fromoldpwd) _comm=${comm%.*};                      set -- "$OLDPWD"  "$@";;
-				*...)                  _comm=${comm%.};  _arg=${1%/*}; shift; set -- "$_arg" "$@";; # note: this is to be done in recursion, example: echo... a/b/c/d  will print 'a/b',  and adding just 1 dot more: echo.... a/b/c/d  will print 'a' 
-				*..)                   _comm=${comm%..}; _arg=${1%/*}; shift; set -- "$_arg" "$@";;
+				*...)                  _comm=${comm%.};  _arg=${1%/*}; shift; set -- "$_arg"    "$@";; # note: this is to be done in recursion, example: echo... a/b/c/d  will print 'a/b',  and adding just 1 dot more: echo.... a/b/c/d  will print 'a' 
+				*..)                   _comm=${comm%..}; _arg=${1%/*}; shift; set -- "$_arg"    "$@";;
 				*) break 1;; # goto next check # break check_and_executWithAlias
 			esac
 
