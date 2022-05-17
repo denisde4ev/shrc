@@ -41,7 +41,7 @@ CD='cd..' \
 path='( IFS=${PATHseparator:-":"}; set -f; puts $PATH )' \
 printf.quote-this='printf %s\\n \!#:q' \
 printf.quote='printf "%q\\n"' \
-nbsp='printf \\uA0\\n' \
+nbsp='printf \\xC2\\xA0\\n' \
 \
 '-=echo ' \
 '?-=quote ' \
@@ -203,3 +203,4 @@ return
  # '/did' is (Disk ID) a symlink to '/dev/block/by-id'
 
 # path='pts "$PATH" | tr : \\n'
+# wrong: nbsp='printf \\uA0\\n' \

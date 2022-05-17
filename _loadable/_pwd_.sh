@@ -3,6 +3,10 @@
 # pwd=_pwd_
 _pwd_() {
 	case $1 in
+	'')
+		\pwd | grep --color /
+		return
+		;;
 	--|[!-]*)
 		unset-unseted-i
 		for i; do
