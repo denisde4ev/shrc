@@ -50,9 +50,3 @@ man='MANPAGER=most \man' \
 HELP='MANPAGER=most \HELP' \
 systemctl='PAGER= systemctl' \
 ;
-
-
-
-# todo: remove this after Arch fixes their /etc/profile.d/locale.sh
-export LC_ALL="${LC_ALL:-C}"
-
