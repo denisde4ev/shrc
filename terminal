@@ -1,0 +1,19 @@
+#! /hint/sh
+
+case ${TERMINAL+x} in '')
+	unset-unseted-i
+	for i in konsole wt.exe; do 
+		if command. "$i"; then
+			TERMINAL=$i
+			break
+		fi
+	done
+	unset-seted-i
+esac
+
+case ${TERMINAL+x} in '')
+	puts >&2 'can not detect your terminal';
+	return 1
+esac
+
+alias term='"$TERMINAL"'

@@ -6,6 +6,7 @@ alias \
 nyx='sudo -u tor nyx' \
 \
 datei='date -I' \
+t--='puts "---------- $(date) ----------"' \
 todo='e ~/d/todo.md' \
 TODO='cd ~/d/TODO.d' \
 sampler='sampler --config /~arcowo/.config/sampler/sampler.yml' \
@@ -126,8 +127,7 @@ xo='(x% open %)' \
 \
 \
 '__'=_before_command_not_found_handle \
-sudo.='__ sudo.' \
-doas.='__ doas.' \
+t.='__ t.' \
 open.='__ open.' \
 thunar.='__ thunar.' \
 gparted.='__ gparted.' \

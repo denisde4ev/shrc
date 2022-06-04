@@ -1,5 +1,7 @@
 
 _before_command_not_found_handle() {
+	# TODO:! wont work for sudo. and doas.
+
 	while :; do # goto: continue
 	case $1 in
 	[a-zA-Z0-9]*.)
