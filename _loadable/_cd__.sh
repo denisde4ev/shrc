@@ -49,9 +49,12 @@ _cd__() { # alias 'cd..' '..' 'CD'
 				_loadable|loadable)               cd ~/B/_loadable;;
 				__sourcable|_sourcable|sourcable) cd ~/B/__sourcable;;
 
-				gh|GH)                            cd '/^/ https:/github.com';;
-				gh-dd|ghdd)                       cd '/^/ https:/github.com/denisde4ev';;
 				http|https|http:|https:)          cd '/^/ https:';;
+				gh|GH)                            cd '/^/ https:/github.com';;
+				gh|GH)                            cd '/^/ https:/github.com';;
+				gh-dd|ghdd|g)                     cd '/^/ https:/github.com/denisde4ev';;
+				git-branch:*|gb:*)                cd "/^/_/git-branch:${1#*:}/ https:/github.com/denisde4ev";;
+				gm)                               cd '/^/_/git-branch:master/ https:/github.com/denisde4ev';;
 
 				dow|dl|downloads|download)        cd "${XDG_DOWNLOAD_DIR:-"$HOME/Downloads"}";;
 				doc|docs|documents|document)      cd "${XDG_DOCUMENTS_DIR:-"$HOME/Documents"}";;
@@ -127,10 +130,15 @@ _cd__() { # alias 'cd..' '..' 'CD'
 					unset-seted-i
 				;;
 				_[a-zA-Z]*) if [ -e ~/B/"$1" ]; then cd ~/B/"$1"; else cd ~/B/"$1"*; fi ;;
-				*) echo >&2 1 arg, not matched; return 2;;
+				*) puts "\$1='$1', not matched" >&2; return 2;;
 			esac
-			printf %s\\n "cd $(quote "$PWD")"
+			printf %s\\n "cd $(case $PWD in *'/ https:/'[!/]*) puts "$PWD" | sed 's@https:/@https://@g';; *) quote "$PWD"; esac)"
 		;;
+		# TODO: add case for `$# in 2)` aruments without breaking `case in .. *)` 
+			#and add:
+			##git-branch:*|gb:*)                cd "/^/_/git-branch:${1#*:}/ https:/github.com/denisde4ev/$2" || return;;
+			# and maybe # which|which-ll)
+
 		*)
 			case $1 in # match $1 arg - when more args
 				which|which-ll)
@@ -145,7 +153,7 @@ _cd__() { # alias 'cd..' '..' 'CD'
 
 					case $1 in which-ll) ${LSLONG_COMMAND:-ls -al} -d -- "$2"; esac
 				;;
-				*) echo >&2 not matched; return 2;;
+				*)  puts "\$1='$1', not matched" >&2; return 2;;
 			esac
 		;;
 	esac
