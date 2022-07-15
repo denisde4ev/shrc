@@ -4,7 +4,18 @@ ${shell_is_interactive-return}
 # NOTE: this file is symlinked from .ash to .bash version,
 # so keep syntax compatible with ash!
 
-case $PS4 in *'$('*) ;; *) export PS4='#$?+  '; esac
+# TODO: when starting to rewrite this file:
+# PS1 depends on vars:
+# 1. $0 if login -> colorize brackets
+# 2. SHLVL -> underline the @ or $
+# 3. SSH_CLIENT -> if defined (idk.. todo: think of something) (for now not added)
+#
+
+
+case $PS4 in *'$('*) ;; *)
+	export PS4='#$?+  '
+esac
+
 case ${BASH_VERSION+x} in x) . ~/B/%__history-append.bash; esac
 case ${0##*/} in -*) PS1-x; return; esac
 
@@ -29,7 +40,7 @@ esac
 
 
 
-case $tput_red in '') . ~/B/__define_colors; esac
+case ${tput_red+x} in '') . ~/B/__define_colors; esac
 
 # note: \1 is \[ , \] is \2
 _ps1_r=$'\001'${tput_red:?}$'\002'
@@ -54,8 +65,8 @@ PS1=${PS1/"\\W"/"${_ps1_b}\\W${_ps1_w}"} # color full path in blue
 PS1=${PS1/"\\w"/"${_ps1_b}\\w${_ps1_w}"} # color path in blue
 
 
-case $PIPESTATUS in # if bash has PIPESTATUS use it to cocat all from last piped commands
-	?*)
+case ${PIPESTATUS:+x} in # if bash has PIPESTATUS use it to cocat all from last piped commands
+	x)
 		PS1=${PS1/"\\$"/'$( ( IFS=\| eval "o=\"\\${PIPESTATUS[*]}\""; [[ $o = 0*(\|0) ]] && echo "\$" || echo "'"${_ps1_r}\$o${_ps1_w}\""' ) 2>&- )'}
 		# and not print when xtrace, so dont use:
 		#PS1=${PS1/'\$'/'$(   IFS=\| eval "o=\"\\${PIPESTATUS[*]}\""; [[ $o = 0*(\|0) ]] && echo "\$" || echo "'"${_ps1_r}\$o${_ps1_w}\""' )       '}
