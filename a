@@ -1,14 +1,29 @@
 #! /hint/sh
+# TODO: move @op5-* aliases to separate file OR external file with bind for @ OR at least detect if has @op5 command
+
 alias \
+git-lazy-commit-message='(printf %s "➔"; git status -s | sed -nEe "s/^([A-Z])./\\1/p" | tr "\\n" \;; echo) | git commit -F - -e' \
+gpg='DISPLAY= \gpg' \
+whileReadI-do='unset-unseted-i; while IFS= read -r i; do ' \
+shred='shred -uz -n 3' \
+speak='speak-ng' \
+speak-ng='time \speak-ng' \
+losetup='\losetup --find --show --verbose --partscan' \
 http-server='python3 -m http.server' \
-@op5-cin='@op5 /data/data/com.termux/files/home/bin/termux/cin' \
-@op5-cout='@op5 /data/data/com.termux/files/home/bin/termux/cout' \
+@op5-cin='ssh op5 "~/bin/termux/cin"' \
+@op5-cout='ssh op5 "~/bin/termux/cout"' \
+@op5-'find-play3'='@op5 $ find-play3\!' \
+@op5-vibrate='ssh op5 termux-vibrate' \
+@op5-quick-note='/0/Documents/markor/QuickNote.md' \
 %%%='%% & exit' \
 nyx='sudo -u tor nyx' \
 \
-datei='date -I' \
-t--='puts "---------- $(date) ----------"' \
+d='date -I' \
+d--='puts "---- $(d) ----"' \
+\
 todo='e ~/d/todo.md' \
+todo-archive='e ~/0/archive/todo.md' \
+todo-fzf='puts ~/d/*[Tt][Oo][Dd][Oo]* | fzf' \
 TODO='cd ~/d/TODO.d' \
 sampler='sampler --config /~arcowo/.config/sampler/sampler.yml' \
 PP='P --noconfirm' \
@@ -38,7 +53,6 @@ cw='cd.which' \
 cd.tmp='cd "$(mktemp -d -t tmp.shpid$$.XXXX)"' \
 cd.mktemp='cd.tmp' \
 cd-='cd -' \
-CD='cd..' \
 \
 path='( IFS=${PATHseparator:-":"}; set -f; puts $PATH )' \
 printf.quote-this='printf %s\\n \!#:q' \
@@ -77,7 +91,7 @@ Iown.u='chown "${UID:-"$(id -u)"}"' \
 Iown.g='chown "${UID:-"$(id -u)"}:${GROUPSB-"$(id -g)"}"' \
 777='chmod 777'  755='chmod 755' \
 192='ip route get 1 | rg -o "src [^ ]*" | cut-f 2' \
-myip='curl -s ipinfo.io/ip' \
+myip='(curl -s ipinfo.io/ip;echo)' \
 1.1='ping 1.1' \
 ping='\ping -c 128' \
 \
@@ -97,7 +111,7 @@ df='\df -h' \
 du='\du -h' \
 dust='\dust --reverse --limit-filesystem' \
 free='\free -mt' \
-netstat='\netstat -tulpn' \
+lsport='\netstat -tulpn' \
 \
 userlist='cut -d: -f1 /etc/passwd' \
 update-grub="sudo grub-mkconfig -o /boot/grub/grub.cfg" \
@@ -116,7 +130,7 @@ startx='SHLVL= startx ~/.config/xorg-xinit/xinitrc' \
 \
 wget='\wget -c -t 5' \
 zsh='zsh --no-rcs' \
-gparted=/usr/lib/gparted/gpartedbin \
+gparted='fakeroot /usr/lib/gparted/gpartedbin' \
 dd="\\dd${os_gnu+" status=progress"}" \
 ${sh_is_bash+l.did='ll -d /did/!(.|..|*-part*)'} \
 ${sh_is_bash-l.did='Zfind /did/ -maxdepth 1 -mindepth 1 -not -path "*-part*" | Zx ll -d --'} \
@@ -142,7 +156,7 @@ ll='${LSLONG_COMMAND:-ls -al}' \
 if command. exa; then
 export LSLONG_COMMAND="exa -alF --git --time-style iso --group-directories-first -g"
 alias \
-ls='exa -aF' \
+ls='exa -aF1 --group-directories-first' \
 l='exa -alF --git --time-style iso --group-directories-first -a' \
 llT='exa -alF --time-style iso --group-directories-first -Th' \
 llT0='llT --level 0' llT1='llT --level 1' llT2='llT --level 2' llT3='llT --level 3' llT4='llT --level 4' llT5='llT --level 5' \
@@ -150,7 +164,7 @@ llT0='llT --level 0' llT1='llT --level 1' llT2='llT --level 2' llT3='llT --level
 else
 export LSLONG_COMMAND='ls -alF --group-directories-first'
 alias \
-ls='\ls --color=auto' \
+ls='\ls -F --color=auto -1 --group-directories-first' \
 l='ll' \
 ;
 fi
@@ -179,8 +193,8 @@ fi
 
 # ${os_gnu-return} # return if not gnu os
 
-case ${USER-}:${HOME-} in
-arcowo:/~arcowo) # we are home
+# detect if we are home
+case ${HOME-}:${HOSTNAME-} in ~arcowo:kpc)
 	alias \
 		minecraft-1.12.2='/~arcowo/0/game/MC/1.12.2/start' minecraft-1.16.5='/~arcowo/0/game/MC/1.16.5/start' \
 		HOME-disallowed='\HOME-disallowed --homepath ~arcowo' \
