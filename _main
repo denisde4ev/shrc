@@ -17,7 +17,7 @@ case $sh_is in
 			\$|\$.sh) sh_isin_cmd=''; PS1='';;
 			ksh|netbsd|posh|yash) printf %s\\n >&2 "~/B/_main: note, you are using shell that is not yet well tested";;
 			_main|_main.sh)       printf %s\\n >&2 "~/B/_main: shell not detected! \$0 seems to be '_main'?";;
-			*)                    printf %s\\n >&2 "~/B/_main: unrecognized shell, assuming sh";;
+			*)                    printf %s\\n >&2 "~/B/_main: unrecognized shell, assuming sh"; BB=$BB${BB:+:}nologin;;
 		esac
 	;;
 esac
@@ -32,7 +32,6 @@ esac
 
 
 
-	# ~/B/_loadable/LOADABLE-ALIASES \
 • \
 	~/B/_env \
 	~/B/_core \
@@ -43,14 +42,24 @@ esac
 
 sh_is_=${sh_is_bash+bash}${sh_is_zsh+zsh}${sh_is_ash+sh}${sh_is_sh+sh} # note ash runs *.sh files
 
-• ~/B/%[a-z]*."$sh_is_"
+• \
+	~/B/%[a-z]*."$sh_is_" \
+	~/B/_loadable/LOADABLE \
+	~/B/a \
+;
 
-. ~/B/_loadable/LOADABLE
-. ~/B/a
+# detect if we are home:
+case ${HOME-}:${HOSTNAME-} in ~arcowo:kpc)
+	git_conf_user_name="user.name=Denis Dechev"
+	git_conf_user_email="user.email=denisde4ev@vivaldi.net"
+esac
 
 # has args OR if xtrace(set -x) is on, then dont execute shell specific 'rc' and fetch/color script:
 # case $- in *c*|*x*)false;; *);; esac  || # `$-` is bashism ...
 case $#:${sh_isin_cmd+1}:$({ :; } 2>&1) in 0::) ;; *) return 0; esac
+case :${BB-}: in *:nologin:*) return 0; esac
 . ~/B/_fetch/_fetch"${sh_is_sh+".sh"}"
+#ls ~/d >&2
+ls -d ~/d/*[Tt][Oo][Dd][Oo]* >&2
 
 unset-unseted-i

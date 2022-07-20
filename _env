@@ -44,9 +44,9 @@ su='PAGER= MANPAGER= \su' \
 doas='PAGER= MANPAGER= \sudo -S ' \
 sudo='PAGER= MANPAGER= \doas ' \
 9='PAGER= MANPAGER=less \9 ' \
-git='PAGER=less \git' \
 gh='PAGER=less \gh' \
 man='MANPAGER=most \man' \
 HELP='MANPAGER=most \HELP' \
 systemctl='PAGER= systemctl' \
 ;
+# git='PAGER=less \git' \ moved to ~/B/_loadable/git.sh

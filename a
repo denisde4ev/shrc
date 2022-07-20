@@ -2,7 +2,8 @@
 # TODO: move @op5-* aliases to separate file OR external file with bind for @ OR at least detect if has @op5 command
 
 alias \
-git-lazy-commit-message='(printf %s "➔"; git status -s | sed -nEe "s/^([A-Z])./\\1/p" | tr "\\n" \;; echo) | git commit -F - -e' \
+git-lazy-commit-message-filechanges='(printf %s "➔"; git status -s | sed -nEe "s/^([A-Z])./\\1/p" | tr "\\n" \;; echo) | git commit -F - -e' \
+git-lazy-commit-message-date='date -I | git commit -F- -e' \
 gpg='DISPLAY= \gpg' \
 whileReadI-do='unset-unseted-i; while IFS= read -r i; do ' \
 shred='shred -uz -n 3' \

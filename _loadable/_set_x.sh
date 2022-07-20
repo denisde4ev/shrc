@@ -1,5 +1,7 @@
 #! /hint/sh
 
+# TODO: debug why `set-x git config` didn't work (git is git_ from ~/B/_loadable/git_.sh)
+
 # alis set-x='_set_x'
 _set_x() { (
 	case $1 in ".")

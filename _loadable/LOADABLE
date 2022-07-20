@@ -22,10 +22,14 @@ __load_loadable() {
 }
 
 
+# TODO: separate CD and cd.. fns
+
+# LOADABLE-aliases:
 alias \
 +=_plus_ \
 'cd+'='_cd_plus' \
 'cd++'='_cd_plusparents' \
+CD='cd..' \
 'cd..'=_cd__ \
 '..'=_cd__ \
 'cd.which'='cd.. which-ll' \
@@ -40,10 +44,11 @@ set-x='_set_x' \
 'type=_type_' '?=_type_' '??=_type_ -a' \
 e.loadable='_edit_loadable ' \
 ;
+# git='_git' \ # fn not done
 # ?- is from ~/B/a
 
 
-i{
+unset-unseted-i
 for i in ~/B/_loadable/[a-zA-Z0-9_]*.sh ${sh_is_bash+~/B/_loadable/[a-zA-Z0-9_]*.bash}; do
 	i=${i##*/}
 	i=${i%.*}
@@ -52,4 +57,4 @@ for i in ~/B/_loadable/[a-zA-Z0-9_]*.sh ${sh_is_bash+~/B/_loadable/[a-zA-Z0-9_]*
 	alias "$i"="__load_loadable $i"
 	## arg "$i"="__load_loadable $i"
 done
-}i
+unset-seted-i

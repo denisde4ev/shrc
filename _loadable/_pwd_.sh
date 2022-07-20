@@ -25,6 +25,9 @@ _pwd_() {
 
 	puts >&2 unimplemented
 	return 127
+}
+
+return
 
 	# local opt_url opt_url_encode opt_shell
 # 
@@ -58,4 +61,3 @@ _pwd_() {
 			# ;;
 		# 
 	# esac
-}

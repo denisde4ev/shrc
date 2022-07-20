@@ -1,0 +1,169 @@
+diff --git a/_loadable/_cd__.sh b/_loadable/_cd__.sh
+index e76ef01..2fc2692 100644
+--- a/_loadable/_cd__.sh
++++ b/_loadable/_cd__.sh
+@@ -32,34 +32,37 @@ _cd__() { # alias 'cd..' '..' 'CD'
+ 					 # todo: '}i' wont keep return status
+ 
+ 	case $# in # todo: move most of this to new fn cd-i?
+-		0) cd ..;;
++	0)
++		cd ..;;
+ 	1)
+ 		case $1 in # match $1 arg - when only 1 arg
+-				npm|node) unset-unseted-i; i="$(npm root)" && cd "${i%/node_modules}"; unset-seted-i;;
+-				git)                              cd "$(git rev-parse --show-toplevel)";;
+-				part)                             cd "$(get-part-mounted .)";;
+-
+-				torrents)                         cd ~/d/' '/torrents;;
+-				torrentss)                        cd ~/d/' '/torrentss;;
+-				[Vv][Bb]ox|[Vv]irtual[Bb]ox)      cd ~/d/' '/VirtualBoxVMs;;
+-				[Vv][Bb]oxs|[Vv]irtual[Bb]oxs)    cd ~/d/' '/VirtualBoxVMss;;
+-
+-				bin)                              cd ~/.local/bin;;
+-				B)                                cd ~/.config/bash/bashrc.d;;
+-				_loadable|loadable)               cd ~/B/_loadable;;
+-				__sourcable|_sourcable|sourcable) cd ~/B/__sourcable;;
+-
+-				gh|GH)                            cd '/^/ https:/github.com';;
+-				gh-dd|ghdd)                       cd '/^/ https:/github.com/denisde4ev';;
+-				http|https|http:|https:)          cd '/^/ https:';;
+-
+-				dow|dl|downloads|download)        cd "${XDG_DOWNLOAD_DIR:-"$HOME/Downloads"}";;
+-				doc|docs|documents|document)      cd "${XDG_DOCUMENTS_DIR:-"$HOME/Documents"}";;
+-				desk|desktops|desktop)            cd "${XDG_DESKTOP_DIR:-"$HOME/Desktop"}";;
+-				pic|p|pics|pic)                   cd "${XDG_PICTURES_DIR:-$HOME/Pictures}";;
+-				ss|shot|screenshots|screenshot)   cd "${XDG_PICTURES_DIR:-$HOME/Pictures}/Screenshots";;
+-				did|/did)                         cd /dev/disk/by-id;; # also /did is my symlink to it
+-				todo|TODO)                        cd "${TODO_DIR:-"$HOME/0/TODO.d"}";;
++			npm|node) unset-unseted-i; i="$(npm root)" && cd "${i%/node_modules}" || eval "unset-seted-i;"return" $i"; unset-seted-i;;
++			git)                              cd "$(git rev-parse --show-toplevel)" || return;;
++			part)                             cd "$(get-part-mounted .)" || return;;
++
++			torrents)                         cd ~/d/' '/torrents || return;;
++			torrentss)                        cd ~/d/' '/torrentss || return;;
++			[Vv][Bb]ox|[Vv]irtual[Bb]ox)      cd ~/d/' '/VirtualBoxVMs || return;;
++			[Vv][Bb]oxs|[Vv]irtual[Bb]oxs)    cd ~/d/' '/VirtualBoxVMss || return;;
++
++			bin)                              cd ~/.local/bin || return;;
++			B)                                cd ~/.config/bash/bashrc.d || return;;
++			_loadable|loadable)               cd ~/B/_loadable || return;;
++			__sourcable|_sourcable|sourcable) cd ~/B/__sourcable || return;;
++
++			gh|GH)                            cd '/^/ https:/github.com' || return;;
++			gh-dd|ghdd|g)                     cd '/^/ https:/github.com/denisde4ev' || return;;
++			git-branch:*|gb:*)                cd "/^/_/git-branch:${1#*:}/ https:/github.com/denisde4ev" || return;;
++			gm)                               cd '/^/_/git-branch:master/ https:/github.com/denisde4ev' || return;;
++			http|https|http:|https:)          cd '/^/ https:' || return;;
++
++			dow|dl|downloads|download)        cd "${XDG_DOWNLOAD_DIR:-"$HOME/Downloads"}" || return;;
++			doc|docs|documents|document)      cd "${XDG_DOCUMENTS_DIR:-"$HOME/Documents"}" || return;;
++			desk|desktops|desktop)            cd "${XDG_DESKTOP_DIR:-"$HOME/Desktop"}" || return;;
++			pic|p|pics|pic)                   cd "${XDG_PICTURES_DIR:-$HOME/Pictures}" || return;;
++			ss|shot|screenshots|screenshot)   cd "${XDG_PICTURES_DIR:-$HOME/Pictures}/Screenshots" || return;;
++			did|/did)                         cd /dev/disk/by-id || returnit;; # also /did is my symlink to
++			todo|TODO)                        cd "${TODO_DIR:-"$HOME/0/TODO.d"}" || return;;
+ 
+ 			http*|https*) # TODO: consider should this code be here or in other fn, like cd+/cd-
+ 				case $1 in
+@@ -68,22 +71,23 @@ _cd__() { # alias 'cd..' '..' 'CD'
+ 						i=${1#http}; i=${i#s}; i=${i#://}
+ 						i=/^/\ https:/"${i%/*}"
+ 						[ -d "$i" ] || mkdir -pv -- "$i"
+-							cd "$i"
++						cd "$i" || eval "unset-seted-i;"return" $i"
+ 						i=${1##*/}; i=${i%.git}
+ 						[ -d "$i" ] || git clone -- "$1" "./$i"
+-							cd "./$i"
++						cd "./$i" || eval "unset-seted-i;"return" $i"
+ 						unset-seted-i
+ 					;;
+-						*) cd /^/\ https:;;
++					*) cd /^/\ https: || return;;
+ 				esac
+ 			;;
+ 
+ 			/did__/*)
+ 				unset-unseted-i
+-					i=$(readlink -f $1) && \
+-					sudo mount -v /dev/"${i##*/}" /mnt/_/"${i##*/}" &&
+-					{
+-						cd "/mnt/did/${1}"
++				i=$(readlink -f $1) \
++				&& sudo mount -v /dev/"${i##*/}" /mnt/_/"${i##*/}" \
++				&& {
++					cd "/mnt/did/${1}" \
++					|| eval "unset-seted-i;"return" $i"
+ 				}
+ 				unset-seted-i
+ 			;;
+@@ -94,9 +98,7 @@ _cd__() { # alias 'cd..' '..' 'CD'
+ 				else
+ 					i=$1
+ 				fi && \
+-					cd /mnt/_/"${i##*/}" || {
+-						eval "unset-seted-i;"return" $?"
+-					}
++				cd /mnt/_/"${i##*/}" || eval "unset-seted-i;"return" $i"
+ 				if (
+ 					# also auto mount it if folder is empty (not porpper mount detection but it good enugh)
+ 					{
+@@ -108,7 +110,7 @@ _cd__() { # alias 'cd..' '..' 'CD'
+ 						sudo mount -v /dev/"${i##*/}" /mnt/_/"${i##*/}"
+ 					}
+ 				); then
+-						cd /mnt/_/"${i##*/}"
++					cd /mnt/_/"${i##*/}" || eval "unset-seted-i;"return" $i"
+ 				fi
+ 				unset-seted-i
+ 			;;
+@@ -119,19 +121,32 @@ _cd__() { # alias 'cd..' '..' 'CD'
+ 				unset-unseted-i
+ 				i=/~/0/chroots/"${1#@}"
+ 				if [ -d "$i" ]; then
+-						cd "$i" && \
+-						ll -d -- "$i"
++					cd "$i" \
++					&& ll -d -- "$i" \
++					|| eval "unset-seted-i;"return" $i"
+ 				else
+-						_cd__ which-ll "$1" && return
++					_cd__ which-ll "$1"
++					eval "unset-seted-i;"return" $i"
+ 				fi
+-					unset-seted-i
+ 			;;
+ 			_[a-zA-Z]*) if [ -e ~/B/"$1" ]; then cd ~/B/"$1"; else cd ~/B/"$1"*; fi ;;
+-				*) echo >&2 1 arg, not matched; return 2;;
++			*) false;;
++		esac && {
++			printf %s\\n "cd $(case $PWD in *'/ https:/'[!/]*) puts "$PWD" | sed 's@https:/@https://@g';; *) quote "$PWD"; esac)"
++			return
++		}
+ 	esac
+-			printf %s\\n "cd $(quote "$PWD")"
+-		;;
+-		*)
++
++	case $# in 2
++		case $1 in
++			git-branch:*|gb:*)                cd "/^/_/git-branch:${1#*:}/ https:/github.com/denisde4ev/$2" || return;;
++			*) false;;
++		esac && {
++			printf %s\\n "cd $(case $PWD in *'/ https:/'[!/]*) puts "$PWD" | sed 's@https:/@https://@g';; *) quote "$PWD"; esac)"
++			return
++		}
++	esac
++
+ 	case $1 in # match $1 arg - when more args
+ 		which|which-ll)
+ 			set -- "$1" "$2" "$(which "$2")"
+@@ -145,7 +160,7 @@ _cd__() { # alias 'cd..' '..' 'CD'
+ 
+ 			case $1 in which-ll) ${LSLONG_COMMAND:-ls -al} -d -- "$2"; esac
+ 		;;
+-				*) echo >&2 not matched; return 2;;
++		*) puts "\$1='$1', not matched" >&2; return 2;;
+ 	esac
+ 	;;
+ 	esac

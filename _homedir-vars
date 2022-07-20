@@ -6,6 +6,7 @@
 
 : "${HOME:?}" && . ~/.config/user-dirs.dirs || return
 
+
 export \
 XDG_DESKTOP_DIR=${XDG_DESKTOP_DIR:?} \
 XDG_HOME_DIR=${XDG_HOME_DIR:?} \
@@ -26,6 +27,7 @@ KDEHOME=${XDG_CONFIG_HOME:?}/kde \
 HISTFILE=${XDG_DATA_HOME:?}/bash/history \
 ANDROID_PREFS_ROOT=${XDG_CONFIG_HOME:?}/android \
 ANDROID_EMULATOR_HOME=${XDG_DATA_HOME:?}/android/emulator \
+ANDROID_HOME=${XDG_DATA_HOME?}/android \
 ATOM_HOME=${XDG_DATA_HOME:?}/atom \
 SQLITE_HISTORY=${XDG_CACHE_HOME:?}/sqlite_history \
 GNUPGHOME=${XDG_DATA_HOME:?}/gnupg \

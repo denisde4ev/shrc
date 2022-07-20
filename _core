@@ -49,7 +49,7 @@ case ${OSTYPE:-$(uname -o)} in
 	linux-android|Android) os_an='';; # Termux? but it could be busybox toybox termux or any other shell app ..
 	MS/Windows) os_win='';;
 	linux-musl|Linux) # Alpine, KISS
-		i{
+		unset-unseted-i
 		i=$(command -v ls)
 		case $i in # note: this will fail if ls is alias or fn
 			ls) os_bb='';; # applet is build in
@@ -65,7 +65,7 @@ case ${OSTYPE:-$(uname -o)} in
 			i=$(readlink -- "$i" 2>/dev/null)
 			case $?:$i in
 				0:*/busybox|busybox) os_bb='';;
-				0:*/toybox|toybox) os_bb=''; os_toybox='';;
+				0:*/toybox|toybox) os_toybox='';;
 				*)
 				puts >&2 \
 					"~/B/_core: well idk then what this OS this is, 'ls' seems to not be a symlink" \
@@ -74,7 +74,7 @@ case ${OSTYPE:-$(uname -o)} in
 				;	
 				return 1
 			esac
-		}i
+		unset-seted-i
 		}
 	;;
 	*) puts >&2 "~/B/_core: cannot detect current os ${OSTYPE:-$(uname -o)} in GNU || (Busybox+Musl) || Android || WINDOWS"; return 1;;

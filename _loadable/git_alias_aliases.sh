@@ -15,4 +15,7 @@ git_alias_aliases() {
 	$(git config --global   --get-regexp '^alias\.')
 	.
 	unset-seted-i
+	puts "aliases are :" >&2
+	alias | sed 's/^alias //' | rg --pcre2 "(?<=git.alias\.)[^=]+(?==)" \
+	|| case $? in 1) echo 'no aliases' >&2; return 1;; esac
 }
