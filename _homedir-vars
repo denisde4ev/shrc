@@ -37,6 +37,7 @@ WGETRC=${XDG_CONFIG_HOME:?}/wgetrc \
 CARGO_HOME=${XDG_DATA_HOME:?}/cargo \
 GOPATH=${XDG_CACHE_HOME:?}/go \
 LESSHISTFILE=- \
+WINEPREFIX=${XDG_CONFIG_HOME:?}/wine \
 ;
  
 return

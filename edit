@@ -17,6 +17,12 @@ case ${EDITOR+x} in '')
 	}i
 esac
 
+case ${EDITOR-} in micro)
+	if command. micro-pre-edit-diff; then
+		EDITOR=micro-pre-edit-diff;
+	fi
+esac
+
 
 case $(command -v com-which) in
 	*/*)
