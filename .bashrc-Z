@@ -1,0 +1,37 @@
+#!/hint/bash
+# ~/.bashrc-Z
+#
+
+ ## funtions:
+Zout-find(){ find "$@" -print0; }
+Zout-echo(){
+	#  NOT WORKING
+	# echo -n "$*"$'\0'
+	# cat <<< "$*"$'\0'	cat <<< "$*"$'\0'
+
+	# durti trck (bash does not support null in string)
+	echo -n "$@"
+	cat ~/\\/dev/null-char
+}
+
+ ## aliases:
+alias Zio-grep='grep --color=auto --null-data --null'
+alias Zin-grep='grep --color=auto --null-data'
+alias Zout-grep='grep --color=auto --null'
+alias Zin-xargs='xargs --null '
+alias Zin-cat='cat --show-all'
+alias Zin-bat='bat --show-all'
+# alias Zsed='sed {-z, --null-data}' # TODO
+
+ ## alias to alias/fn:
+alias Zfind=Zout-find
+alias Zgrep=Zio-grep
+alias Zxargs=Zin-xargs\   # at the end has empty space to be alias
+alias Zecho=Zout-echo
+alias Zcat=Zin-cat
+alias Zbat=Zin-bat
+
+
+
+
+	

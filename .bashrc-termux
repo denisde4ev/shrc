@@ -1,0 +1,5 @@
+#
+# ~/.bashrc-termux
+#
+
+alias path+android='PATH+=$(su "$USER" -c '\''echo "${PATH}"'\'')'

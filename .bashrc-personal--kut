@@ -1,0 +1,31 @@
+#!/hint/bash
+# ./bashrc-personal
+#
+
+# [[ -f ~/.config/vivaldi-snapshot/denisde4ev/bashrc ]] && . ~/.config/vivaldi-snapshot/denisde4ev/bashrc
+
+# node bin
+#PATH=$PATH:./node_modules/.bin/
+
+#command_not_found_handle(){ ( echo $(basename $0)": $1: command not found" && curl "e.xec.sh/$1" ) 1>&2;return 127; }
+
+quote(){ echo "${@@Q}"; } # original qote is for 1 command
+arg(){ echo "$#: ${@@Q}"; } # args-count + quote: shorthant
+
+E(){ eval echo \"\${$@[@]}\"; } # NOT SAFE ;  for unescaped characters example: { E '};ls{'; }
+complete -v E
+Earg(){ eval arg \"\${$@[@]}\"; }
+complete -v Earg
+sud(){ # early space `sud oecho "I MEAN sudo ls"`
+ if [[ $@ = o* ]]
+ then
+   [[ ${1#o} = ${1:1} ]] || { echo "return: $? - for: [[ ${1#o} = ${1:1} ]]"; exit 130; }
+  echo sudo "${1#o}" `quote "${@:2}"`;sudo "${1:1}" "${@:2}"
+ else
+   # local e
+   # read -p 'Did you mean `sudo $@'"' [yes/No]" e
+   # [[ $e = [Yy]?(es) ]] &&
+   sudo "$@"  #echo 'bash: sud: it doesnt seem like is typoo for '\''sudo` '\''sud o`'; return 127
+ fi
+}
+alias sud='{ sud'

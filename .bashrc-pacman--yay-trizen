@@ -1,0 +1,39 @@
+#!/hint/bash
+# ~/.bashrc-pacman--yay-trizen
+#   Pᗣᗧ•••MᗣN
+
+#[[ "`type pacman pacapt 2>/dev/null`" ]] || return
+command. pacman pacapt || return # command exit:1 if all commands are not found
+
+
+# then this pacman in Arch
+[[ -a /etc/pacman.conf ]] && alias \
+	unlock="sudo rm /var/lib/pacman/db.lck" \
+	pacman='sudo pacman --color auto' `: Aliases for software managment :` \
+		`: get fastest mirrors in your neighborhood  :` \
+	mirror="sudo reflector -f30 -l 30 --number 10 --verbose --save /etc/pacman.d/mirrorlist" \
+	mirrord="sudo reflector --latest 50 --number 20 --sort delay --save /etc/pacman.d/mirrorlist" \
+	mirrors="sudo reflector --latest 50 --number 20 --sort score --save /etc/pacman.d/mirrorlist" \
+	mirrora="sudo reflector --latest 50 --number 20 --sort age --save /etc/pacman.d/mirrorlist" \
+	edit.pacman.conf="sudo nano /etc/pacman.conf" \
+	cleanup='sudo pacman -Rns $(pacman -Qtdq)' #Cleanup orphaned packages #not working for pacapt
+
+if [[ -x /usr/bin/trizen ]]
+then p(){ trizen "${@:--Syu}"; }; complete -F _trizen p&&_trizen(){ _completion_loader trizen;_trizen "$@"; }
+elif [[ -x /usr/bin/yay ]]
+then alias p='yay'&& complete -F _yay p&&_yay(){ _completion_loader yay;_yay "$@"; }
+else p(){
+	local pac_cmd
+	if command. pacapt
+	then local pac_cmd=`which pacapt`
+	else local pac_cmd='pacman'&&complete -F _yay p
+	fi
+
+	[[ -w "$pac_cmd" ]] || pac_cmd=(sudo "$pac_cmd")
+	# [[ "${1:0:1}" == "-" ]] || {  } # no..
+	case $@ in
+		('') "${pac_cmd[@]}" -Syu;;
+		(-*) "${pac_cmd[@]}" "$@";;
+		 (*) "${pac_cmd[@]}" -Ss "$@"
+	esac
+} fi

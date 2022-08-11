@@ -11,6 +11,8 @@
 
 # If not running interactively, don't do anything
 [[ $- == *i* ]] || return
+termux-wake-lock
+# trap termux-wake-unlock err exit
 
 export HISTCONTROL=ignoreboth:erasedups
 
@@ -138,7 +140,7 @@ alias sr="sudo reboot"
 # [[ -f ~/.bashrc-personal ]] && . ~/.bashrc-personal
 
 
-for i in ~/.bashrc-{personal,alias,\ pacman+yay}
+for i in ~/.bashrc-{personal,alias,\ pacman+yay,Z}
 do [[ -r $i ]] && source "$i"
 done
 unset i
@@ -159,3 +161,5 @@ alias '{{{'=then
 alias '}}}else{{{'=else # XD
 alias '}}}elif'=elif # ...
 alias '}}}'=fi
+
+alias config='git --git-dir ~/.cfg/ --work-tree ~'
