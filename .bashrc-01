@@ -1,0 +1,43 @@
+#!/hint/sh
+#echo -- this is .bashrc-01 -- >2
+#echo -- this is .bashrc-01 -- >2
+
+alias edit=micro
+alias e.which=__e_which ew=e.which
+#bind -c e.which 
+#bind -c ew
+__e_which() { ( IFS=${NEW_LINE:-$'\n'}; edit $(which "$@"); ) }
+
+alias e=edit
+
+alias cd.which=__cd_which
+__cd_which() {
+	cd "$(dirname "$(which "$@")")" && \
+	ls -al -- "$@"
+}
+
+alias su='\su -s bash'
+
+case ${HISTFILESIZE:+x} in x)
+	bind '"\33[[Z": alias-expan-line'
+	# Shift + Tab: expand alias
+	bind '"\e[Z": alias-expand-line'
+esac
+
+PATH=\
+$PATH:\
+~/bin/termux/HOME.disallowed.D:\
+~/.bin:~/bin/termux:\
+~/bin/termux/SDCARD.disallowed.D
+
+
+
+export EDITOR=micro
+alias @@=termux-app-launcher--termux
+
+export PAGER=most
+
+alias \
+cd.tmp='cd "$(mktemp -d -t tmp.shpid$$.XXXX)"' \
+cd.mktemp='cd.tmp' \
+;

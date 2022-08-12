@@ -1,0 +1,29 @@
+#!/hint/sh
+# (
+
+ui=$(tty)
+case $ui in /dev/tty*):;esac &&
+if [ -n "$DE" -o -n "$WM" ];                                  then ui="${DE:+DE}${DE:+${WM:+/}}${WM:+WM}:      ${DE:+${WM:+$(printf '\33[3D')}}$DE${DE:+${WM:+/}}$WM"
+elif [ -n "$XDG_CURRENT_DESKTOP" -o -n "$DESKTOP_SESSION" ];  then ui="DE:      ${XDG_CURRENT_DESKTOP:-}${XDG_CURRENT_DESKTOP:+${DESKTOP_SESSION:+, }}${DESKTOP_SESSION:-}"
+elif [ -r ~/.xinitrc -o -r ~/.xsession ];                   then
+	uiexec=
+	for i in $(sed -ne 's/^exec //p' ~/.xinitrc ~/.xsession 2>/dev/null); do
+		[ -n "$(pidof "$uiexec")" ] && uiexec="$(basename "$i") $uiexec"
+	done
+	[ -n "${uiexec% }" ] && ui="WM:      ${uiexec% }"
+fi || ui="TTY:     ${ui#/dev/tty}"
+
+printf '\33[34m%s\33[m\33[4A\r' \
+'      .
+     / \
+    / _ \
+   / / - \
+  /`     `\'
+
+printf '\33[13C \33[33m%s\33[m@%s  \33[36m%s\33[m\n' "${USER:-$(id -un)}" "$(hostname)" "$( if [ "$PWD" = "$HOME" ]; then echo '~'; else pwd; fi )"
+printf '\33[13C%s\n' \
+	"OS:      ArcoLinuxB Plasma" \
+	"KERNEL:  $(uname -r)" \
+	"SHELL:   $(basename -- ${0:-SHELL})" \
+	"$ui"
+# )

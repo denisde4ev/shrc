@@ -1,0 +1,7 @@
+#!/hint/sh
+#echo -- this is .bashrc-termux -- >2
+#echo -- this is .bashrc-termux -- >2
+
+
+alias termux-open='termux-app-launcher--termux; termux-open'
+alias termux-open-url='termux-app-launcher--termux; termux-open-url'

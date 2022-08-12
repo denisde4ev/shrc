@@ -1,0 +1,35 @@
+#!/hint/bash
+#echo -- this is .bashrc-Z -- >2
+#echo -- this is .bashrc-Z -- >2
+# ~/.bashrc-Z
+#
+
+ ## funtions:
+Zout-find(){ find "$@" -print0; }
+Zout-echo(){
+	# echo -n "$@"
+	printf '%s\0' "$@"
+	# cat ~/\\/dev/null-char
+}
+alias Zout='cat ~/\\/dev/null-char'
+ ## aliases:
+alias Zio-grep='grep --color=auto --null-data --null'
+alias Zin-grep='grep --color=auto --null-data'
+alias Zout-grep='grep --color=auto --null'
+alias Zin-xargs='xargs --null '
+alias Zin-cat='cat --show-all'
+alias Zin-bat='bat --show-all'
+alias Zin-sed='sed --null-data'
+alias Zin='(/usr/bin/grep --null-data .)'
+alias Zin-tr='tr \\0 \\n' Zout-tr='tr \\n \\0'  Zswap-tr='tr \\n\\0 \\0\\n'
+
+
+ ## alias to alias/fn:
+alias Zfind=Zout-find
+alias Zgrep=Zio-grep
+alias Zxargs=Zin-xargs\   # at the end has 1 space to be alias
+alias Zecho=Zout-echo
+alias Zcat=Zin-cat
+alias Zbat=Zin-bat
+alias Zsed=Zin-sed
+
