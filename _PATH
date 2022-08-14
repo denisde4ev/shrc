@@ -14,7 +14,7 @@ ${os_gnu+$HOME/.local/bin/bin.bash:}\
 \
 ${PATH:?}${PATH:+:}\
 \
-$HOME/.local/bin/songs:\
+$HOME/.local/bin/lyrics-to-type:\
 $HOME/.local/bin/node:\
 \
 $HOME/.local/bin/@/chroots:\

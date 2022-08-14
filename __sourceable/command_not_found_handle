@@ -27,6 +27,11 @@ while :; do # label: handling
 				#exi=$?
 				#;;
 
+			#0-*)
+			#	cd "$@" ~/0/"${comm#0-}"
+			#	exi=$?
+			#	;;
+
 			*"#")
 				${shell_is_interactive-break 1} # if (!shell_is_interactive) then break check_exact_or_end
 				_arg=$(history_current_command)
