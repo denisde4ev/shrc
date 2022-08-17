@@ -1,1 +1,15 @@
-/^/ https://github.com/denisde4ev/dotfiles/raw/master/alias.sh
+#!/ hint/sh
+
+case ${HOME-}:${HOSTNAME-} in
+~arcowo:kpc)
+	alias dotfiles='git --git-dir=/^/_/git-branch:master/\ https://github.com/denisde4ev/dotfiles.git'
+	;;
+
+# todo:
+#/data/data/com.termux/files/home:dumpling)
+#	alias dotfiles='git --git-dir=/^/_/git-branch:master/\ https://github.com/denisde4ev/dotfiles.git'
+#	;;
+#/root:artix)
+#	alias dotfiles='git --git-dir=/^/_/git-branch:master/\ https://github.com/denisde4ev/dotfiles.git'
+#	;;
+esac

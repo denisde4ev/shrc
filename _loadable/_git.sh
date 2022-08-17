@@ -16,10 +16,21 @@ _git() {
 
 	for git_command; do case $git_command in [!-]*) break; esac; done
 	case ${i:git_command} in
-		status) shift; \git stat "$@";;
-		#pull) shift; \git pull -v "$@";;
-		-*) puts >&2 "git_: cant parse in arguments: got \$1='$1'"; \git "$@";;
-		*) \git "$@";;
+	status) shift; \git stat "$@";;
+	#pull) shift; \git pull -v "$@";;
+	-*) puts >&2 "_git note: cant parse in arguments: got \$1='$1'"; \git "$@";;
+	commit)
+		if [ -t 0 -a $# -eq 0 ]; then
+			[ ! -d .git ] || _git_dir=$(git rev-parse --show-toplevel) || return
+			if [ -f "${_git_dir-.}/.git/.git-next-commit.md" ]; then
+				cat "${_git_dir-.}/.git/.git-next-commit.md" | git commit -e
+				return
+			fi
+		fi
+
+		git commit "$@"
+	;;
+	*) \git "$@";;
 	esac
 	set -- ${git_conf_user_name:+"-c$git_conf_user_name"} ${git_conf_user_email:+"-c$git_conf_user_email"} # set in ~/B/_main
 }

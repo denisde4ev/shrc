@@ -2,20 +2,24 @@
 # TODO: move @op5-* aliases to separate file OR external file with bind for @ OR at least detect if has @op5 command
 
 alias \
+_0='cd 0/ghdd/_0/raw/master' \
+0='cd ~/0' \
+0-gh='cd ~/0/gh' \
+0-ghdd='cd ~/0/ghdd-masters' \
+speak-rmhash='sed -uEe "s/(^| )#( |$)//g" | speak' \
+speak='time \speak -l bg -s 270' \
 git-lazy-commit-message-filechanges='(printf %s "#➔"; git status -s | sed -nEe "s/^([A-Z])./\\1/p" | tr "\\n" \;; echo) | git commit -F - -e' \
 git-lazy-commit-message-date='git commit -m "#$(date -I)" -e' \
 gpg='DISPLAY= \gpg' \
 whileReadI-do='unset-unseted-i; while IFS= read -r i; do ' \
 shred='shred -uz -n 3' \
-speak='speak-ng' \
-speak-ng='time \speak-ng' \
 losetup='\losetup --find --show --verbose --partscan' \
 http-server='python3 -m http.server' \
 @op5-cin='ssh op5 "~/bin/termux/cin"' \
 @op5-cout='ssh op5 "~/bin/termux/cout"' \
 @op5-'find-play3'='@op5 $ find-play3\!' \
 @op5-vibrate='ssh op5 termux-vibrate' \
-@op5-quick-note='/0/Documents/markor/QuickNote.md' \
+@op5-qn='ssh op5 -t "micro /0/Documents/markor/QuickNote.md; exec bash -il"' \
 %%%='%% & exit' \
 nyx='sudo -u tor nyx' \
 \
@@ -38,8 +42,9 @@ CCCCCCC='sudo loadkeys carpalx; setxkbmap "us(carpalx)"' \
 7z-mx9='7z a -r -t7z -m0=lzma2 -mx=9 -myx=9 -mqs=on -ms=on' \
 \
 xmrig='( case $TERM in screen-*) xmrig ;; *) byobu new doas xmrig; esac )' \
-BAT='bat -A' \
 bat='\bat --style header,numbers,rule,snip' \
+BAT='bat -A' \
+bat-f='bat --decorations=always' \
 cut-f='cut -d " " -f' \
 wc-l='\wc -l' \
 IFS='set -f; IFS="${NEW_LINE:-$new_line}"' \
@@ -112,7 +117,7 @@ df='\df -h' \
 du='\du -h' \
 dust='\dust --reverse --limit-filesystem' \
 free='\free -mt' \
-lsport='\netstat -tulpn' \
+lsport='( \netstat -tulpn || echo exit code $?, todo: "https://linuxhint.com/how_to_list_open_ports_on_linux/" ) ' \
 \
 userlist='cut -d: -f1 /etc/passwd' \
 update-grub="sudo grub-mkconfig -o /boot/grub/grub.cfg" \
@@ -178,6 +183,7 @@ pacamn='pacascii;pacman' \
 pacmana='pacascii;pacman' \
 paccman='pacascii;pacman' \
 \
+yay='pacascii;trizen' \
 trien='pacascii;trizen' \
 rizen='pacascii;trizen' \
 trizzen='pacascii;trizen' \
