@@ -1,0 +1,15 @@
+#!/ hint/sh
+
+cd() {
+# this time overwrite the builtin cd command,
+# reason: `shopt -s autocd` wont run aliased cd
+
+	builtin cd "$@"
+	case $PWD in
+		*github.com/*) PWD_gitrepodir=${PWD#*/github.com/}; PWD_gitrepodir=${PWD_gitrepodir#denisde4ev/};; 
+		*/gh/*)        PWD_gitrepodir=${PWD#*/gh/};; 
+		*/master/*)    PWD_gitrepodir=${PWD#*/master/};; 
+		*) unset PWD_gitrepodir;;
+	esac
+}
+

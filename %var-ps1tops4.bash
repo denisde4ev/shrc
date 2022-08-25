@@ -12,6 +12,25 @@ ${shell_is_interactive-return}
 #
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 case $PS4 in *'$('*) ;; *)
 	export PS4='#$?+  '
 esac
@@ -29,7 +48,7 @@ esac && return
 case ${BASH_VERSION+x} in x)
 	. ~/B/%__history-append.bash
 	case $PS1 in \[*)
-		PS1=$'[\001\E[33m\002\\u\001\E(B\E[m\002@\\h \001\E[36m\002\\W\001\E(B\E[m\002]$( ( IFS=\\| eval "o=\\"\\\\${PIPESTATUS[*]}\\""; [[ $o = 0*(\\|0) ]] && echo "\\$" || echo "\001\E[31m\002$o\001\E(B\E[m\002" ) 2>&- )${i+"!"} ';
+		PS1=$'[\001\E[33m\002\\u\001\E(B\E[m\002@\\h \001\E[36m\002${PWD_gitrepodir:-\\W}\001\E(B\E[m\002]$( ( IFS=\\| eval "o=\\"\\\\${PIPESTATUS[*]}\\""; [[ $o = 0*(\\|0) ]] && echo "\\$" || echo "\001\E[31m\002$o\001\E(B\E[m\002" ) 2>&- )${i+"!"} ';
 		return
 	esac
 esac
