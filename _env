@@ -1,8 +1,6 @@
 #! /hint/sh
 
 export \
-MANPAGER="sh -c 'col -bx | bat -l man -p'" \
-PAGER=most \
 BAT_PAGER="less -RF" \
 BAT_CONFIG_PATH=/etc/bat.conf \
 PASSWORD_STORE_DIR=~/0/GG/pass/ \
@@ -17,6 +15,24 @@ NEW_LINE='
 ' \
 TAB_CHAR='	' \
 ;
+
+alias command.='command >/dev/null -v'
+
+if command. most; then
+	export PAGER=most
+	if command. bat; then
+		export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+	elif command. less; then
+		export MANPAGER="less"
+	fi
+else
+	if command. bat; then
+		export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+	fi
+	if command. less; then
+		export PAGER="less"
+	fi
+fi
 # : "${NEW_LINE:=$'\n'}"
 
 
@@ -45,7 +61,6 @@ doas='PAGER= MANPAGER= \sudo -S ' \
 sudo='PAGER= MANPAGER= \doas ' \
 9='PAGER= MANPAGER=less \9 ' \
 gh='PAGER=less \gh' \
-man='MANPAGER=most \man' \
 HELP='MANPAGER=most \HELP' \
 systemctl='PAGER= systemctl' \
 ;
