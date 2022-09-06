@@ -1,7 +1,7 @@
 #!/ hint/sh
 
-case ${HOME-}:${HOSTNAME-} in
-~arcowo:kpc)
+case ${USER-}:${HOSTNAME-} in
+arcowo:kpc)
 	alias dotfiles='git --git-dir=/^/\ https://github.com/denisde4ev/dotfiles.git'
 	;;
 

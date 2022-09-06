@@ -1,5 +1,6 @@
 #! /hint/sh
 
+: "${HOSTNAME:=$(hostname)}"
 export \
 BAT_PAGER="less -RF" \
 BAT_CONFIG_PATH=/etc/bat.conf \
