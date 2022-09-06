@@ -62,6 +62,6 @@ case $#:${sh_isin_cmd+1}:$({ :; } 2>&1) in 0::) ;; *) return 0; esac
 case :${BB-}: in *:nologin:*) return 0; esac
 . "$B"/_fetch/_fetch"${sh_is_sh+".sh"}"
 #ls ~/d >&2
-ls -d ~/d/*[Tt][Oo][Dd][Oo]* >&2
+ls -d "${XDG_DESKTOP_DIR:?}"/*[Tt][Oo][Dd][Oo]* >&2
 
 unset-unseted-i
