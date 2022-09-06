@@ -72,7 +72,7 @@ _diff__color() {
 		always)
 			# colors: '\33['
 			diff "$@" | {
-				. ~/B/__define_colors || return
+				. "$B"/__define_colors || return
 				case $_diff__color__arg_mode in
 					def)     sed "s/^</$tput_red</; s/^>/$tput_green>/; s/\$/$tput_reset/;";;
 					context) sed "s/^\!/$tput_yellow\!/; s/\$/$tput_reset/;";;

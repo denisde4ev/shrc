@@ -9,12 +9,12 @@ __load_loadable() {
 	}
 
 	# for now no bash specific fn-s
-	if [ -e ~/B/_loadable/"$1"."$sh_is" ]; then
-		. ~/B/_loadable/"$1"."$sh_is"
-	elif case "$sh_is" in "$sh_is_") false;; *) [ -e ~/B/_loadable/"$1"."$sh_is_" ]; esac; then
-		. ~/B/_loadable/"$1"."$sh_is_"
+	if [ -e "$B"/_loadable/"$1"."$sh_is" ]; then
+		. "$B"/_loadable/"$1"."$sh_is"
+	elif case "$sh_is" in "$sh_is_") false;; *) [ -e "$B"/_loadable/"$1"."$sh_is_" ]; esac; then
+		. "$B"/_loadable/"$1"."$sh_is_"
 	else
-		. ~/B/_loadable/"$1".sh
+		. "$B"/_loadable/"$1".sh
 	fi
 
 	# note: no aliases allowed
@@ -45,11 +45,11 @@ set-x='_set_x' \
 e.loadable='_edit_loadable ' \
 ;
 # git='_git' \ # fn not done
-# ?- is from ~/B/a
+# ?- is from "$B"/a
 
 
 unset-unseted-i
-for i in ~/B/_loadable/[a-zA-Z0-9_]*.sh ${sh_is_bash+~/B/_loadable/[a-zA-Z0-9_]*.bash}; do
+for i in "$B"/_loadable/[a-zA-Z0-9_]*.sh ${sh_is_bash+"$B"/_loadable/[a-zA-Z0-9_]*.bash}; do
 	i=${i##*/}
 	i=${i%.*}
 	# arg "$i"

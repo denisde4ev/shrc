@@ -47,8 +47,8 @@ _cd__() { # alias 'cd..' '..' 'CD'
 
 			bin)                              cd ~/.local/bin || return;;
 			B)                                cd ~/.config/bash/bashrc.d || return;;
-			_loadable|loadable)               cd ~/B/_loadable || return;;
-			__sourcable|_sourcable|sourcable) cd ~/B/__sourcable || return;;
+			_loadable|loadable)               cd "$B"/_loadable || return;;
+			__sourcable|_sourcable|sourcable) cd "$B"/__sourcable || return;;
 
 			gh|GH)                            cd '/^/ https:/github.com' || return;;
 			gh-dd|ghdd|g)                     cd '/^/ https:/github.com/denisde4ev' || return;;
@@ -129,7 +129,7 @@ _cd__() { # alias 'cd..' '..' 'CD'
 					eval "unset-seted-i;"return" $i"
 				fi
 			;;
-			_[a-zA-Z]*) if [ -e ~/B/"$1" ]; then cd ~/B/"$1"; else cd ~/B/"$1"*; fi ;;
+			_[a-zA-Z]*) if [ -e "$B/$1" ]; then cd "$B/$1"; else cd "$B/$1"*; fi ;;
 			*) false;;
 		esac && {
 			printf %s\\n "cd $(case $PWD in *'/ https:/'[!/]*) puts "$PWD" | sed 's@https:/@https://@g';; *) quote "$PWD"; esac)"

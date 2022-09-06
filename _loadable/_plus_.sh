@@ -209,7 +209,7 @@ local nl;nl='
 	case $1 in _plus_) # just easy way to reload the function
 		case ${0##*/} in +|_plus_) echo >&2 "Will not take effect"; esac
 
-		sh_require -f "/~arcowo/B/_loadable/+.sh" + _plus_ || return || exit
+		sh_require -f "$B"/_loadable/+.sh + _plus_ || return || exit
 		alias +=_plus_
 	esac
 

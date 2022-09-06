@@ -50,7 +50,7 @@ return
  # complete -o nospace -F _umount_module -F _minimal umount-fzf
 # }
 
-# pwd is mine (echo $PWD/$1) (from ~/B/fn)
+# pwd is mine (echo $PWD/$1) (from "$B"/fn)
 
 
 # NOT USED:

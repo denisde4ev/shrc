@@ -56,9 +56,9 @@ case ${OSTYPE:-$(uname -o)} in
 			*/ls) false;;
 			*)
 			puts >&2 \
-				"~/B/_core: got unexpected output" \
-				"~/B/_core: \$ command -v ls -> $i" \
-				"~/B/_core: \$?:$?" \
+				"\$B/_core: got unexpected output" \
+				"\$B/_core: \$ command -v ls -> $i" \
+				"\$B/_core: \$?:$?" \
 			;
 			return 1
 		esac || { [ -L "$i" ] && os_bb=''; } || {
@@ -68,16 +68,16 @@ case ${OSTYPE:-$(uname -o)} in
 				0:*/toybox|toybox) os_toybox='';;
 				*)
 				puts >&2 \
-					"~/B/_core: well idk then what this OS this is, 'ls' seems to not be a symlink" \
-					"~/B/_core: \$ readlink -- \$(command -v ls) -> $i" \
-					"~/B/_core: \$?:$?" \
+					"\$B/_core: well idk then what this OS this is, 'ls' seems to not be a symlink" \
+					"\$B/_core: \$ readlink -- \$(command -v ls) -> $i" \
+					"\$B/_core: \$?:$?" \
 				;	
 				return 1
 			esac
 		unset-seted-i
 		}
 	;;
-	*) puts >&2 "~/B/_core: cannot detect current os ${OSTYPE:-$(uname -o)} in GNU || (Busybox+Musl) || Android || WINDOWS"; return 1;;
+	*) puts >&2 "\$B/_core: cannot detect current os ${OSTYPE:-$(uname -o)} in GNU || (Busybox+Musl) || Android || WINDOWS"; return 1;;
 esac
 
 

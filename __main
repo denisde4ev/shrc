@@ -5,11 +5,11 @@ case $- in *i*)
 	if [ -d /~ ]; then 
 		fn() {
 			local HOME 2>&-
-			HOME=/~ . /~/B/_main
+			HOME=/~ . "${B:=/~/.config/bash/bashrc.d}"/_main
 		}
 		fn
 		unset -f fn
 	else
-		. ~/B/_main
+		. "${B:=/~/.config/bash/bashrc.d}"/_main
 	fi
 esac

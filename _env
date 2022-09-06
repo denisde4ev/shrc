@@ -52,7 +52,7 @@ esac
 
 	
 
-# note $new_line is from ~/B/_core
+# note $new_line is from "$B"/_core
 
 # some enviromnent aliases, (for now all are for PAGER var fix)
 alias \
@@ -64,4 +64,4 @@ gh='PAGER=less \gh' \
 HELP='MANPAGER=most \HELP' \
 systemctl='PAGER= systemctl' \
 ;
-# git='PAGER=less \git' \ moved to ~/B/_loadable/git.sh
+# git='PAGER=less \git' \ moved to "$B"/_loadable/git.sh

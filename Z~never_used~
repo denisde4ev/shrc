@@ -86,5 +86,5 @@ printf  'alias '; alias | sed 's/^alias //' | tr '\n' ' '
 )
 
 
- # . ~/B/xargs # alias Zxargs='xargs --null --no-run-if-empty' # note: there is `alias Zx% Zx`
+ # . "$B"/xargs # alias Zxargs='xargs --null --no-run-if-empty' # note: there is `alias Zx% Zx`
  # alias Zfind=~/.bin-personal/Zfind || alias Zfind=~/bin/Zfind

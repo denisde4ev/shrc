@@ -9,7 +9,7 @@ case ${EDITOR+x} in '')
 		case $EDITOR in
 			ed|less|most|more|cat|CAT) puts "warn: EDITOR=$EDITOR" >&2; break;; # warn when using ed/pager/cat for editor
 			# how to do iiit ??? ### read) alias edit="CAT"
-			# CAT is from ~/B/_loadable or bin/CAT (loaded after this file - reason alphabetical order)
+			# CAT is from "$B"/_loadable or bin/CAT (loaded after this file - reason alphabetical order)
 		esac
 		break
 
@@ -35,7 +35,7 @@ case $(command -v com-which) in
 		;
 	;;
 	*)
-		alias e.which='com-which -c "${EDITOR:-vi}"' # note this fn comes from ~/B/_loadable/
+		alias e.which='com-which -c "${EDITOR:-vi}"' # note this fn comes from "$B"/_loadable/
 	;;
 esac
 

@@ -35,7 +35,7 @@ case $PS4 in *'$('*) ;; *)
 	export PS4='#$?+  '
 esac
 
-case ${BASH_VERSION+x} in x) . ~/B/%__history-append.bash; esac
+case ${BASH_VERSION+x} in x) . "$B"/%__history-append.bash; esac
 case ${0##*/} in -*) PS1-x; return; esac
 
 case $PS1 in
@@ -46,7 +46,7 @@ esac && return
 
 
 case ${BASH_VERSION+x} in x)
-	. ~/B/%__history-append.bash
+	. "$B"/%__history-append.bash
 	case $PS1 in \[*)
 		PS1=$'[\001\E[33m\002\\u\001\E(B\E[m\002@\\h \001\E[36m\002${PWD_gitrepodir:-\\W}\001\E(B\E[m\002]$( ( IFS=\\| eval "o=\\"\\\\${PIPESTATUS[*]}\\""; [[ $o = 0*(\\|0) ]] && echo "\\$" || echo "\001\E[31m\002$o\001\E(B\E[m\002" ) 2>&- )${i+"!"} ';
 		return
@@ -59,7 +59,7 @@ esac
 
 
 
-case ${tput_red+x} in '') . ~/B/__define_colors; esac
+case ${tput_red+x} in '') . "$B"/__define_colors; esac
 
 # note: \1 is \[ , \] is \2
 _ps1_r=$'\001'${tput_red:?}$'\002'

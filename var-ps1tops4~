@@ -2,7 +2,7 @@
 # shellcheck shell=bash
 
 # [[ $0 = bash ]] &&
-source ~/B/__history-append
+source "$B"/__history-append
 
 alias PS1++="PS1=${PS1@Q}" PS1--="PS1='\[\e[100m\]\\\$\[\e[m\] '"
 PS2='\[\e[9m\]\[\e[100m\] \[\e[m\]'

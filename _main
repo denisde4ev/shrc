@@ -1,5 +1,7 @@
 #! /hint/sh
 
+B=${B:-$HOME/.config/bash/bashrc.d}
+
 #unalias -a # for now not a problem
 
 # SHELL DETECTION:
@@ -15,9 +17,9 @@ case $sh_is in
 		case ${sh_is:-${0##*/}} in
 			dash|sh|mksh) ;;
 			\$|\$.sh) sh_isin_cmd=''; PS1='';;
-			ksh|netbsd|posh|yash) printf %s\\n >&2 "~/B/_main: note, you are using shell that is not yet well tested";;
-			_main|_main.sh)       printf %s\\n >&2 "~/B/_main: shell not detected! \$0 seems to be '_main'?";;
-			*)                    printf %s\\n >&2 "~/B/_main: unrecognized shell, assuming sh"; BB=$BB${BB:+:}nologin;;
+			ksh|netbsd|posh|yash) printf %s\\n >&2 "$B/_main: note, you are using shell that is not yet well tested";;
+			_main|_main.sh)       printf %s\\n >&2 "$B/_main: shell not detected! \$0 seems to be '_main'?";;
+			*)                    printf %s\\n >&2 "$B/_main: unrecognized shell, assuming sh"; BB=$BB${BB:+:}nologin;;
 		esac
 	;;
 esac
@@ -25,27 +27,27 @@ esac
 
 # todo: but what if is not in .config ? and then we have no $XDG_CONFIG_HOME ..
 #  check what wiki says in this case.
-[ -e ~/.config/user-dirs.dirs ] && . ~/B/_homedir-vars
+[ -e ~/.config/user-dirs.dirs ] && . "$B"/_homedir-vars
 
 # big dot / "BULLET" (U+2022) -> alias •=source_all :
-. ~/B/_U+2022•
+. "$B"/_U+2022•
 
 
 
 • \
-	~/B/_env \
-	~/B/_core \
-	~/B/_PATH \
-	~/B/_fallback/FALLBACK \
-	~/B/[a-z]*[!\~\!\@\#\$%^\&\*] \
+	"$B"/_env \
+	"$B"/_core \
+	"$B"/_PATH \
+	"$B"/_fallback/FALLBACK \
+	"$B"/[a-z]*[!\~\!\@\#\$%^\&\*] \
 ;
 
 sh_is_=${sh_is_bash+bash}${sh_is_zsh+zsh}${sh_is_ash+sh}${sh_is_sh+sh} # note ash runs *.sh files
 
 • \
-	~/B/%[a-z]*."$sh_is_" \
-	~/B/_loadable/LOADABLE \
-	~/B/a \
+	"$B"/%[a-z]*."$sh_is_" \
+	"$B"/_loadable/LOADABLE \
+	"$B"/a \
 ;
 
 # detect if we are home:
@@ -58,7 +60,7 @@ esac
 # case $- in *c*|*x*)false;; *);; esac  || # `$-` is bashism ...
 case $#:${sh_isin_cmd+1}:$({ :; } 2>&1) in 0::) ;; *) return 0; esac
 case :${BB-}: in *:nologin:*) return 0; esac
-. ~/B/_fetch/_fetch"${sh_is_sh+".sh"}"
+. "$B"/_fetch/_fetch"${sh_is_sh+".sh"}"
 #ls ~/d >&2
 ls -d ~/d/*[Tt][Oo][Dd][Oo]* >&2
 

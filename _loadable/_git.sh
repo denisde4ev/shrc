@@ -32,7 +32,7 @@ _git() {
 	;;
 	*) \git "$@";;
 	esac
-	set -- ${git_conf_user_name:+"-c$git_conf_user_name"} ${git_conf_user_email:+"-c$git_conf_user_email"} # set in ~/B/_main
+	set -- ${git_conf_user_name:+"-c$git_conf_user_name"} ${git_conf_user_email:+"-c$git_conf_user_email"} # set in "$B"/_main
 }
 
 # GIT_SSH_COMMAND=ssh -i ~...

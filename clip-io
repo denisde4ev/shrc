@@ -19,7 +19,7 @@ alias \
 	c.quote='quote "$( cout )"' \
 ;
 
-# note: alias 'C!=' 'CC!='  is from ~/B/a
+# note: alias 'C!=' 'CC!='  is from "$B"/a
 
 
 clip_io() {

@@ -3,7 +3,7 @@
 
 
 # this is exampel of my error,
-# this script should not exist in ~/B/_loadable 
+# this script should not exist in "$B"/_loadable 
 # this script have nothing to do with the shell or environment or change directoryes
 # the only reason might want to use this is if is commonly executed (but only if is bash/zsh then gets benifets ........)
 

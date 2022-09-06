@@ -4,7 +4,7 @@ ${shell_is_interactive-return}
 
 
 i{
-	shuf_1_toi ~/B/_fetch/[a-z]*[!%~] || return
+	shuf_1_toi "$B"/_fetch/[a-z]*[!%~] || return
 	_fetch=$i
 }i
 

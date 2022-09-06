@@ -75,7 +75,7 @@ while :; do # label: handling
 			*.loadable) # alias e.loadalbe
 				##_arg=$(\type "$1")
 				case $1 in __load_loadable) _arg=$2;; *) _arg=$1;; esac
-				eval " ${comm%.loadable}" '~/B/_loadable/"$_arg".*' || puts "note: please expand the alias before calling using command_not_found_handle"
+				eval " ${comm%.loadable}" '"${B?}"/_loadable/"$_arg".*' || puts "note: please expand the alias before calling using command_not_found_handle"
 				exi=$?
 				;;
 
