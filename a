@@ -42,7 +42,7 @@ foo='echo bar' \
 whatislove='( printf "What is love?\\nOh baby, don\\x27t hurt me\\nDon\\x27t hurt me\\nNo more...\\n" )' \
 whatislove.stderr='( printf "What is love?\\nOh baby, don\\x27t hurt me\\n"; printf "Don\\x27t hurt me\\n" >&2; printf "No more...\\n" )' \
 \
-B='cd ~/B' \
+B='cd "$B"' \
 CCCCCCC='sudo loadkeys carpalx; setxkbmap "us(carpalx)"' \
 \
 7z-mx9='7z a -r -t7z -m0=lzma2 -mx=9 -myx=9 -mqs=on -ms=on' \
