@@ -6,10 +6,9 @@ cd() {
 
 	builtin cd "$@"
 	case $PWD in
-		*github.com/*) PWD_gitrepodir=${PWD#*/github.com/}; PWD_gitrepodir=${PWD_gitrepodir#denisde4ev/};; 
-		*/gh/*)        PWD_gitrepodir=${PWD#*/gh/};; 
-		*/master/*)    PWD_gitrepodir=${PWD#*/master/};; 
+		*github.com/*) PWD_gitrepodir=${PWD#*github.com/}; PWD_gitrepodir=${PWD_gitrepodir#denisde4ev/};;
+		*/gh/*)        PWD_gitrepodir=${PWD#*/gh/};;
+		*/master/*)    PWD_gitrepodir=${PWD#*/master/};;
 		*) unset PWD_gitrepodir;;
 	esac
 }
-

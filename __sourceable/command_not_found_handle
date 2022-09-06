@@ -79,7 +79,6 @@ while :; do # label: handling
 				exi=$?
 				;;
 
-
 			
 			*)
 				# goto next check

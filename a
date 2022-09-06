@@ -2,6 +2,7 @@
 # TODO: move @op5-* aliases to separate file OR external file with bind for @ OR at least detect if has @op5 command
 
 alias \
+patch='patch --forward --strip=1' \
 @op5-sms-list-l1='@op5 termux-sms-list -l1' \
 c#='\c# #' \
 exec='\exec ' \
@@ -11,7 +12,7 @@ _0='cd ~/0/gh/_0' \
 0-ghdd='cd ~/0/ghdd-masters' \
 speak-rmhash='sed -uEe "s/(^| )#( |$)//g" | speak' \
 speak='time \speak -l bg -s 270' \
-git-lazy-commit-message-filechanges='(printf %s "#➔"; git status -s | sed -nEe "s/^([A-Z])./\\1/p" | tr "\\n" \;; echo) | git commit -F - -e' \
+git-lazy-commit-message-filechanges='(printf %s "#➔"; git status -s | sed -nEe "s/^([A-Z])./\\1/p" | tr "\\n" \;; echo) | GIT_EDITOR="$EDITOR" git commit -F - -e' \
 git-lazy-commit-message-date='git commit -m "#$(date -I)" -e' \
 dotfiles-lazy-commit-message-filechanges='(alias git=dotfiles; eval git-lazy-commit-message-filechanges)' \
 dotfiles-lazy-commit-message-date='(alias git=dotfiles; eval git-lazy-commit-message-date)' \

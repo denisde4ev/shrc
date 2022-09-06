@@ -1,3 +1,4 @@
+
 #!/bin/sh
 
 # allow git aliasses to be exapnded
@@ -8,14 +9,15 @@ git_alias_aliases() {
 	while read -r i; do
 		#i=${i#alias.}
 		case ${i#*" "} in
-			\!*) alias "git.${i%%" "*}=${i#*" "\!}";;
-			*) alias "git.${i%%" "*}=git ${i#*" "}";;
+			\!*) alias "git_${i%%" "*}=${i#*" "\!}";;
+			*)   alias "git_${i%%" "*}=git ${i#*" "}";;
 		esac
-	done <<-.
+	done <<- EOF
 	$(git config --global   --get-regexp '^alias\.')
-	.
+	EOF
 	unset-seted-i
 	puts "aliases are :" >&2
-	alias | sed 's/^alias //' | rg --pcre2 "(?<=git.alias\.)[^=]+(?==)" \
-	|| case $? in 1) echo 'no aliases' >&2; return 1;; esac
+	alias | sed 's/^alias //' | rg --pcre2 "(?<=git_alias\.)[^=]+(?==)" || {
+		case $? in 1) echo 'no aliases' >&2; return 1;; esac
+	}
 }
