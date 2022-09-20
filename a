@@ -43,6 +43,7 @@ whatislove='( printf "What is love?\\nOh baby, don\\x27t hurt me\\nDon\\x27t hur
 whatislove.stderr='( printf "What is love?\\nOh baby, don\\x27t hurt me\\n"; printf "Don\\x27t hurt me\\n" >&2; printf "No more...\\n" )' \
 \
 B='cd "$B"' \
+bin='cd ~/.loca/bin' \
 CCCCCCC='sudo loadkeys carpalx; setxkbmap "us(carpalx)"' \
 \
 7z-mx9='7z a -r -t7z -m0=lzma2 -mx=9 -myx=9 -mqs=on -ms=on' \
@@ -98,9 +99,10 @@ rm='\rm -v' rmdir='\rmdir -v' micro-diff-rm='\micro-diff-rm -v' rmt='rmtrash -v 
 umount='\umount -v' umount-fzf='\umount-fzf -v' mv-ln='\mv-ln -vi'${os_gnu+" -r"} \
 \
 Imount='mount --options "uid=${UID:-"$(id -n)"},gid=${GROUPS?:-"$(id -g)"}"' \
-Iown='chown "${UID:-"$(id -u)"}:${GROUPSB-"$(id -g)"}"' \
+Iown='chown "${UID:-"$(id -u)"}:${GROUPS-"$(id -g)"}"' \
 Iown.u='chown "${UID:-"$(id -u)"}"' \
-Iown.g='chown "${UID:-"$(id -u)"}:${GROUPSB-"$(id -g)"}"' \
+Iown.g='chown "${UID:-"$(id -u)"}:${GROUPS-"$(id -g)"}"' \
+Iinstall='install -o "${USER:-"$(id -un)"}" -g "$(id -gn)" `: todo: fix installed from /dev/null is executable, sis this how it should work and why does not take the umask num  :` ' \
 777='chmod 777'  755='chmod 755' \
 192='ip route get 1 | rg -o "src [^ ]*" | cut-f 2' \
 myip='(curl -s ipinfo.io/ip;echo)' \

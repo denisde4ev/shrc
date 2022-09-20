@@ -54,6 +54,7 @@ sh_is_=${sh_is_bash+bash}${sh_is_zsh+zsh}${sh_is_ash+sh}${sh_is_sh+sh} # note as
 case ${HOME-}:${HOSTNAME-} in ~arcowo:kpc)
 	git_conf_user_name="user.name=Denis Dechev"
 	git_conf_user_email="user.email=denisde4ev@vivaldi.net"
+	ls -d "${XDG_DESKTOP_DIR:?}"/*[Tt][Oo][Dd][Oo]* >&2
 esac
 
 # has args OR if xtrace(set -x) is on, then dont execute shell specific 'rc' and fetch/color script:
@@ -62,6 +63,5 @@ case $#:${sh_isin_cmd+1}:$({ :; } 2>&1) in 0::) ;; *) return 0; esac
 case :${BB-}: in *:nologin:*) return 0; esac
 . "$B"/_fetch/_fetch"${sh_is_sh+".sh"}"
 #ls ~/d >&2
-ls -d "${XDG_DESKTOP_DIR:?}"/*[Tt][Oo][Dd][Oo]* >&2
 
 unset-unseted-i

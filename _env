@@ -1,6 +1,10 @@
 #! /hint/sh
 
-: "${HOSTNAME:=$(hostname)}"
+: "
+${HOSTNAME:=$(hostname)}
+${OLDPWD=$HOME/.local}
+"
+
 export \
 BAT_PAGER="less -RF" \
 BAT_CONFIG_PATH=/etc/bat.conf \

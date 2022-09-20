@@ -2,7 +2,7 @@
 
 case ${USER-}:${HOSTNAME-} in
 arcowo:kpc)
-	alias dotfiles='git --git-dir=/^/\ https://github.com/denisde4ev/dotfiles.git'
+	alias dotfiles-env='GIT_DIR=/^/\ https://github.com/denisde4ev/dotfiles.git' dotfiles='dotfiles-env git'
 	;;
 
 # todo:
