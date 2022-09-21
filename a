@@ -149,7 +149,8 @@ dd="\\dd${os_gnu+" status=progress"}" \
 ${sh_is_bash+l.did='ll -d /did/!(.|..|*-part*)'} \
 ${sh_is_bash-l.did='Zfind /did/ -maxdepth 1 -mindepth 1 -not -path "*-part*" | Zx ll -d --'} \
 \
-xargs='\xargs -d \\n -r' \
+${os_gnu+xargs='\xargs -d \\n -r'} \
+${os_bb+xargs='tr \\n \\0 | \xargs -0 -r'} \
 x='xargs ' \
 x%='x -I% ' \
 xo='(x% open %)' \
