@@ -1,9 +1,9 @@
 #! /hint/sh
+alias e.which=_fallbackfn__e_which
 
-__e_which() { (
+_fallbackfn__e_which() { (
 	IFS=${NEW_LINE:-$'\n'}
 	set -f
 	edit $(which "$@")
 ) }
 
-alias e.which=__e_which

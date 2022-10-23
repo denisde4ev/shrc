@@ -18,5 +18,5 @@ local() {
 };
 
 # DONT: `unset`,
-# REASON: uper scope function may cause bug by unsetting it.
+# REASON: may cause bug in uper scope function by unsetting it.
 # scripts should detect exit code from the 'local()' function!

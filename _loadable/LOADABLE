@@ -25,7 +25,9 @@ __load_loadable() {
 # TODO: separate CD and cd.. fns
 
 # LOADABLE-aliases:
+#mv=_mv_or_editorrename_ \ # aliased 'mv -vi' in $B/a
 alias \
+find=_find_ \
 +=_plus_ \
 'cd+'='_cd_plus' \
 'cd++'='_cd_plusparents' \

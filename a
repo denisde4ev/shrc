@@ -2,64 +2,58 @@
 # TODO: move @op5-* aliases to separate file OR external file with bind for @ OR at least detect if has @op5 command
 
 alias \
-ew-='ew ' \
-DIFF=fulldiff \
-fulldiff='diff -U 2147483647' \
+\
+Bdu='btrfs filesystem du' \
+Bdf='btrfs filesystem df' \
+Bsync='btrfs filesystem sync' \
+\
+btr=btrfs-butbetter \
+Bcompression-mx9='btr set compression=zlib:9' \
+\
+stat-c='stat -c' \
+DIFF='diff -U 2147483647' \
 git='GIT_FIX_PWD="$PWD" \git' \
 fdisk='\fdisk -n -L' \
-\
-btr.mksubvol='sudo btrfs subvolume create' \
-mksubvol.btr='btr.mksubvol' \
-btr=btrfs-butbetter \
 \
 GIT-alias-setup='alias gs="git stat" gl="git log-short" ga="git add" gc="git commit"' \
 patch='patch --forward --strip=1' \
 @op5-sms-list-l1='@op5 termux-sms-list -l1' \
 c#='\c# #' \
-exec='\exec ' \
-_0='cd ~/.local/0/gh/_0' \
-0='cd ~/.local/0' \
-0-gh='cd ~/.local/0/gh' \
-0-ghdd='cd ~/.local/0/ghdd-masters' \
-speak-rmhash='sed -uEe "s/(^| )#( |$)//g" | speak' \
+\
 speak='time \speak -l bg -s 270' \
 git-lazy-commit-message-filechanges='(printf %s "#➔"; git status -s | sed -nEe "s/^([A-Z])./\\1/p" | tr "\\n" \;; echo) | GIT_EDITOR="$EDITOR" git commit -F - -e' \
 git-lazy-commit-message-date='git commit -m "#$(date -I)" -e' \
 dotfiles-lazy-commit-message-filechanges='(alias git=dotfiles; eval git-lazy-commit-message-filechanges)' \
 dotfiles-lazy-commit-message-date='(alias git=dotfiles; eval git-lazy-commit-message-date)' \
 gpg='DISPLAY= \gpg' \
-whileReadI-do='unset-unseted-i; while IFS= read -r i; do ' \
 shred='shred -uz -n 3' \
 losetup='\losetup --find --show --verbose --partscan' \
 http-server='python3 -m http.server' \
 @op5-cin='ssh op5 "~/bin/termux/cin"' \
 @op5-cout='ssh op5 "~/bin/termux/cout"' \
-@op5-'find-play3'='@op5 $ find-play3\!' \
+@op5-find-play3='@op5 $ find-play3\!' \
 @op5-vibrate='ssh op5 termux-vibrate' \
 @op5-qn='ssh op5 -t "micro /0/Documents/markor/QuickNote.md; exec bash -il"' \
 %%%='%% & exit' \
-nyx='sudo -u tor nyx' \
 \
 d='date -I' \
 d--='puts "---- $(d) ----"' \
 \
 todo='e ~/.local/d/todo.md' \
-todo-archive='e ~/.local/0/archive/todo.md' \
-todo-fzf='puts ~/.local/d/*[Tt][Oo][Dd][Oo]* | fzf' \
+todo-ls='puts ~/.local/d/*[Tt][Oo][Dd][Oo]*' \
+todo-archived='e ~/.local/0/archive/todo.md' \
 TODO='cd ~/.local/d/TODO.d' \
+\
 sampler='sampler --config /~arcowo/.config/sampler/sampler.yml' \
 PP='P --noconfirm' \
 foo='echo bar' \
 whatislove='( printf "What is love?\\nOh baby, don\\x27t hurt me\\nDon\\x27t hurt me\\nNo more...\\n" )' \
 whatislove.stderr='( printf "What is love?\\nOh baby, don\\x27t hurt me\\n"; printf "Don\\x27t hurt me\\n" >&2; printf "No more...\\n" )' \
 \
-B='cd "$B"' \
-bin='cd ~/.loca/bin' \
 CCCCCCC='sudo loadkeys carpalx; setxkbmap "us(carpalx)"' \
 \
 7z-mx9='7z a -r -t7z -m0=lzma2 -mx=9 -myx=9 -mqs=on -ms=on' \
 \
-xmrig='( case $TERM in screen-*) xmrig ;; *) byobu new doas xmrig; esac )' \
 bat='\bat --style header,numbers,rule,snip' \
 BAT='bat -A' \
 bat-f='bat --decorations=always' \
@@ -67,10 +61,9 @@ cut-f='cut -d " " -f' \
 wc-l='\wc -l' \
 IFS='set -f; IFS="${NEW_LINE:-$new_line}"' \
 bash-debugger-start='debugger=1 bash-debugger' \
-argv='(arg "$@")' \
+argv='arg "$@"' \
 fd.swap='3>&2 2>&1 1>&3 '  fd.copy-err='tee /dev/stderr' \
 \
-mongod='\mongod --logpath /dev/stdout' \
 llw='ll.which' \
 cdw='cd.which' \
 cw='cd.which' \
@@ -78,10 +71,18 @@ cd.tmp='cd "$(mktemp -d -t tmp.shpid$$.XXXX)"' \
 cd.mktemp='cd.tmp' \
 cd-='cd -' \
 \
+B='cd "$B"' \
+bin='cd ~/.loca/bin' \
+_0='cd ~/.local/0/gh/_0' \
+0='cd ~/.local/0' \
+0-gh='cd ~/.local/0/gh' \
+0-ghdd='cd ~/.local/0/ghdd-masters' \
+\
 path='( IFS=${PATHseparator:-":"}; set -f; puts $PATH )' \
-printf.quote-this='printf %s\\n \!#:q' \
-printf.quote='printf "%q\\n"' \
-nbsp='printf \\xC2\\xA0\\n' \
+\
+ew+='ew ' \
+exec+='\exec ' \
+echo+='echo ' \
 \
 '-=echo ' \
 '?-=quote ' \
@@ -94,7 +95,6 @@ nbsp='printf \\xC2\\xA0\\n' \
 \
 grep='\grep --color=auto' \
 egrep='\egrep --color=auto' \
-pgrep='\pgrep --color=auto' \
 ${os_gnu+
 	diff='\diff -u --no-dereference --color=auto  -s' \
 	micro-diff='\micro-diff -u -s --color=auto' \
@@ -103,7 +103,7 @@ edit-genpath='edit-genpath -u' \
 diff-arch='diff --unified --recursive --text' \
 pacman-diffs='(find /etc 2>/dev/null -name "*.pacnew" -mtime -360 -type f | sed "s/.pacnew\$//")' \
 \
-mv='\mv -vi' cp='\cp -vi' ln='\ln -vi' chmod='\chmod -v' chown='\chown -v' readlink='\readlink -v' \
+mv='_mv_or_editorrename_ -vi' cp='\cp -vi' ln='\ln -vi' chmod='\chmod -v' chown='\chown -v' readlink='\readlink -v' \
 mvT='mv -T' cpT='cp -T' ln-fTv='\ln -fTv' \
 mount='\mount -v' \
 rm='\rm -v' rmdir='\rmdir -v' micro-diff-rm='\micro-diff-rm -v' rmt='rmtrash -v -r' \
@@ -136,7 +136,7 @@ df='\df -h' \
 du='\du -h' \
 dust='\dust --reverse --limit-filesystem' \
 free='\free -mt' \
-lsport='( \netstat -tulpn || echo exit code $?, todo: "https://linuxhint.com/how_to_list_open_ports_on_linux/" ) ' \
+lsport='( \netstat -tulpn || echo exit code $?, todo: "https://linuxhint.com/how_to_list_open_ports_on_linux/" )' \
 \
 userlist='cut -d: -f1 /etc/passwd' \
 update-grub="sudo grub-mkconfig -o /boot/grub/grub.cfg" \
@@ -219,16 +219,33 @@ fi
 
 # ${os_gnu-return} # return if not gnu os
 
+case $(command -v edit-rename) in */*) # _fallbackfn_edit_rename does not support arguments
+	alias edit-rename='edit-rename --args="-vi"'
+esac
+
 # detect if we are home
-case ${HOME-}:${HOSTNAME-} in ~arcowo:kpc)
+case ${USER-}:${HOSTNAME-} in arcowo:kpc)
 	alias \
 		minecraft-1.12.2='/~arcowo/0/game/MC/1.12.2/start' minecraft-1.16.5='/~arcowo/0/game/MC/1.16.5/start' \
 		HOME-disallowed='\HOME-disallowed --homepath ~arcowo' \
+		dotfiles-env='GIT_DIR=/^/\ https://github.com/denisde4ev/dotfiles.git ' dotfiles='dotfiles-env git' \
 	;;
+
+# todo:
+#/data/data/com.termux/files/home:dumpling)
+#	alias dotfiles='git --git-dir=/^/_/git-branch:master/\ https://github.com/denisde4ev/dotfiles.git'
+#	;;
+#/root:artix)
+#	alias dotfiles='git --git-dir=/^/_/git-branch:master/\ https://github.com/denisde4ev/dotfiles.git'
+#	;;
 *) return;;
 esac
 
+
+
 return
+
+
 
 # NOTES:
 
@@ -245,3 +262,25 @@ return
 
 # path='pts "$PATH" | tr : \\n'
 # wrong: nbsp='printf \\uA0\\n' \
+
+
+# never used: 
+#btr.mksubvol='sudo btrfs subvolume create' \
+#mksubvol.btr='btr.mksubvol' \
+#Bcompression-false='btr set compression=false' \
+
+
+#DIFF=fulldiff \
+
+# whileReadI-do='while IFS= read -r i; do ' \
+
+#printf.quote-this='printf %s\\n \!#:q' \
+#printf.quote='printf "%q\\n"' \
+#nbsp='printf \\xC2\\xA0\\n' \
+
+# ....
+#nyx='sudo -u tor nyx' \
+#xmrig='( case $TERM in screen-*) xmrig ;; *) byobu new doas xmrig; esac )' \
+# speak-rmhash='sed -uEe "s/(^| )#( |$)//g" | speak' \
+#mongod='\mongod --logpath /dev/stdout' \
+#pgrep='\pgrep --color=auto' \

@@ -1,0 +1,13 @@
+#! /hint/sh
+
+alias edit-rename='_fallbackfn__edit_rename'
+
+_fallbackfn__edit_rename() {
+	[ $# = 1 ] || { puts "$# != 1" >&2; return 2; };
+	unset-unseted-i
+	i=$(mktemp)
+	puts "$2" > "$i" && \
+	"$EDITOR" "$i"   && \
+	eval 'mv -- "$1" "$2" "$(cat "$i")"' # eval to get latest alias
+	unset-seted-i
+}

@@ -51,9 +51,12 @@ sh_is_=${sh_is_bash+bash}${sh_is_zsh+zsh}${sh_is_ash+sh}${sh_is_sh+sh} # note as
 ;
 
 # detect if we are home:
-case ${HOME-}:${HOSTNAME-} in ~arcowo:kpc)
-	git_conf_user_name="user.name=Denis Dechev"
-	git_conf_user_email="user.email=denisde4ev@vivaldi.net"
+case ${USER-}:${HOSTNAME-} in arcowo:kpc)
+	export \
+		git_conf_user_name="user.name=Denis Dechev" \
+		git_conf_user_email="user.email=denisde4ev@vivaldi.net" \
+	;
+	. "$B"/__anti-homedirfirefox
 	ls -d "${XDG_DESKTOP_DIR:?}"/*[Tt][Oo][Dd][Oo]* >&2
 esac
 
