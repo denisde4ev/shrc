@@ -2,12 +2,13 @@
 # TODO: move @op5-* aliases to separate file OR external file with bind for @ OR at least detect if has @op5 command
 
 alias \
+btr=btrfs-butbetter \
+g=git-butbetter \
 \
 Bdu='btrfs filesystem du' \
 Bdf='btrfs filesystem df' \
 Bsync='btrfs filesystem sync' \
 \
-btr=btrfs-butbetter \
 Bcompression-mx9='btr set compression=zlib:9' \
 \
 stat-c='stat -c' \
@@ -15,12 +16,11 @@ DIFF='diff -U 2147483647' \
 git='GIT_FIX_PWD="$PWD" \git' \
 fdisk='\fdisk -n -L' \
 \
-GIT-alias-setup='alias gs="git stat" gl="git log-short" ga="git add" gc="git commit"' \
 patch='patch --forward --strip=1' \
 @op5-sms-list-l1='@op5 termux-sms-list -l1' \
 c#='\c# #' \
 \
-speak='time \speak -l bg -s 270' \
+speak='time \speak -s 270' \
 git-lazy-commit-message-filechanges='(printf %s "#➔"; git status -s | sed -nEe "s/^([A-Z])./\\1/p" | tr "\\n" \;; echo) | GIT_EDITOR="$EDITOR" git commit -F - -e' \
 git-lazy-commit-message-date='git commit -m "#$(date -I)" -e' \
 dotfiles-lazy-commit-message-filechanges='(alias git=dotfiles; eval git-lazy-commit-message-filechanges)' \
@@ -37,6 +37,7 @@ http-server='python3 -m http.server' \
 %%%='%% & exit' \
 \
 d='date -I' \
+d.file='date -Im | sed "y/:/-/;s/+.*//"' \
 d--='puts "---- $(d) ----"' \
 \
 todo='e ~/.local/d/todo.md' \
@@ -264,7 +265,7 @@ return
 # wrong: nbsp='printf \\uA0\\n' \
 
 
-# never used: 
+# never used:
 #btr.mksubvol='sudo btrfs subvolume create' \
 #mksubvol.btr='btr.mksubvol' \
 #Bcompression-false='btr set compression=false' \

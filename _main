@@ -1,6 +1,6 @@
 #! /hint/sh
 
-B=${B:-$HOME/.config/bash/bashrc.d}
+export B;B=${B:-$HOME/.config/bash/bashrc.d}
 
 #unalias -a # for now not a problem
 
@@ -56,7 +56,7 @@ case ${USER-}:${HOSTNAME-} in arcowo:kpc)
 		git_conf_user_name="user.name=Denis Dechev" \
 		git_conf_user_email="user.email=denisde4ev@vivaldi.net" \
 	;
-	. "$B"/__anti-homedirfirefox
+	. "$B"/__antihomedir
 	ls -d "${XDG_DESKTOP_DIR:?}"/*[Tt][Oo][Dd][Oo]* >&2
 esac
 
