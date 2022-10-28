@@ -13,7 +13,7 @@ git_alias_aliases() {
 			*)   alias "git_${i%%" "*}=git ${i#*" "}";;
 		esac
 	done <<- EOF
-	$(git config --global   --get-regexp '^alias\.')
+	$(git config --global --includes   --get-regexp '^alias\.')
 	EOF
 	unset-seted-i
 	puts "aliases are :" >&2
