@@ -3,7 +3,7 @@
 i{
 for i in "$B"/_fallback/[a-z_]*[!%~]; do
 	command. "${i##*/}" || {
-		puts "note: using fallback for command '$i'" >&2
+		puts "note: using fallback for command: '${i##*/}'" >&2
 		. "$i"
 	}
 
