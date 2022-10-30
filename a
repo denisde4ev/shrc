@@ -13,10 +13,9 @@ Bcompression-mx9='btr set compression=zlib:9' \
 \
 stat-c='stat -c' \
 DIFF='diff -U 2147483647' \
-git='GIT_FIX_PWD="$PWD" \git' \
 fdisk='\fdisk -n -L' \
 \
-patch='patch --forward --strip=1' \
+patch='\patch --forward --strip=1' \
 @op5-sms-list-l1='@op5 termux-sms-list -l1' \
 c#='\c# #' \
 \
@@ -249,6 +248,9 @@ return
 
 
 # NOTES:
+
+# moved to LOADABLE
+#ali git='GIT_FIX_PWD="$PWD" _git__  'git='GIT_FIX_PWD="$PWD" \git'
 
 # alais sudo='\sudo ' is from ./_env ,
 # alias xargs is from ./Z

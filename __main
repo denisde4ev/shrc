@@ -1,11 +1,23 @@
 #! /hint/sh
 
 
+case $HOSTNAME in
+dumpling|op5)
+	B=${B:-"$HOME/B"}
+esac
+
+. "${B:?}"/_main
+
+return
+
+#elif [ -d /~ ]; then 
+#B=/~/.config/bash/bashrc.d
+
 case $- in *i*)
 	if [ -d /~ ]; then 
 		fn() {
-			local HOME 2>&-
-			HOME=/~ . "${B:=/~/.config/bash/bashrc.d}"/_main
+			local HOME 2>&- || return
+			HOME=/~ . "$B"/_main
 		}
 		fn
 		unset -f fn

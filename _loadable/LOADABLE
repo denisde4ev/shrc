@@ -27,6 +27,7 @@ __load_loadable() {
 # LOADABLE-aliases:
 #mv=_mv_or_editorrename_ \ # aliased 'mv -vi' in $B/a
 alias \
+git='_git__' \
 find=_find_ \
 +=_plus_ \
 'cd+'='_cd_plus' \
