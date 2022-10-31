@@ -56,7 +56,7 @@ while :; do # label: handling
 					_arg=${_arg#"#"}
 					## NOTE: do not give me _comm=(some alias not expecting args) there is no point in it,
 					# just leave the default shell syntax error
-					eval " ${comm%"#"}"' "$_arg"' 
+					eval " ${comm%"#"}"' "$_arg"'
 					exi=$?
 				esac
 				;;
@@ -79,7 +79,7 @@ while :; do # label: handling
 				exi=$?
 				;;
 
-			
+
 			*)
 				# goto next check
 				break 1 # break check_exact_or_end
@@ -89,7 +89,7 @@ while :; do # label: handling
 			# when found a handle do not print end error
 			break 3 # break handling
 		break; done # label-end: check_exact_or_end
-		
+
 
 		while :; do # label: check_end_and_executWithAlias
 			case $comm in
@@ -97,7 +97,7 @@ while :; do # label: handling
 				*.tooldpwd)            _comm=${comm%.*};                      set -- "$@"  "$OLDPWD";;
 				*.pwd|*.frompwd)       _comm=${comm%.*};                      set -- "$PWD"     "$@";;
 				*.oldpwd|*.fromoldpwd) _comm=${comm%.*};                      set -- "$OLDPWD"  "$@";;
-				*...)                  _comm=${comm%.};  _arg=${1%/*}; shift; set -- "$_arg"    "$@";; # note: this is to be done in recursion, example: echo... a/b/c/d  will print 'a/b',  and adding just 1 dot more: echo.... a/b/c/d  will print 'a' 
+				*...)                  _comm=${comm%.};  _arg=${1%/*}; shift; set -- "$_arg"    "$@";; # note: this is to be done in recursion, example: echo... a/b/c/d  will print 'a/b',  and adding just 1 dot more: echo.... a/b/c/d  will print 'a'
 				*..)                   _comm=${comm%..}; _arg=${1%/*}; shift; set -- "$_arg"    "$@";;
 				*) break 1;; # goto next check # break check_and_executWithAlias
 			esac
@@ -150,10 +150,10 @@ while :; do # label: handling
 		break; done # label-end: check_begin
 
 		# if cant handle then goto err pninting
-		break 1 # break multiple_checks 
+		break 1 # break multiple_checks
 
 	break; done # label-end: multiple_checks
-	
+
 
 	# ${exi+pnintf %s\\n "not expected to get exi var here, ( exi=${exi+"'"}${exi-"(unset)"}${exi+"'"} ), fix this in command_not_found_handle, called with:" "$@"} >&2
 

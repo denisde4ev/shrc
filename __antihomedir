@@ -1,0 +1,38 @@
+#! /hint/sh
+
+case $HOME in "$PWD") ;; *) return; esac 
+
+
+
+
+[ ! -d .pki ] || (
+	cd "${HOME:?}" || exit
+	rm -rfv .pki
+)
+
+
+[ ! -d ~/.mozilla ] || {
+	unalias _find_ || :
+	. "${B?}"/_loadable/_find_.sh_
+
+
+	#command. _find_ || . "${B?}"/_loadable/_find_.sh
+	{
+		echo
+		date -Im
+		i=$(_find_ .mozilla | tee-fd 3 | wc -l)
+	} >>~/.cache/0/.mozilla_find 3>&1
+
+	case $i in
+	([0-9][0-9][0-9][0-9])
+		puts >&2 "Not expected to get that many files '$i' in output from \`find .mozilla\`"
+		;;
+	(*)
+		(
+			cd "${HOME:?}" || exit
+			rm -rfv -- ~/.mozilla/
+		)
+	esac
+
+
+} >&2

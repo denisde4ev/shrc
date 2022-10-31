@@ -1,6 +1,6 @@
 #! /hint/sh
 
-i{
+unset-unseted-i
 for i in "$B"/_fallback/[a-z_]*[!%~]; do
 	command. "${i##*/}" || {
 		puts "note: using fallback for command: '${i##*/}'" >&2
@@ -10,4 +10,4 @@ for i in "$B"/_fallback/[a-z_]*[!%~]; do
 ##	command. "${i##*/}"
 ##	echo command. "${i##*/}" $?
 done
-}i
+unset-seted-i

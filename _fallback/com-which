@@ -1,8 +1,8 @@
 #! /hint/sh
 
-alias com-which=com_which;
+alias com-which=_fallbackfn__com_which;
 
-com_which(){(
+_fallbackfn__com_which(){(
 	set -feu
 	OPTIND=1;getopts c: _;x=$OPTARG
 	! getopts "" _;shift $((OPTIND-1))  # expected non arg or "--"
