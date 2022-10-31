@@ -224,22 +224,34 @@ case $(command -v edit-rename) in */*) # _fallbackfn_edit_rename does not suppor
 	alias edit-rename='edit-rename --args="-vi"'
 esac
 
+
+
+#export GIT_DIR # moved to _env
 # detect if we are home
-case ${USER-}:${HOSTNAME-} in arcowo:kpc)
+case ${USER-}:${HOSTNAME-} in
+arcowo:kpc)
 	alias \
 		minecraft-1.12.2='/~arcowo/0/game/MC/1.12.2/start' minecraft-1.16.5='/~arcowo/0/game/MC/1.16.5/start' \
 		HOME-disallowed='\HOME-disallowed --homepath ~arcowo' \
 		dotfiles-env='GIT_DIR=/^/\ https://github.com/denisde4ev/dotfiles.git ' dotfiles='dotfiles-env git' \
 	;;
 
+root:Denis-pc57)
+	alias \
+		dotfiles-env='GIT_DIR=/^/\ https://github.com/denisde4ev/dotfiles.git ' dotfiles='dotfiles-env git' \
+	;;
+
+pc57:Denis|pc57:Denis-pc57)
+	alias \
+		dotfiles-env='@ env GIT_DIR=/^/\ https://github.com/denisde4ev/dotfiles.git ' dotfiles='dotfiles-env git' \
+	;;
 # todo:
-#/data/data/com.termux/files/home:dumpling)
+#:dumpling)
 #	alias dotfiles='git --git-dir=/^/_/git-branch:master/\ https://github.com/denisde4ev/dotfiles.git'
 #	;;
 #/root:artix)
 #	alias dotfiles='git --git-dir=/^/_/git-branch:master/\ https://github.com/denisde4ev/dotfiles.git'
 #	;;
-*) return;;
 esac
 
 

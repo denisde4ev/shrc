@@ -9,7 +9,7 @@ _before_command_not_found_handle() {
 		i=${1%.};
 		YN_confirm N "Run '$i${*#"$i."}' and return?" && { # note if cant read will return 0
 			shift
-			eval " $i" "${1+\"\$@\"}"& # NOTE: this won't exit the main shell, reason: in bash command_not_found_handle is in subshell
+			eval " $i" "${1+\"\$@\"}"& # NOTE: this wont exit the main shell, reason: in bash command_not_found_handle is in subshell
 			return
 			unset-seted-i
 			return

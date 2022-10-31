@@ -6,6 +6,7 @@ ${OLDPWD=$HOME/.local}
 "
 
 export \
+GIT_DIR \
 BAT_PAGER="less -RF" \
 BAT_CONFIG_PATH=/etc/bat.conf \
 PASSWORD_STORE_DIR=~/0/GG/pass/ \
