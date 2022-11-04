@@ -3,11 +3,13 @@
 alias edit-rename='_fallbackfn__edit_rename'
 
 _fallbackfn__edit_rename() {
-	[ $# = 1 ] || { puts "$# != 1" >&2; return 2; };
+	case $# in 1|2) ;; *) puts "$# != 1|2" >&2; return 2; esac
 	unset-unseted-i
-	i=$(mktemp)
-	puts "$2" > "$i" && \
-	"$EDITOR" "$i"   && \
-	eval 'mv -- "$1" "$2" "$(cat "$i")"' # eval to get latest alias
+	i=$(mktemp) && \
+	puts "${2-$1}" > "$i" && \
+	"${EDITOR:-vi}" "$i" && \
+	eval 'mv ${2+"$1"} -- "${2-$1}" "$(cat "$i")"' \
+	|| eval "unset-seted-i; return $?"
 	unset-seted-i
+	 # eval to get latest alias
 }
