@@ -1,8 +1,8 @@
 #! /hint/sh
 
-alias edit-rename='_fallbackfn__edit_rename'
+alias edit-mv='_fallbackfn__edit_mv'
 
-_fallbackfn__edit_rename() {
+_fallbackfn__edit_mv() {
 	case $# in 1|2) ;; *) puts "$# != 1|2" >&2; return 2; esac
 	unset-unseted-i
 	i=$(mktemp) && \
