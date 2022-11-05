@@ -20,7 +20,7 @@ patch='\patch --forward --strip=1' \
 c#='\c# #' \
 \
 speak='time \speak -s 270' \
-git-lazy-commit-message-filechanges='(printf %s "#➔"; git status -s | sed -nEe "s/^([A-Z])./\\1/p" | tr "\\n" \;; echo) | GIT_EDITOR="$EDITOR" git commit -F - -e' \
+git-lazy-commit-message-filechanges='(i="#➔$(git status -s | sed -nEe "s/^([A-Z])./\\1/p" | tr "\\n" \;; echo)"); printf %s "$a" | GIT_EDITOR="$EDITOR" git commit -F - -e' \
 git-lazy-commit-message-date='git commit -m "#$(date -I)" -e' \
 dotfiles-lazy-commit-message-filechanges='(alias git=dotfiles; eval git-lazy-commit-message-filechanges)' \
 dotfiles-lazy-commit-message-date='(alias git=dotfiles; eval git-lazy-commit-message-date)' \
