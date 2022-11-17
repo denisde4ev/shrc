@@ -2,6 +2,19 @@
 # TODO: move @op5-* aliases to separate file OR external file with bind for @ OR at least detect if has @op5 command
 
 alias \
+gs='git stat' \
+gS='git stat --ignored -uall' \
+ga='git add' \
+gc='git commit --allow-empty-message --allow-empty --message' \
+gl='git log-short' \
+gd='git diff' \
+gsw='git switch' gw=gsw \
+gch='git checkout' \
+gm='git merge' \
+gw='git worktree' \
+gwa='git worktree add' \
+gwr='git worktree remove' gwd=gwr \
+\
 btr=btrfs-butbetter \
 g=git-butbetter \
 \
@@ -36,7 +49,7 @@ http-server='python3 -m http.server' \
 %%%='%% & exit' \
 \
 d='date -I' \
-d.file='date -Im | sed "y/:/-/;s/+.*//"' \
+d.file='( date -Im | sed "y/:/-/;s/+.*//" )' \
 d--='puts "---- $(d) ----"' \
 \
 todo='e ~/.local/d/todo.md' \
