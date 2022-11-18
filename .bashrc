@@ -23,8 +23,8 @@ _0='cd  /\^/\ https://github.com/denisde4ev/_0/raw/master/' \
 bb=busybox \
 ip='bb ip' \
 dust='dust -r' \
-markor='cd /0/Documents/markor/' \
-markor-qn='edit /0/Documents/markor/QuickNote.md' \
+markor='cd /sdcard/Documents/markor/' \
+markor-qn='edit /sdcard/Documents/markor/QuickNote.md' \
 ;
 
 
