@@ -2,6 +2,7 @@
 # TODO: move @op5-* aliases to separate file OR external file with bind for @ OR at least detect if has @op5 command
 
 alias \
+thepkg=thepkg-pacapt \
 gs='git stat' \
 gS='git stat --ignored -uall' \
 ga='git add' \
