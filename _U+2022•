@@ -4,6 +4,7 @@ source_all() {
 	local source_all__file
 	for source_all__file; do
 		. "$source_all__file"
+		 #echo ${i+$source_all__file}; unset i
 	done
 	unset source_all__file
 }

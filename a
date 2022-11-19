@@ -159,7 +159,8 @@ ${os_gnu+"dd=\\dd status=progress"} \
 ${sh_is_bash+l.did='ll -d /did/!(.|..|*-part*)'} \
 ${sh_is_bash-l.did='find /did/ -maxdepth 1 -mindepth 1 -not -path "*-part*" | x ll -d --'} \
 \
-xargs='\xargs -d \\n -r' \
+${os_gnu+xargs='\xargs -d \\n -r'} \
+${os_bb+xargs='tr \\n \\0 | \xargs -0 -r'} \
 x='xargs ' \
 x%='x -I% ' \
 xo='(x% open %)' \
@@ -205,6 +206,9 @@ case $(command -v edit-rename) in */*) # _fallbackfn_edit_rename does not suppor
 	alias edit-rename='edit-rename --args="-vi"'
 esac
 
+
+
+#export GIT_DIR # moved to _env
 # detect if we are home
 case ${USER-}:${HOSTNAME-} in arcowo:kpc)
 	# minecraft-1.12.2='/~arcowo/0/game/MC/1.12.2/start' minecraft-1.16.5='/~arcowo/0/game/MC/1.16.5/start' \
@@ -213,14 +217,22 @@ case ${USER-}:${HOSTNAME-} in arcowo:kpc)
 		dotfiles-env='GIT_DIR=/^/\ https://github.com/denisde4ev/dotfiles.git ' dotfiles='dotfiles-env git' \
 	;;
 
+root:Denis-pc57)
+	alias \
+		dotfiles-env='GIT_DIR=/^/\ https://github.com/denisde4ev/dotfiles.git ' dotfiles='dotfiles-env git' \
+	;;
+
+pc57:Denis|pc57:Denis-pc57)
+	alias \
+		dotfiles-env='@ env GIT_DIR=/^/\ https://github.com/denisde4ev/dotfiles.git ' dotfiles='dotfiles-env git' \
+	;;
 # todo:
-#/data/data/com.termux/files/home:dumpling)
+#:dumpling)
 #	alias dotfiles='git --git-dir=/^/_/git-branch:master/\ https://github.com/denisde4ev/dotfiles.git'
 #	;;
 #/root:artix)
 #	alias dotfiles='git --git-dir=/^/_/git-branch:master/\ https://github.com/denisde4ev/dotfiles.git'
 #	;;
-*) return;;
 esac
 
 

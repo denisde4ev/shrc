@@ -50,7 +50,7 @@ case ${OSTYPE:-$(uname -o)} in
 	MS/Windows) os_win='';;
 	linux-musl|Linux) # Alpine, KISS
 		unset-unseted-i
-		i=$(command -v ls)
+		i=$(unalias ls 2>/dev/null; command -v ls)
 		case $i in # note: this will fail if ls is alias or fn
 			ls) os_bb='';; # applet is build in
 			*/ls) false;;
@@ -60,6 +60,7 @@ case ${OSTYPE:-$(uname -o)} in
 				"\$B/_core: \$ command -v ls -> $i" \
 				"\$B/_core: \$?:$?" \
 			;
+			unset-seted-i
 			return 1
 		esac || { [ -L "$i" ] && os_bb=''; } || {
 			i=$(readlink -- "$i" 2>/dev/null)
@@ -71,11 +72,12 @@ case ${OSTYPE:-$(uname -o)} in
 					"\$B/_core: well idk then what this OS this is, 'ls' seems to not be a symlink" \
 					"\$B/_core: \$ readlink -- \$(command -v ls) -> $i" \
 					"\$B/_core: \$?:$?" \
-				;	
+				;
+				unset-seted-i
 				return 1
 			esac
-		unset-seted-i
 		}
+		unset-seted-i
 	;;
 	*) puts >&2 "\$B/_core: cannot detect current os ${OSTYPE:-$(uname -o)} in GNU || (Busybox+Musl) || Android || WINDOWS"; return 1;;
 esac
