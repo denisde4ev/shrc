@@ -13,6 +13,8 @@ gdd='_git__ _g diff --cached' \
 ga='git add' \
 gaa='git unstage' \
 gc='git commit --allow-empty --allow-empty-message --message' \
+grec='git recommit' \
+gunc='git undo-1commit' \
 gch='git checkout' \
 gsw='git switch' \
 gswo='git switch --orphan' \
@@ -36,7 +38,7 @@ patch='\patch --forward' \
 c#='\c# #' \
 \
 speak='time \speak -s 270' \
-git-lazy-commit-message-filechanges='(i="#➔$(git status -s | sed -nEe "s/^([A-Z])./\\1/p" | tr "\\n" \;; echo)"); printf %s "$a" | GIT_EDITOR="$EDITOR" git commit -F - -e' \
+git-lazy-commit-message-filechanges='(i="#➔$(git status -s | sed -nEe "s/^([A-Z])./\\1/p" | tr "\\n" \;; echo)"; printf %s "$i") | GIT_EDITOR="$EDITOR" git commit -F - -e' \
 dotfiles-lazy-commit-message-filechanges='(alias git=dotfiles; eval git-lazy-commit-message-filechanges)' \
 shred='shred -uz -n 3' \
 losetup='\losetup --find --show --verbose --partscan' \
