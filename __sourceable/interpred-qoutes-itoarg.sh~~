@@ -1,0 +1,38 @@
+#!/hint/sh
+
+# NOTE: this script will trim start and trailing spaces
+
+unset j
+set --
+while :; do
+	case ${i?} in
+	'')
+		break # all good, `i` was propperly consumed (or input `i` was empty)
+		;;
+	'"'*'"'*)
+		i=${i#'"'}
+		j=${i%%'"'*} # same as: j=i.replace(/".*/,'') ##fix"
+		set -- "$@$j";
+		i=${i#"$j"'"'}
+		;;
+	' '*)
+		# trim starm spaces
+		# also for `$i` trailing spaces - does not detect if it is the end of the string
+
+		i=${i#"${i%%[! ]*}"} # same as: i=i.replace(/^ */,'')
+		case $i in *[!' ']*)  # if `i` has something that is not space
+			set -- "$@" '' # begin new argument here
+		esac
+		;;
+	*)
+	# no need for separete parsing for: '"'*) # the weird case when there is begining quote, but no closing bracket
+		j=${i%%" "*} # same as: j=i.match(/^ */)[0]
+		case $j in '') # panic error - should never happen
+			printf %s\\n "ERR '$j' from '$i' is empty"
+			exit 4
+		esac
+		set -- "$@$j"
+		i=${i#"$j"}
+		;;
+	esac
+done

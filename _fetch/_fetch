@@ -3,10 +3,10 @@ ${shell_is_interactive-return}
 
 
 
-i{
+unset-unseted-i
 	shuf_1_toi "$B"/_fetch/[a-z]*[!%~] || return
 	_fetch=$i
-}i
+unset-seted-i
 
 ( . "$_fetch" ) >&2
 

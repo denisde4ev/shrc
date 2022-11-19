@@ -2,13 +2,10 @@
 
 __load_loadable() {
 	unalias "$1" 2>/dev/null || {
-		# NOTE: fn should not try to load itself/(or longer version of itself)
-		# in function body. Or this will create recursion here
 		"$@"
 		return
 	}
 
-	# for now no bash specific fn-s
 	if [ -e "$B"/_loadable/"$1"."$sh_is" ]; then
 		. "$B"/_loadable/"$1"."$sh_is"
 	elif case "$sh_is" in "$sh_is_") false;; *) [ -e "$B"/_loadable/"$1"."$sh_is_" ]; esac; then
@@ -17,7 +14,6 @@ __load_loadable() {
 		. "$B"/_loadable/"$1".sh
 	fi
 
-	# note: no aliases allowed
 	"$@"
 }
 
@@ -27,6 +23,7 @@ __load_loadable() {
 # LOADABLE-aliases:
 #mv=_mv_or_editorrename_ \ # aliased 'mv -vi' in $B/a
 alias \
+ll-test=ll_test \
 git='_git__' \
 find=_find_ \
 +=_plus_ \
@@ -47,7 +44,6 @@ set-x='_set_x' \
 'type=_type_' '?=_type_' '??=_type_ -a' \
 e.loadable='_edit_loadable ' \
 ;
-# git='_git' \ # fn not done
 # ?- is from "$B"/a
 
 
@@ -55,9 +51,6 @@ unset-unseted-i
 for i in "$B"/_loadable/[a-zA-Z0-9_]*.sh ${sh_is_bash+"$B"/_loadable/[a-zA-Z0-9_]*.bash}; do
 	i=${i##*/}
 	i=${i%.*}
-	# arg "$i"
-	# (dont use for now fn): eval " $i(){ __load_loadable $i \"\$@\" }"
 	alias "$i"="__load_loadable $i"
-	## arg "$i"="__load_loadable $i"
 done
 unset-seted-i

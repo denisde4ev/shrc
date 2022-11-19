@@ -3,35 +3,25 @@
 
 _cd__() { # alias 'cd..' '..' 'CD'
 	local i OPTIND=1 || return
-	unset-unseted-i
-	getopts : i && {
+
+	case $1 in -*) # note: not even '--' allowed.
 		echo "${FUNCNAME-_cd__}: fn does not support arguments, got: '$1'" >&2
-		unset-seted-i
 		return 2
-	}
-	unset-seted-i
-	shift $((OPTIND-1)) # shift the '--' if has
-
-
-
-	case $@ in
-		0|*[!0-9]*) ;;
-		[!0]*) # if arg is positive num, todo fix?
-			cd "$( unset-unseted-i; {
-					i=${1:-1}
-					while [ 0 -lt "$i" ]; do
-						printf %s ../
-						i=$(( i - 1 ))
-					done
-			} ;unset-seted-i )"
-			return
-		;;
 	esac
 
-	
-					 # todo: '}i' wont keep return status
 
-	case $# in # todo: move most of this to new fn cd-i?
+	case $@ in 0|*[!0-9]*) ;; [!0]*) # if arg is positive num, todo fix?
+		cd "$( unset-unseted-i; {
+				i=${1:-1}
+				while [ 0 -lt "$i" ]; do
+					printf %s ../
+					i=$(( i - 1 ))
+				done
+		} ;unset-seted-i )"
+		return
+	esac
+
+	case $# in # todo: move most of this to new fn CD
 		0) cd ..;;
 		1)
 			case $1 in # match $1 arg - when only 1 arg
@@ -53,8 +43,6 @@ _cd__() { # alias 'cd..' '..' 'CD'
 				gh|GH)                            cd '/^/ https:/github.com';;
 				gh|GH)                            cd '/^/ https:/github.com';;
 				gh-dd|ghdd|g)                     cd '/^/ https:/github.com/denisde4ev';;
-				git-branch:*|gb:*)                cd "/^/_/git-branch:${1#*:}/ https:/github.com/denisde4ev";;
-				gm)                               cd '/^/_/git-branch:master/ https:/github.com/denisde4ev';;
 
 				dow|dl|downloads|download)        cd "${XDG_DOWNLOAD_DIR:-"$HOME/Downloads"}";;
 				doc|docs|documents|document)      cd "${XDG_DOCUMENTS_DIR:-"$HOME/Documents"}";;
@@ -62,7 +50,7 @@ _cd__() { # alias 'cd..' '..' 'CD'
 				pic|p|pics|pic)                   cd "${XDG_PICTURES_DIR:-$HOME/Pictures}";;
 				ss|shot|screenshots|screenshot)   cd "${XDG_PICTURES_DIR:-$HOME/Pictures}/Screenshots";;
 				did|/did)                         cd /dev/disk/by-id;; # also /did is my symlink to it
-				todo|TODO)                        cd "${TODO_DIR:-"$HOME/0/TODO.d"}";;
+				todo|TODO)                        cd "${TODO_DIR:-"$HOME/.local/0/TODO.d"}";;
 
 				http*|https*) # TODO: consider should this code be here or in other fn, like cd+/cd-
 					case $1 in
@@ -71,35 +59,24 @@ _cd__() { # alias 'cd..' '..' 'CD'
 							i=${1#http}; i=${i#s}; i=${i#://}
 							i=/^/\ https:/"${i%/*}"
 							[ -d "$i" ] || mkdir -pv -- "$i"
-							cd "$i"
+							cd "$i" || eval "unset-seted-i; return $?"
 							i=${1##*/}; i=${i%.git}
 							[ -d "$i" ] || git clone -- "$1" "./$i"
-							cd "./$i"
+							cd "./$i" || eval "unset-seted-i; return $?"
 							unset-seted-i
 						;;
 						*) cd /^/\ https:;;
 					esac
 				;;
 
-				/did__/*)
-					unset-unseted-i
-					i=$(readlink -f $1) && \
-					sudo mount -v /dev/"${i##*/}" /mnt/_/"${i##*/}" &&
-					{
-						cd "/mnt/did/${1}"
-					}
-					unset-seted-i
-				;;
 				/did/*|/dev/*)
 					unset-unseted-i
 					if [ -L "$1" ]; then
-						i=$(readlink -f "$1")
+						i=$(readlink -f -- "$1") || eval "unset-unseted-i; return $?"
 					else
 						i=$1
 					fi && \
-					cd /mnt/_/"${i##*/}" || {
-						eval "unset-seted-i;"return" $?"
-					}
+					cd /mnt/_/"${i##*/}" || eval "unset-unseted-i; return $?"
 					if (
 						# also auto mount it if folder is empty (not porpper mount detection but it good enugh)
 						{
@@ -108,10 +85,10 @@ _cd__() { # alias 'cd..' '..' 'CD'
 							[ ! -e "$1" ]
 						} && {
 							# if empty then mount it
-							sudo mount -v /dev/"${i##*/}" /mnt/_/"${i##*/}"
+							sudo mount -v /dev/"${i##*/}" /mnt/_/"${i##*/}" || eval "unset-unseted-i; return $?"
 						}
 					); then
-						cd /mnt/_/"${i##*/}"
+						cd /mnt/_/"${i##*/}"  || eval "unset-unseted-i; return $?"
 					fi
 					unset-seted-i
 				;;
@@ -120,12 +97,13 @@ _cd__() { # alias 'cd..' '..' 'CD'
 
 				@*)
 					unset-unseted-i
-					i=/~/0/chroots/"${1#@}"
+					i=/~/.local/0/chroots/"${1#@}"
 					if [ -d "$i" ]; then
 						cd "$i" && \
-						ll -d -- "$i"
+						ll -d -- "$i" \
+						|| eval "unset-unseted-i; return $?"
 					else
-						_cd__ which-ll "$1" && return
+						_cd__ which-ll "$1"; eval "unset-unseted-i; return $?"
 					fi
 					unset-seted-i
 				;;
@@ -140,14 +118,14 @@ _cd__() { # alias 'cd..' '..' 'CD'
 			# and maybe # which|which-ll)
 
 		*)
-			case $1 in # match $1 arg - when more args
+			case $1 in # match first arg - when has more than 1 args
 				which|which-ll)
-					set -- "$1" "$2" "$(which "$2")"
-					# oh. this is just because can not unset i before calling same fn.
-					# and also exit status is lost...
+					set -- "$1" "$2" "$(which -- "$2")"
+					# dont: change `set -- ...` to `unset-i; i=...`
+					# reason: can not unset i before calling same fn '_cd__'!
 
 					case $3 in
-						*/*) _cd__ "$3" || return $?;;
+						*/*) _cd__ "$3" || return;; # NOTE: one time recursion here
 						*) puts >&2 "got bad path from which: '$3'"; return 1;;
 					esac
 

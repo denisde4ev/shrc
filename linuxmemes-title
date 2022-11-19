@@ -1,0 +1,14 @@
+#! /hint/sh
+alias 2022='echo "YEAR OF THE DESKTOP"'
+return;exit
+
+# got by:
+node -e '(async _=>{require("fs").writeFileSync(1,
+
+	(await
+		(await fetch("https://api.reddit.com/r/linuxmemes/about"))
+		.json()
+	).data.title
+
+); })()'
+# (now) ==> alias 2022='echo "YEAR OF THE DESKTOP"'

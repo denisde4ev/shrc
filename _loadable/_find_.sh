@@ -5,8 +5,9 @@
 case ${os_gnu+x} in
 x)
 	_find_() {
+	unset-unseted-i
 		if . "$B"/__sourceable/pop_to_i.auto; then # copy:21699
-			case $i in -0) \find "$@" -0; return; esac
+			case $i in -0) \find "$@" -0; eval "unset-seted-i; return $?"; esac
 			set -- "$@" "$i"
 			unset-seted-i
 		fi
@@ -24,8 +25,9 @@ x)
 	#}
 
 	_find_() {
+		unset-unseted-i
 		if . "$B"/__sourceable/pop_to_i.auto; then # copy:21699
-			case $i in -0) \find "$@" -0; return; esac
+			case $i in -0) \find "$@" -0; eval "unset-seted-i; return $?"; esac
 			set -- "$@" "$i"
 			unset-seted-i
 		fi
@@ -42,7 +44,6 @@ x)
 			unset-seted-i
 		}
 	}
-	;;
 esac
 
 

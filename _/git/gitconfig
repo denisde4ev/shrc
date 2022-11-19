@@ -1,0 +1,5 @@
+#! /hint/sh
+
+[ ! -e ./.git/config ] && [ -x ~/.config/git/.new-gitconfig ] || return 0
+[ -d .git ] || mkdir -v .git
+pp ~/.config/git/.new-gitconfig >> .git/config

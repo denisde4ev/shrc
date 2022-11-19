@@ -6,11 +6,13 @@ ${OLDPWD=$HOME/.local}
 "
 
 export \
+GIT_FIX_PWD \
+GIT_DIR \
 BAT_PAGER="less -RF" \
 BAT_CONFIG_PATH=/etc/bat.conf \
-PASSWORD_STORE_DIR=~/0/GG/pass/ \
+PASSWORD_STORE_DIR=~/.local/0/GG/pass/ \
 TERMINAL=konsole \
-KISS_PATH=~/0/gh/denisde4ev/repo/personal \
+KISS_PATH=~/.local/0/gh/denisde4ev/repo/personal \
 XKB_DEFAULT_LAYOUT='us(carpalx)' \
 \
 PATHseparator=: \

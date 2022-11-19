@@ -1,0 +1,164 @@
+#!/bin/bash
+main(){ # do not exit on main shell when executing: `. ./lolbrickwall`. tho I recommend running script in subshell of main shell: `$ (. ./lolbrickwall)`
+
+
+
+case ${0##*/} in
+lolbrickwall)
+	
+	case $1 in --help)
+		printf %s\\n \
+			"Usage: ${0##*/} <col> <row>" \
+			"must be at least: 12:3 (for 1 brick)" \
+		;
+		# todo: implement mini bricks
+		return
+	esac
+
+
+	case $1 in *[x:-]*) IFS=x:-; set -f; set -- $1; esac # try to support more human imput
+
+	case ${1+x}{2+x} in
+	x|'')
+		:|:; col=$COLUMNS; row=$LINES
+		# I cant find the reason why, ..but 1 pipe makes bash to set the term size vars
+		# I'll leave this as fallback and thell in --help message args are required
+		;;
+	*)
+		col=$1
+		row=$2
+		;;
+	esac
+	;;
+*) # assuming current shell. $0 = "/bin/bash" or "-bash"
+	# only in 'current' shell can check for the size of the terminal
+	shopt -s checkwinsize; col=$COLUMNS; row=$LINES
+esac
+
+
+
+case ${col:+x}${row:+x} in x|'')
+	printf %s\\n >&2 \
+		"can not determine terminall size" \
+		"please provide <col> and <row> arg" \
+	;
+	return 3
+esac
+
+col=$(( col )) && \
+row=$(( row )) \
+|| return
+
+
+#printf '█%.0s' `seq 1 $(( row * col ))` | lolcat
+
+if (( row < 3 )); then
+	printf %s\\n >&2 \
+		"too small terminall to print the bricks." \
+		"cols must be at least: 3, but has row='$row'" \
+	;
+	return 1
+fi
+
+
+side_half_brick=1
+
+###OLD code:
+##s=''
+##c=$col
+##while (( c-- )); do s+='█'; done
+##
+##l=$row
+##while (( l-- )); do
+##	printf \\n%s "$s"
+##done | lolcat
+##
+##
+### there might be a better way to move cursor to top of the screen but anyway
+##printf "\\r\\33[$((row-2))A"
+##
+##
+##row_left=$row
+##brick_size=12 # ==> brick_size=$(s='  ██████████'; echo ${#s})
+##brick_count=$(( (col - 2) / $brick_size ))
+##s=''
+##i=$brick_count
+##while (( i-- )); do s+=$'\33[2C██████████'; done
+##line1_col_left=$(( col - ( brick_count * brick_size ) ))
+##case $side_half_brick in 1)
+##	# halfbrick_size=7 # halfbrick_size=$(s='  █████'; echo ${#s})
+##	# there is space if (( (halfbrick_size=7) < (space_left) ))	
+##	if (( 7 <= (line1_col_left - 2) )); then
+##		s+=$'\33[2C█████' # todo: dynamically size the brick by the space anvalible
+##	fi
+##esac
+##s1=$s$'\n'$s$'\n'
+##echo "$s1"
+
+
+
+####
+
+# add padding - move cursor to right
+# i: 1=<size>
+# o: var `$pad`
+pad() {
+	case $1 in 0) pad=''; return; esac # not checked if its num or if positive num
+	pad=$'\33['"$1"'C'
+}
+
+# generate brick(s)
+# W: adapted count behaviour:  1=>'@@@pad' 2=>'@@@pad@@@pad'
+# i: 1=<brick_w> 2=[count] 3=[pad]
+# o: var `$brick`
+brick() {
+	brick=''
+
+	case ${2-1} in
+		0)  return;;
+		-*) return 1;;
+	esac
+
+
+	for (( i=$1; i--; )); do
+		brick+='█'
+	done
+
+
+	pad "${3-1}"
+	brick=$pad$brick # W: adapted to current use case
+	case ${2-1} in 1) return; esac
+
+	_brick=$brick
+	for (( i=$2; --i; )); do
+		brick+="$_brick"
+	done
+
+	# brick=${brick%"$pad"}
+}
+
+
+brick_size=12
+pad_size=2
+bricks_count=$(( (col - pad_size) / brick_size ))
+brick $brick_size $bricks_count $pad_size
+
+#brick_height=2
+{ # W: harcdoded 2
+	##pad $pad_size # just in case use set again pad var 
+	brick=$brick$'\n'$brick$'\n'
+}
+
+
+col_left=$(( col - ( brick_count * ( brick_size + pad_size )  ) ))
+
+case $side_half_brick in 1)
+	if (( ( pad_size + ( brick_size / 5 ) ) < col_left )); then # TODO: should be at least 10% of the brick size; (needz more css query)
+		echo test;
+	fi
+esac
+
+
+sleep .69 # enjoy to the fullscneen before printing the prompt PS1
+
+}; main "$@"

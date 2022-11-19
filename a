@@ -1,74 +1,81 @@
 #! /hint/sh
-# TODO: move @op5-* aliases to separate file OR external file with bind for @ OR at least detect if has @op5 command
 
 alias \
-btr=btrfs-butbetter \
+gpgcat='gpg2 -d --quiet --yes --compress-algo=none --no-encrypt-to --batch --use-agent' \
+gpg='DISPLAY= \gpg' \
+\
 g=git-butbetter \
+gl='git log-short' \
+gs='_git__ _g stat' \
+gS='_git__ _g stat-all' \
+gd='_git__ _g diff' \
+gdd='_git__ _g diff --cached' \
+ga='git add' \
+gaa='git unstage' \
+gc='git commit --allow-empty --allow-empty-message --message' \
+gch='git checkout' \
+gsw='git switch' \
+gswo='git switch --orphan' \
+gp='git push' \
 \
-Bdu='btrfs filesystem du' \
-Bdf='btrfs filesystem df' \
-Bsync='btrfs filesystem sync' \
+html2pug='\html2pug -f' \
 \
-Bcompression-mx9='btr set compression=zlib:9' \
+ls-test='puts * | test-' \
+e-mv=edit-mv \
+e-ln=edit-symlink \
 \
+btr=btrfs-butbetter \
+lc='wc -l' \
 stat-c='stat -c' \
-DIFF='diff -U 2147483647' \
+cut-f='cut -d " " -f' \
+\
+fulldiff='diff -U 2147483647' \
 fdisk='\fdisk -n -L' \
 \
-patch='\patch --forward --strip=1' \
-@op5-sms-list-l1='@op5 termux-sms-list -l1' \
+patch='\patch --forward' \
 c#='\c# #' \
 \
 speak='time \speak -s 270' \
 git-lazy-commit-message-filechanges='(i="#➔$(git status -s | sed -nEe "s/^([A-Z])./\\1/p" | tr "\\n" \;; echo)"); printf %s "$a" | GIT_EDITOR="$EDITOR" git commit -F - -e' \
-git-lazy-commit-message-date='git commit -m "#$(date -I)" -e' \
 dotfiles-lazy-commit-message-filechanges='(alias git=dotfiles; eval git-lazy-commit-message-filechanges)' \
-dotfiles-lazy-commit-message-date='(alias git=dotfiles; eval git-lazy-commit-message-date)' \
-gpg='DISPLAY= \gpg' \
 shred='shred -uz -n 3' \
 losetup='\losetup --find --show --verbose --partscan' \
-http-server='python3 -m http.server' \
-@op5-cin='ssh op5 "~/bin/termux/cin"' \
-@op5-cout='ssh op5 "~/bin/termux/cout"' \
+\
+@op5-sms-list-l1='@op5 termux-sms-list -l1' \
+@op5-cin='ssh op5 "~/.bin-personal/termux/cin"' \
+@op5-cout='ssh op5 "~/.bin-personal/termux/cout"' \
 @op5-find-play3='@op5 $ find-play3\!' \
 @op5-vibrate='ssh op5 termux-vibrate' \
-@op5-qn='ssh op5 -t "micro /0/Documents/markor/QuickNote.md; exec bash -il"' \
+@op5-qn='ssh op5 -t "micro /sdcard/Documents/markor/QuickNote.md; exec bash -il"' \
+\
 %%%='%% & exit' \
 \
 d='date -I' \
 d.file='date -Im | sed "y/:/-/;s/+.*//"' \
 d--='puts "---- $(d) ----"' \
 \
-todo='e ~/.local/d/todo.md' \
+todo='edit ~/.local/d/todo.md' \
 todo-ls='puts ~/.local/d/*[Tt][Oo][Dd][Oo]*' \
-todo-archived='e ~/.local/0/archive/todo.md' \
+todo-archived='edit ~/.local/0/archive/todo.md' \
 TODO='cd ~/.local/d/TODO.d' \
 \
-sampler='sampler --config /~arcowo/.config/sampler/sampler.yml' \
 PP='P --noconfirm' \
-foo='echo bar' \
-whatislove='( printf "What is love?\\nOh baby, don\\x27t hurt me\\nDon\\x27t hurt me\\nNo more...\\n" )' \
-whatislove.stderr='( printf "What is love?\\nOh baby, don\\x27t hurt me\\n"; printf "Don\\x27t hurt me\\n" >&2; printf "No more...\\n" )' \
-\
-CCCCCCC='sudo loadkeys carpalx; setxkbmap "us(carpalx)"' \
+PP-reboot='PP && reboot' \
+CX='sudo loadkeys carpalx; setxkbmap "us(carpalx)"' \
 \
 7z-mx9='7z a -r -t7z -m0=lzma2 -mx=9 -myx=9 -mqs=on -ms=on' \
 \
 bat='\bat --style header,numbers,rule,snip' \
 BAT='bat -A' \
 bat-f='bat --decorations=always' \
-cut-f='cut -d " " -f' \
-wc-l='\wc -l' \
-IFS='set -f; IFS="${NEW_LINE:-$new_line}"' \
-bash-debugger-start='debugger=1 bash-debugger' \
+\
+IFS='set -f; IFS="${NEW_LINE:-${new_line:?}}"' \
 argv='arg "$@"' \
-fd.swap='3>&2 2>&1 1>&3 '  fd.copy-err='tee /dev/stderr' \
+fd.swap='3>&2 2>&1 1>&3 ' \
 \
 llw='ll.which' \
 cdw='cd.which' \
-cw='cd.which' \
-cd.tmp='cd "$(mktemp -d -t tmp.shpid$$.XXXX)"' \
-cd.mktemp='cd.tmp' \
+cdt='cd "$(mktemp -d -t tmp.shpid$$.XXXX)"' cd.mktemp='cdt' \
 cd-='cd -' \
 \
 B='cd "$B"' \
@@ -80,13 +87,10 @@ _0='cd ~/.local/0/gh/_0' \
 \
 path='( IFS=${PATHseparator:-":"}; set -f; puts $PATH )' \
 \
-ew+='ew ' \
-exec+='\exec ' \
-echo+='echo ' \
+ew\*='ew ' \
+exec\*='\exec ' \
+echo\*='echo ' \
 \
-'-=echo ' \
-'?-=quote ' \
-'?-1l=puts ' \
 'R!=history -r' \
 'S!=sudo \$ "$(history -p \!\!)"' \
 'D!=doas \$ "$(history -p \!\!)"' \
@@ -95,7 +99,7 @@ echo+='echo ' \
 \
 grep='\grep --color=auto' \
 egrep='\egrep --color=auto' \
-${os_gnu+
+${os_gnu+ \
 	diff='\diff -u --no-dereference --color=auto  -s' \
 	micro-diff='\micro-diff -u -s --color=auto' \
 } \
@@ -114,13 +118,13 @@ Iown='chown "${UID:-"$(id -u)"}:${GROUPS-"$(id -g)"}"' \
 Iown.u='chown "${UID:-"$(id -u)"}"' \
 Iown.g='chown "${UID:-"$(id -u)"}:${GROUPS-"$(id -g)"}"' \
 Iinstall='install -o "${USER:-"$(id -un)"}" -g "$(id -gn)" `: todo: fix installed from /dev/null is executable, sis this how it should work and why does not take the umask num  :` ' \
-777='chmod 777'  755='chmod 755' \
+777='chmod 777' 755='chmod 755' \
 192='ip route get 1 | rg -o "src [^ ]*" | cut-f 2' \
 myip='(curl -s ipinfo.io/ip;echo)' \
 1.1='ping 1.1' \
 ping='\ping -c 128' \
 \
-rsync='\rsync -azvhP' \
+rsync='time \rsync -azvhP' \
 fuserumount='fusermount -u' \
 termbin="nc termbin.com 9999" \
 sync='time \sync' \
@@ -129,36 +133,31 @@ pv='time \pv' \
 tt='time tt-split -showwpm -noskip -oneshot' \
 \
 sshd='"$(which \sshd)" -p 8022 -d -f ~/.ssh/sshd/sshd_config -h ~/.ssh/sshd/ssh_host_ed25519_key' \
-git.customssh='GIT_SSH_COMMAND="ssh -i ~/.local/0/GH/deni2020/.ssh/id_ed25519" git push' \
 minicom='\minicom -m -c on -D unix#/tmp/ttyS0' \
 \
-df='\df -h' \
+df='\df -hT' \
 du='\du -h' \
 dust='\dust --reverse --limit-filesystem' \
-free='\free -mt' \
+free='\free -hwt' \
 lsport='( \netstat -tulpn || echo exit code $?, todo: "https://linuxhint.com/how_to_list_open_ports_on_linux/" )' \
 \
-userlist='cut -d: -f1 /etc/passwd' \
 update-grub="sudo grub-mkconfig -o /boot/grub/grub.cfg" \
 pactree='\pactree --color' \
 \
 adb-kill-server='adb kill-server' \
 \
-fori_in_shs='for i in posh yash dash bash mksh ash `: toysh` zsh' \
-fori_in_shs:='fori_in_shs ; {{ $i -c ":" ; }}' \
-\
-reboot-firmware-setup='systemctl reboot --firmware-setup' reboot-efi=reboot-firmware-setup \
+reboot-efi='systemctl reboot --firmware-setup' \
 \
 startplasma-wayland='SHLVL= \startplasma-wayland' \
 byobu='SHLVL= \byobu' \
 startx='SHLVL= startx ~/.config/xorg-xinit/xinitrc' \
 \
 wget='\wget -c -t 5' \
-zsh='zsh --no-rcs' \
+zsh='\zsh --no-rcs' \
 gparted='fakeroot /usr/lib/gparted/gpartedbin' \
-dd="\\dd${os_gnu+" status=progress"}" \
+${os_gnu+"dd=\\dd status=progress"} \
 ${sh_is_bash+l.did='ll -d /did/!(.|..|*-part*)'} \
-${sh_is_bash-l.did='Zfind /did/ -maxdepth 1 -mindepth 1 -not -path "*-part*" | Zx ll -d --'} \
+${sh_is_bash-l.did='find /did/ -maxdepth 1 -mindepth 1 -not -path "*-part*" | x ll -d --'} \
 \
 xargs='\xargs -d \\n -r' \
 x='xargs ' \
@@ -166,7 +165,7 @@ x%='x -I% ' \
 xo='(x% open %)' \
 \
 \
-'__'=_before_command_not_found_handle \
+__=_before_command_not_found_handle \
 t.='__ t.' \
 open.='__ open.' \
 thunar.='__ thunar.' \
@@ -174,10 +173,9 @@ gparted.='__ gparted.' \
 qdirstat.='__ qdirstat.' \
 konsole.='__ konsole.' \
 \
-ll='${LSLONG_COMMAND:-ls -al}' \
-\
 ;
 
+alias ll='${LSLONG_COMMAND:-ls -al}'
 if command. exa; then
 export LSLONG_COMMAND="exa -alF --git --time-style iso --group-directories-first -g"
 alias \
@@ -196,22 +194,6 @@ fi
 
 if command. pacman; then
 alias \
-pacmna='pacascii;pacman' \
-pamcna='pacascii;pacman' \
-pacamn='pacascii;pacman' \
-pacmana='pacascii;pacman' \
-paccman='pacascii;pacman' \
-\
-yay='pacascii;trizen' \
-trien='pacascii;trizen' \
-rizen='pacascii;trizen' \
-trizzen='pacascii;trizen' \
-trizeen='pacascii;trizen' \
-trizn='pacascii;trizen' \
-trize='pacascii;trizen' \
-trizne='pacascii;trize' \
-trzen='pacascii;trizen' \
-\
 p='trizen' \
 rm.pacmanlock='rm /var/lib/pacman/db.lck' \
 ;
@@ -225,8 +207,8 @@ esac
 
 # detect if we are home
 case ${USER-}:${HOSTNAME-} in arcowo:kpc)
+	# minecraft-1.12.2='/~arcowo/0/game/MC/1.12.2/start' minecraft-1.16.5='/~arcowo/0/game/MC/1.16.5/start' \
 	alias \
-		minecraft-1.12.2='/~arcowo/0/game/MC/1.12.2/start' minecraft-1.16.5='/~arcowo/0/game/MC/1.16.5/start' \
 		HOME-disallowed='\HOME-disallowed --homepath ~arcowo' \
 		dotfiles-env='GIT_DIR=/^/\ https://github.com/denisde4ev/dotfiles.git ' dotfiles='dotfiles-env git' \
 	;;
@@ -244,46 +226,76 @@ esac
 
 
 return
+return
+return
+exit
 
 
 
-# NOTES:
+
+
+
+
+
 
 # moved to LOADABLE
-#ali git='GIT_FIX_PWD="$PWD" _git__  'git='GIT_FIX_PWD="$PWD" \git'
+git='GIT_FIX_PWD="$PWD" _git__  'git='GIT_FIX_PWD="$PWD" \git'
 
-# alais sudo='\sudo ' is from ./_env ,
-# alias xargs is from ./Z
+sudo='\sudo ' is from ./_env ,
+alias xargs is from ./Z
 
-# never used aliases:
-# mount-grep='mount | grep'
-# mount-grep-pwd='(mount | grep -o "$PWD[^ ]*")'
-# fd.err='>&2 '  fd.to2='>&2 '  fd.out='>&1 '  fd.to1='>&1 '
-# 0wn='chown 0:0' \
+mount-grep='mount | grep'
+mount-grep-pwd='(mount | grep -o "$PWD[^ ]*")'
+fd.err='>&2 '  fd.to2='>&2 '  fd.out='>&1 '  fd.to1='>&1 '
+0wn='chown 0:0' \
 
  # '/did' is (Disk ID) a symlink to '/dev/block/by-id'
 
-# path='pts "$PATH" | tr : \\n'
-# wrong: nbsp='printf \\uA0\\n' \
+path='pts "$PATH" | tr : \\n'
+nbsp='printf \\uA0\\n' \
 
 
 # never used:
-#btr.mksubvol='sudo btrfs subvolume create' \
-#mksubvol.btr='btr.mksubvol' \
-#Bcompression-false='btr set compression=false' \
+btr.mksubvol='sudo btrfs subvolume create' \
+mksubvol.btr='btr.mksubvol' \
+Bcompression-false='btr set compression=false' \
 
 
 #DIFF=fulldiff \
 
-# whileReadI-do='while IFS= read -r i; do ' \
+whileReadI-do='while IFS= read -r i; do ' \
 
-#printf.quote-this='printf %s\\n \!#:q' \
-#printf.quote='printf "%q\\n"' \
-#nbsp='printf \\xC2\\xA0\\n' \
+printf.quote-this='printf %s\\n \!#:q' \
+printf.quote='printf "%q\\n"' \
+nbsp='printf \\xC2\\xA0\\n' \
 
 # ....
-#nyx='sudo -u tor nyx' \
-#xmrig='( case $TERM in screen-*) xmrig ;; *) byobu new doas xmrig; esac )' \
-# speak-rmhash='sed -uEe "s/(^| )#( |$)//g" | speak' \
-#mongod='\mongod --logpath /dev/stdout' \
-#pgrep='\pgrep --color=auto' \
+nyx='sudo -u tor nyx' \
+xmrig='( case $TERM in screen-*) xmrig ;; *) byobu new doas xmrig; esac )' \
+speak-rmhash='sed -uEe "s/(^| )#( |$)//g" | speak' \
+mongod='\mongod --logpath /dev/stdout' \
+pgrep='\pgrep --color=auto' \
+
+
+
+Bdu='btrfs filesystem du' \
+Bdf='btrfs filesystem df' \
+Bsync='btrfs filesystem sync' \
+
+\
+fori_in_shs='for i in posh yash dash bash mksh ash `: toysh` zsh' \
+fori_in_shs:='fori_in_shs ; {{ $i -c ":" ; }}' \
+
+foo='echo bar' \
+ bash-debugger-start='debugger=1 bash-debugger' \
+
+
+git-lazy-commit-message-date='git commit -m "#$(date -I)" -e' \
+dotfiles-lazy-commit-message-date='(alias git=dotfiles; eval git-lazy-commit-message-date)' \
+http-server='python3 -m http.server' \
+
+'-=echo ' \
+'?-=quote ' \
+'?-1l=puts ' \
+git.customssh='GIT_SSH_COMMAND="ssh -i ~/.local/0/g/deni2020/.ssh/id_ed25519" git push' \
+userlist='cut -d: -f1 /etc/passwd' \

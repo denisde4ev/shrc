@@ -2,21 +2,44 @@
 
 case $HOME in "$PWD") ;; *) return; esac 
 
+case $sh_is in # do not use $sh_is_, zsh does not have shopt
+	bash) eval \#\'' # BASH ONLY BEGIN
+		(
+			shopt -s dotglob # must be already set from ./%__history-append.bash
+			shopt -s nullglob
 
+			# whitelist:
+			set -- ./!(.|..|.cache|.config|.local)
 
+			case $# in
+				0) return 1;;
+				*) printf %s\\n >&2 "homedir file not in white list:" "$@"; return 0;;
+			esac
+		) || return 0
+	';; #BASH ONLY END'
+	*) return;;
+esac
 
-[ ! -d .pki ] || (
-	cd "${HOME:?}" || exit
-	rm -rfv .pki
-)
+# black list = auto remove:
+unset-unseted-i
+for i in \
+.pki \
+.presage \
+.parallel \
+; do
+	[ -d "$i" ] || continue
+	(
+		cd -- "${HOME:?}" || exit
+		rm -rfv -- "$i"
+	)
+done
+unset-seted-i
 
-
+# black list + report = log files + auto remove:
 [ ! -d ~/.mozilla ] || {
-	unalias _find_ || :
-	. "${B?}"/_loadable/_find_.sh_
-
-
+	unalias _find_ || :; . "${B?}"/_loadable/_find_.sh_
 	#command. _find_ || . "${B?}"/_loadable/_find_.sh
+
 	{
 		echo
 		date -Im
@@ -24,12 +47,12 @@ case $HOME in "$PWD") ;; *) return; esac
 	} >>~/.cache/0/.mozilla_find 3>&1
 
 	case $i in
-	([0-9][0-9][0-9][0-9])
+	[0-9][0-9][0-9]*)
 		puts >&2 "Not expected to get that many files '$i' in output from \`find .mozilla\`"
 		;;
-	(*)
+	*)
 		(
-			cd "${HOME:?}" || exit
+			cd -- "${HOME:?}" || exit
 			rm -rfv -- ~/.mozilla/
 		)
 	esac

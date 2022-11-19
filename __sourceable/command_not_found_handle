@@ -28,7 +28,7 @@ while :; do # label: handling
 				#;;
 
 			#0-*)
-			#	cd "$@" ~/0/"${comm#0-}"
+			#	cd "$@" ~/.local/0/"${comm#0-}"
 			#	exi=$?
 			#	;;
 
@@ -68,7 +68,7 @@ while :; do # label: handling
 				;;
 
 			*.c|*.copy|*.pipecopy)
-				eval " ${comm%.*}"' "$@" | clip_io'
+				eval " ${comm%.*}"\ ${1+'"$@"'}' | clip_io'
 				exi=$?
 				;;
 
@@ -104,7 +104,7 @@ while :; do # label: handling
 
 			case $(command -v -- "$_comm") in
 				*/*) "$_comm" "$@";;
-				[a-zA-Z_@]*) eval " $_comm"' "$@"';;
+				[a-zA-Z_@]*) eval " $_comm"' "${1+$@}"';;
 				*) "$_comm" "$@";;
 			esac
 			exi=$?

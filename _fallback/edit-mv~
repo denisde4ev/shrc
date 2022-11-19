@@ -1,0 +1,15 @@
+#! /hint/sh
+
+alias edit-mv='_fallbackfn__edit_mv'
+
+_fallbackfn__edit_mv() {
+	case $# in 1|2) ;; *) puts "$# != 1|2" >&2; return 2; esac
+	unset-unseted-i
+	i=$(mktemp) && \
+	puts "$2" > "$i" && \
+	"${EDITOR:-vi}" "$i" && \
+	eval 'mv ${2+"$1"} -- "${2-$1}" "$(cat "$i")"' \
+	|| eval "unset-seted-i; return $?"
+	unset-seted-i
+	 # eval to get latest alias
+}
