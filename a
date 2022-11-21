@@ -4,6 +4,8 @@ alias \
 gpgcat='gpg2 -d --quiet --yes --compress-algo=none --no-encrypt-to --batch --use-agent' \
 gpg='DISPLAY= \gpg' \
 \
+thepkg=thepkg-pacapt \
+\
 g=git-butbetter \
 gl='git log-short' \
 gs='_git__ _g stat' \
@@ -12,12 +14,16 @@ gd='_git__ _g diff' \
 gdd='_git__ _g diff --cached' \
 ga='git add' \
 gaa='git unstage' \
-gc='git commit --allow-empty --allow-empty-message --message' \
+gm='git merge' \
+gc='git commit --allow-empty-message --message' \
 grec='git recommit' \
 gunc='git undo-1commit' \
-gch='git checkout' \
 gsw='git switch' \
-gswo='git switch --orphan' \
+gsw-o='git switch --orphan' \
+gch='git checkout' \
+gw='git worktree' \
+gwa='git worktree add' \
+gwr='git worktree remove' gwd=gwr \
 gp='git push' \
 \
 html2pug='\html2pug -f' \
@@ -53,7 +59,7 @@ losetup='\losetup --find --show --verbose --partscan' \
 %%%='%% & exit' \
 \
 d='date -I' \
-d.file='date -Im | sed "y/:/-/;s/+.*//"' \
+d.file='( date -Im | sed "y/:/-/;s/+.*//" )' \
 d--='puts "---- $(d) ----"' \
 \
 todo='edit ~/.local/d/todo.md' \

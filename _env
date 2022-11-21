@@ -27,19 +27,23 @@ alias command.='command >/dev/null -v'
 
 if command. most; then
 	export PAGER=most
-	if command. bat; then
-		export MANPAGER="sh -c 'col -bx | bat -l man -p'"
-	elif command. less; then
-		export MANPAGER="less"
-	fi
-else
-	if command. bat; then
-		export MANPAGER="sh -c 'col -bx | bat -l man -p'"
-	fi
 	if command. less; then
-		export PAGER="less"
+		export MANPAGER=less
+	fi
+elif command. less; then
+	export PAGER=less
+fi
+
+
+if command. bat; then
+	if command. ___manpager_bat; then
+		export MANPAGER=___manpager_bat
+	else
+		# NOTE: not all man implementanions support quoting in MANPAGER var
+		export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 	fi
 fi
+
 # : "${NEW_LINE:=$'\n'}"
 
 
