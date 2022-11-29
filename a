@@ -201,11 +201,15 @@ l='ll' \
 ;
 fi
 
-if command. pacman; then
-alias \
-p='trizen' \
-rm.pacmanlock='rm /var/lib/pacman/db.lck' \
-;
+if { command. apk ||  command. apt; } && command. pacapt; then
+	alias p='pacapt'
+elif command. pacman; then
+	alias rm.pacmanlock='rm /var/lib/pacman/db.lck'
+	if command. trizen; then
+		alias p='trizen'
+	else
+		alias p='pacman'
+	fi
 fi
 
 # ${os_gnu-return} # return if not gnu os
@@ -225,14 +229,21 @@ case ${USER-}:${HOSTNAME-} in arcowo:kpc)
 		dotfiles-env='GIT_DIR=/^/\ https://github.com/denisde4ev/dotfiles.git ' dotfiles='dotfiles-env git' \
 	;;
 
-root:Denis-pc57)
+root:Denis-pc57) # root is just WSL
 	alias \
 		dotfiles-env='GIT_DIR=/^/\ https://github.com/denisde4ev/dotfiles.git ' dotfiles='dotfiles-env git' \
+		dotfiles-pc57-win-env='GIT_DIR=/^/\ https://github.com/denisde4ev/dotfiles-pc57-win.git' dotfiles-pc57-win='dotfiles-pc57-win-env git' \
+	;
+	# alias '$=dollar' ash accepts it, but bash does not
 	;;
 
 pc57:Denis|pc57:Denis-pc57)
+	# for now this is not use, but its planned to merge shrc with bin-win (also its bad name)
+	echo 'never tested' >&2
+
 	alias \
 		dotfiles-env='@ env GIT_DIR=/^/\ https://github.com/denisde4ev/dotfiles.git ' dotfiles='dotfiles-env git' \
+		dotfiles-pc57-win-env='@ env GIT_DIR=/^/\ https://github.com/denisde4ev/dotfiles-pc57-win.git' dotfiles-pc57-win='dotfiles-pc57-win-env git' \
 	;;
 # todo:
 #:dumpling)
