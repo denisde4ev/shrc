@@ -4,7 +4,7 @@ export PATHSEP=${PATHSEP:-/}
 
 # ll.parents='_ll_parents	'
 _ll_parents() {
-	i{
+	unset-unseted-i
 	i=${1-$PWD}
 	while
 		ll -d -- "${i:-/}"
@@ -12,7 +12,7 @@ _ll_parents() {
 	do
 		i=${i%["$PATHSEP"]*}
 	done
-	}i
+	unset-seted-i
 }
 
 # this could be moved to separate command?

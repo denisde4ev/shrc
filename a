@@ -14,7 +14,7 @@ gS='_git__ _g stat-all' \
 gd='_git__ _g diff' \
 gdd='_git__ _g diff --cached' \
 ga='git add' \
-gaa='git unstage' \
+guna='git unstage' \
 gm='git merge' \
 gc='git commit --allow-empty-message --message' \
 grec='git recommit' \
@@ -64,6 +64,7 @@ d.file='( date -Im | sed "y/:/-/;s/+.*//" )' \
 d--='puts "---- $(d) ----"' \
 \
 todo='edit ~/.local/d/todo.md' \
+todo-shuf='todo-ls  | test- -f | shuf -n 1' \
 todo-ls='puts ~/.local/d/*[Tt][Oo][Dd][Oo]*' \
 todo-archived='edit ~/.local/0/archive/todo.md' \
 TODO='cd ~/.local/d/TODO.d' \
@@ -332,3 +333,6 @@ http-server='python3 -m http.server' \
 '?-1l=puts ' \
 git.customssh='GIT_SSH_COMMAND="ssh -i ~/.local/0/g/deni2020/.ssh/id_ed25519" git push' \
 userlist='cut -d: -f1 /etc/passwd' \
+
+
+gsg='_git__ stat-grep' \

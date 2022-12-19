@@ -30,10 +30,10 @@ _git__() {
 		esac
 
 		case ${1-} in
-			stat|stat-all|diff)
+			stat|stat-all|diff|test-echo)
 				case $# in
 					1) set -- "$1" .;;
-					2) case $1 in -*) set -- "$1" "$2" .; esac;;
+					2) case $2 in -*) set -- "$1" "$2" .; esac;;
 
 					#3)
 					# ..., I wont even check for more then 3,
@@ -45,7 +45,7 @@ _git__() {
 			;;
 		esac
 		;;
-	pull) shift; \git pull -v "$@";;
+	pull) shift; \git pull -v "$@"; return;;
 	-*)
 		puts >&2 "_git__ note: cant parse in arguments: got \$1='$1'";
 		\git "$@"
@@ -167,6 +167,31 @@ _git__() {
 		;;
 
 
+	reconfig)
+		git-reconfig
+		! :; # TODO
+		return
+		;;
+	stat-grep)
+		shift
+		{
+			\git status -s
+		} | {
+			case $1 in
+				-v)
+					shift
+					case $# in
+						1) grep -v "^$1";;
+						*) a1=$1; shift; grep -v "^$a1" | grep "$@"
+					esac
+				;;
+				*) grep "^$@";; # todo
+			esac
+		} | {
+			cut -c 4-
+		}
+		return
+		;;
 	esac
 
 
