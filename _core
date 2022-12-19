@@ -24,6 +24,30 @@ ii='print-error-trace >&2 ; arg "ii called" >&2' \
 I='print-error-trace >&2 ; arg "I called" >&2' \
 ;
 
+
+# alternative to local command, (local is not POSIX)
+_vars=':'
+var_local() {
+	case $_vars: in *:$1:*)
+		printf %s\\n >&2 "atempted to local var that is already local: $1"
+		return 1
+	esac
+	eval "case \${${1}+x} in x) false; esac" || { # return 2 if var is defined, can not requre it as owned
+		printf %s\\n >&2 "atempted to local var that is already defined: $1"
+		return 3
+	}
+	_vars=${_vars%:}:$1:
+}
+var_unlocal() {
+	case $_vars in *:$1:*) ;; *)
+		printf %s\\n >&2 "atempted to unlocal var: $1"
+		return 1
+	esac
+	_vars=${_vars%%":$1:"*}:${_vars#*":$1:"}
+	eval "unset $1"
+}
+
+
 case $- in
 	-|'')
 		case $PS1 in

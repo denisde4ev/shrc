@@ -8,6 +8,7 @@ thepkg=thepkg-pacapt \
 \
 g=git-butbetter \
 gl='git log-short' \
+gll='git log-long' \
 gs='_git__ _g stat' \
 gS='_git__ _g stat-all' \
 gd='_git__ _g diff' \
@@ -239,7 +240,8 @@ root:Denis-pc57) # root is just WSL
 
 pc57:Denis|pc57:Denis-pc57)
 	# for now this is not use, but its planned to merge shrc with bin-win (also its bad name)
-	echo 'never tested' >&2
+	echo 'dotfiles aliases for user:pc57 never tested' >&2
+
 
 	alias \
 		dotfiles-env='@ env GIT_DIR=/^/\ https://github.com/denisde4ev/dotfiles.git ' dotfiles='dotfiles-env git' \
