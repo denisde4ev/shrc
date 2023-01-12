@@ -4,7 +4,7 @@ __load_loadable() {
 	case $BASH_SUBSHELL in
 		0|'') ;;
 		*) # bash sub process!
-			printf %s\\n >&2 "warning: fn __load_loadable called in BASH_SUBSHELL='$BASH_SUBSHELL'"
+			printf %s\\n >&2 "warning: fn __load_loadable called in BASH_SUBSHELL='$BASH_SUBSHELL', args: $*"
 		;;
 	esac
 

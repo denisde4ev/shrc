@@ -40,7 +40,7 @@ case ${0##*/} in -*) PS1-x; return; esac
 
 case $PS1 in
 	*'$('*) :;;
-	*/'\w \$ '|\\*) PS1=$'\\[\E[36m\\]\\W\\[\E(B\E[m\\] $( ( IFS=\\| eval "o=\\"\\\\${PIPESTATUS[*]}\\""; [[ $o = 0*(\\|0) ]] && echo "\\$" || echo "\\[\E[31m\\]$o\\[\E(B\E[m\\]" ) 2>&- )${i+\!} ';;
+	*/'\w \$ '|\\*) PS1=$'\\[\E[36m\\]\\W\\[\E(B\E[m\\] $( ( IFS=\\| eval "o=\\"\\\\${PIPESTATUS[*]}\\""; [[ $o = 0*(\\|0) ]] && echo "\\$" || echo "\\[\E[31m\\]$o\\[\E(B\E[m\\]" ) 2>&- )${i+"\\\!"} ';;
 	*) false
 esac && return
 
@@ -48,7 +48,7 @@ esac && return
 case ${BASH_VERSION+x} in x)
 	. "$B"/%__history-append.bash
 	case $PS1 in \[*)
-		PS1=$'[\001\E[33m\002\\u\001\E(B\E[m\002@\\h \001\E[36m\002${PWD_gitrepodir:-\\W}\001\E(B\E[m\002]$( ( IFS=\\| eval "o=\\"\\\\${PIPESTATUS[*]}\\""; [[ $o = 0*(\\|0) ]] && echo "\\$" || echo "\001\E[31m\002$o\001\E(B\E[m\002" ) 2>&- )${i+"!"} ';
+		PS1=$'[\001\E[33m\002\\u\001\E(B\E[m\002@\\h \001\E[36m\002${PWD_gitrepodir:-\\W}\001\E(B\E[m\002]$( ( IFS=\\| eval "o=\\"\\\\${PIPESTATUS[*]}\\""; [[ $o = 0*(\\|0) ]] && echo "\\$" || echo "\001\E[31m\002$o\001\E(B\E[m\002" ) 2>&- )${i+"\\\!"} ';
 		return
 	esac
 esac

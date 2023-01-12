@@ -35,9 +35,9 @@ esac
 
 
 • \
+	"$B"/_PATH \
 	"$B"/_env \
 	"$B"/_core \
-	"$B"/_PATH \
 	"$B"/_fallback/FALLBACK \
 	"$B"/[a-z]*[!\~\!\@\#\$%^\&\*] \
 ;
