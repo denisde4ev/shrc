@@ -2,7 +2,7 @@
 ${shell_is_interactive-return}
 
 # Shift+Tab: alias-expand-line
-bind  '"\e[Z": alias-expand-line' \
+bind  '"\e[Z": alias-expand-line'
  #### 2>&- || return # 'no bind cmd', we do not have bind in this bash ?
 
 # bind '"\b": '

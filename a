@@ -7,7 +7,10 @@ gpg='DISPLAY= \gpg' \
 thepkg=thepkg-pacapt \
 \
 g=git-butbetter \
+ge='git config --edit' \
+geg='git config --edit --global' \
 gl='git log-short' \
+gll='git log-long' \
 gs='_git__ _g stat' \
 gS='_git__ _g stat-all' \
 gd='_git__ _g diff' \
@@ -26,7 +29,7 @@ gwa='git worktree add' \
 gwr='git worktree remove' gwd=gwr \
 gp='git push' \
 \
-html2pug='\html2pug -f' \
+html2pug='( cat | \html2pug -f -t)' \
 \
 ls-test='puts * | test-' \
 e-mv=edit-mv \
@@ -43,7 +46,8 @@ fdisk='\fdisk -n -L' \
 patch='\patch --forward' \
 c#='\c# #' \
 \
-speak='time \speak -s 270' \
+speak='time \speak -s 330' \
+speak-fast='time \speak -s 470' \
 git-lazy-commit-message-filechanges='(i="#➔$(git status -s | sed -nEe "s/^([A-Z])./\\1/p" | tr "\\n" \;; echo)"; printf %s "$i") | GIT_EDITOR="$EDITOR" git commit -F - -e' \
 dotfiles-lazy-commit-message-filechanges='(alias git=dotfiles; eval git-lazy-commit-message-filechanges)' \
 shred='shred -uz -n 3' \
@@ -122,7 +126,7 @@ mount='\mount -v' \
 rm='\rm -v' rmdir='\rmdir -v' micro-diff-rm='\micro-diff-rm -v' rmt='rmtrash -v -r' \
 umount='\umount -v' umount-fzf='\umount-fzf -v' mv-ln='\mv-ln -vi'${os_gnu+" -r"} \
 \
-Imount='mount --options "uid=${UID:-"$(id -n)"},gid=${GROUPS?:-"$(id -g)"}"' \
+Imount-defaults='mount -o "defaults,rw,relatime,user,umask=0077,uid=${UID:-"$(id -n)"},gid=${GROUPS?:-"$(id -g)"}"' \
 Iown='chown "${UID:-"$(id -u)"}:${GROUPS-"$(id -g)"}"' \
 Iown.u='chown "${UID:-"$(id -u)"}"' \
 Iown.g='chown "${UID:-"$(id -u)"}:${GROUPS-"$(id -g)"}"' \

@@ -5,8 +5,9 @@
 HISTSIZE=500000
 HISTFILESIZE=1000000
 
-### https://unix.stackexchange.com/questions/1288/preserve-bash-history-in-multiple-terminal-windows
-HISTCONTROL=ignoredups:erasedups # Avoid duplicates
+#### https://unix.stackexchange.com/questions/1288/preserve-bash-history-in-multiple-terminal-windows
+#HISTCONTROL=ignoredups:erasedups # Avoid duplicates
+HISTCONTROL=ignoreboth:erasedups
 
 
 shopt -s autocd # change to named directory

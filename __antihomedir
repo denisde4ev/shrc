@@ -26,8 +26,11 @@ for i in \
 .pki \
 .presage \
 .parallel \
+.avidemux6 \
+.python_history \
+.gnome \
 ; do
-	[ -d "$i" ] || continue
+	[ -e "$i" ] || continue
 	(
 		cd -- "${HOME:?}" || exit
 		rm -rfv -- "$i"
@@ -37,7 +40,7 @@ unset-seted-i
 
 # black list + report = log files + auto remove:
 [ ! -d ~/.mozilla ] || {
-	unalias _find_ || :; . "${B?}"/_loadable/_find_.sh_
+	unalias _find_ || :; . "${B?}"/_loadable/_find_.sh
 	#command. _find_ || . "${B?}"/_loadable/_find_.sh
 
 	{
