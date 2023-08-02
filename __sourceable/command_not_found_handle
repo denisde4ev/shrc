@@ -131,7 +131,7 @@ while :; do # label: handling
 					exi=127
 					song_gen "${comm#"song-"}" || break 1 # break check_begin
 					exi=$?
-					YN_confirm -S y "after song_gen: do you want to run '$comm' now?" || break 1 # break check_begin
+					YN_confirm -S y "after song_gen: do you want to run '$comm' now?" || return
 				}  </dev/tty >/dev/tty 2>/dev/tty
 				"$comm" "$@"
 				exi=$?

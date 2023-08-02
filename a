@@ -1,12 +1,23 @@
 #! /hint/sh
 
 alias \
+\
+startwayland=startplasma-wayland \
+\
+b64d='base64 -d' \
+b64='base64' \
+\
+ssh_config.edit='edit "${XDG_CONFIG_HOME-${HOME:-/~/.config}}"/ssh/config' \
+ssh_config.edit-global='edit "${PREFIX-}"/etc/ssh/ssh_config' \
+\
+suspend-1m='notify-send "sleeping in 1 minute"; printf \\a; sleep 1m; systemctl suspend' \
+\
 gpgcat='gpg2 -d --quiet --yes --compress-algo=none --no-encrypt-to --batch --use-agent' \
 gpg='DISPLAY= \gpg' \
 \
 thepkg=thepkg-pacapt \
 \
-g=git-butbetter \
+g=git-butbetter~ \
 ge='git config --edit' \
 geg='git config --edit --global' \
 gl='git log-short' \
@@ -16,6 +27,7 @@ gS='_git__ _g stat-all' \
 gd='_git__ _g diff' \
 gdd='_git__ _g diff --cached' \
 ga='git add' \
+ga.='git add .' \
 guna='git unstage' \
 gm='git merge' \
 gc='git commit --allow-empty-message --message' \
@@ -35,7 +47,7 @@ ls-test='puts * | test-' \
 e-mv=edit-mv \
 e-ln=edit-symlink \
 \
-btr=btrfs-butbetter \
+btr=btrfs-butbetter~2023-02-28~ \
 lc='wc -l' \
 stat-c='stat -c' \
 cut-f='cut -d " " -f' \
@@ -92,6 +104,7 @@ cdt='cd "$(mktemp -d -t tmp.shpid$$.XXXX)"' cd.mktemp='cdt' \
 cd-='cd -' \
 \
 B='cd "$B"' \
+v='cd /^' \
 bin='cd ~/.loca/bin' \
 _0='cd ~/.local/0/gh/_0' \
 0='cd ~/.local/0' \

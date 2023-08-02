@@ -1,15 +1,18 @@
 
 _git__() {
-	local GIT_FIX_PWD="$PWD" || :
-	export GIT_FIX_PWD
+	local GIT_FIX_PWD="$PWD" && export GIT_FIX_PWD || :
 
 	case ${GIT_DIR+x} in '')
 		case $PWD in
+			/|"$HOME") eval 'dotfiles-env _git__ "$@"; return';;
 			/mnt/c/usr|/mnt/c/Windows|/mnt/c/Windows/) eval 'dotfiles-pc57-win-env _git__ "$@"; return';;
 		esac
 	esac
 
-	case $PAGER in most) PAGER=less; esac # most is full screen pager...
+	case $PAGER in most) local PAGER=less; esac
+	# most is full screen pager.. I dont like it for:
+	# * `git status -sb` and
+	# * `git log --oneline`
 
 	##for git_command; do case $git_command in [!-]*) break; esac; done
 	# find first non arg. (but cant shift it later, so this is useless)

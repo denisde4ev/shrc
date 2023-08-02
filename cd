@@ -4,7 +4,7 @@ cd() {
 # this time overwrite the builtin cd command,
 # reason: `shopt -s autocd` wont run aliased cd
 
-	builtin cd "$@"
+	builtin cd "$@" || return
 	case $PWD in
 		*github.com/*) PWD_gitrepodir=${PWD#*github.com/}; PWD_gitrepodir=${PWD_gitrepodir#denisde4ev/};;
 		*/gh/*)        PWD_gitrepodir=${PWD#*/gh/};;
