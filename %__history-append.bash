@@ -10,6 +10,9 @@ HISTFILESIZE=1000000
 HISTCONTROL=ignoreboth:erasedups
 
 
+HISTIGNORE="rm*"
+
+
 shopt -s autocd # change to named directory
 shopt -s cdspell # autocorrects cd misspellings
 shopt -s cmdhist # save multi-line commands in history as single line

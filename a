@@ -1,6 +1,7 @@
 #! /hint/sh
 
 alias \
+allow-port-8080='setcap "cap_net_bind_service=+ep"' \
 \
 startwayland=startplasma-wayland \
 \
@@ -23,6 +24,7 @@ geg='git config --edit --global' \
 gl='git log-short' \
 gll='git log-long' \
 gs='_git__ _g stat' \
+gsf='(git status -s | cut -c4-)' \
 gS='_git__ _g stat-all' \
 gd='_git__ _g diff' \
 gdd='_git__ _g diff --cached' \
@@ -31,6 +33,7 @@ ga.='git add .' \
 guna='git unstage' \
 gm='git merge' \
 gc='git commit --allow-empty-message --message' \
+gac='ga. && gc' \
 grec='git recommit' \
 gunc='git undo-1commit' \
 gsw='git switch' \
@@ -228,6 +231,7 @@ elif command. pacman; then
 	else
 		alias p='pacman'
 	fi
+	alias yay='p'
 fi
 
 # ${os_gnu-return} # return if not gnu os

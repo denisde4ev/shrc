@@ -65,8 +65,10 @@ false && ( set -eux # when cache is cleared use this:
 
 /~/.local/bin/home/_/mkdirs -q
 
+# after cleaning up .cache, run:
+
 mkdir --verbose -p \
-	"$(readlink -f ~/.local/share/cargo)" \
+	"$(readlink -f ~/.local/share/cargo)" ~/.cache/cargo \
 	"${ANDROID_PREFS_ROOT:-$XDG_CONFIG_HOME/android}" \
 	"${ANDROID_EMULATOR_HOME:-$XDG_DATA_HOME/android/emulator}" \
 	"${XDG_CONFIG_HOME:?}"/bash \

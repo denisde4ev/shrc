@@ -144,7 +144,7 @@ _git__() {
 					\git ls-files --cached "$@" | grep -oE '^(\./)?[^/]*/?' | uniq
 				esac
 			done
-			unset-seted-i
+			unset i # might have empty arg, i might be unset, so do not use `unset-seted-i`
 			;;
 		esac
 		return;;
