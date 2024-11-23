@@ -209,7 +209,7 @@ alias ll='${LSLONG_COMMAND:-ls -al}'
 if command. exa; then
 export LSLONG_COMMAND="exa -alF --git --time-style iso --group-directories-first -g"
 alias \
-ls='exa -aF1 --group-directories-first' \
+ls='exa -a1F --group-directories-first' \
 l='exa -alF --git --time-style iso --group-directories-first -a' \
 llT='exa -alF --time-style iso --group-directories-first -Th' \
 llT0='llT --level 0' llT1='llT --level 1' llT2='llT --level 2' llT3='llT --level 3' llT4='llT --level 4' llT5='llT --level 5' \

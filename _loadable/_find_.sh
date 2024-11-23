@@ -1,5 +1,5 @@
 
-# NOTE: this/those fn are only support NL not -0 null output
+# NOTE: this/those fn are only support \n not -0 null output
 # https://unix.stackexchange.com/questions/4847/make-find-show-slash-after-directories
 
 case ${os_gnu+x} in
