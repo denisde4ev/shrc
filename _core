@@ -66,11 +66,23 @@ case $sh_is in
 	*)         shuf_1_toi() { expect-unseted-i; i=$(( ( ${RANDOM:-$$} % $# ) + 1 )); eval "i=\"\${${i}}\""; unset shuf_1_ind; };; # "$$" still got for 1 time usage
 esac
 
+case $sh_is in
+	bash|yash|dash) shell_supports_local='';;
+	sh) shell_supports_local='';; # (todo: does variables for example BASH_VERSION are present where sylnink is used) note: not detecting if its sh, then provide POSIX experience with overwriting variables
+	*)
+		if command. local; then
+			shell_supports_local=''
+		fi
+	;;
+esac
+
 # GNUtector detect if GNU coreutils options are supported
 unset os_gnu os_an os_busybox os_toybox os_win
 case ${OSTYPE:-$(uname -o)} in
 	linux-gnu|GNU/Linux)   os_gnu='';; # check for GNU+Busybox is not important for now
 	linux-android|Android) os_an='';; # Termux? but it could be busybox toybox termux or any other shell app ..
+	# todo: detect if its termux or native android shell
+
 	MS/Windows) os_win='';;
 	linux-musl|Linux) # Alpine, KISS
 		unset-unseted-i

@@ -48,7 +48,7 @@ pwd=_pwd_ \
 +='_plus_' \
 ll.parents='_ll_parents' \
 set-x='_set_x' \
-'type=_type_' '?=_type_' '??=_type_ -a' \
+'type2=_type_' '?=_type_' '??=_type_ -a' \
 e.loadable='_edit_loadable ' \
 ;
 # ?- is from "$B"/a

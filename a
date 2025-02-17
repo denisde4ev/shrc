@@ -1,6 +1,9 @@
 #! /hint/sh
 
 alias \
+arti='\arti proxy' \
+find-inode='\find .  \( -type d -printf %i\ %p/\\n -or -printf %i\ %p\\n \)' \
+\
 allow-port-8080='setcap "cap_net_bind_service=+ep"' \
 \
 startwayland=startplasma-wayland \
@@ -55,7 +58,7 @@ lc='wc -l' \
 stat-c='stat -c' \
 cut-f='cut -d " " -f' \
 \
-fulldiff='diff -U 2147483647' \
+diff-Uall='diff -U 2147483647' \
 fdisk='\fdisk -n -L' \
 \
 patch='\patch --forward' \
@@ -130,6 +133,7 @@ grep='\grep --color=auto' \
 egrep='\egrep --color=auto' \
 ${os_gnu+ \
 	diff='\diff -u --no-dereference --color=auto  -s' \
+	diff-r='\diff -u --no-dereference --color=auto  -r' \
 	micro-diff='\micro-diff -u -s --color=auto' \
 } \
 edit-genpath='edit-genpath -u' \
@@ -148,7 +152,7 @@ Iown.u='chown "${UID:-"$(id -u)"}"' \
 Iown.g='chown "${UID:-"$(id -u)"}:${GROUPS-"$(id -g)"}"' \
 Iinstall='install -o "${USER:-"$(id -un)"}" -g "$(id -gn)" `: todo: fix installed from /dev/null is executable, sis this how it should work and why does not take the umask num  :` ' \
 777='chmod 777' 755='chmod 755' \
-192='ip route get 1 | rg -o "src [^ ]*" | cut-f 2' \
+myip.192='ip route get 1 | rg -o "src [^ ]*" | cut-f 2' \
 myip='(curl -s ipinfo.io/ip;echo)' \
 1.1='ping 1.1' \
 ping='\ping -c 128' \
