@@ -1,7 +1,7 @@
 #! /hint/sh
 
 # pwd=_pwd_
-_pwd_() {
+_pwd__old_2026_02_02() {
 	# case $1 in -) ;; *)
 
 	# known dirs:
