@@ -50,11 +50,6 @@ sh_is_=${sh_is_bash+bash}${sh_is_zsh+zsh}${sh_is_ash+sh}${sh_is_sh+sh} # note as
 	"$B"/a \
 ;
 
-# detect if we are home:
-case ${USER-}:${HOSTNAME-} in arcowo:kpc)
-	. "$B"/__antihomedir
-	ls -d "${XDG_DESKTOP_DIR:?}"/*[Tt][Oo][Dd][Oo]* >&2
-esac
 
 # has args OR if xtrace(set -x) is on, then dont execute shell specific 'rc' and fetch/color script:
 # case $- in *c*|*x*)false;; *);; esac  || # `$-` is bashism ...

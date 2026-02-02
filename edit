@@ -23,6 +23,9 @@ case ${EDITOR-} in micro)
 	fi
 esac
 
+case ${EDITOR-} in micro|micro-*)
+	alias ee="e +900000"
+esac
 
 case $(command -v com-which) in
 	*/*)

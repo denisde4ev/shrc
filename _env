@@ -5,6 +5,8 @@ ${HOSTNAME:=$(hostname)}
 ${OLDPWD=$HOME/.local}
 "
 
+# APPIMAGE_PATH="${HOME?}/.local/share/appimages"
+
 export \
 GIT_FIX_PWD \
 GIT_DIR \

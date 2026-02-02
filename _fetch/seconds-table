@@ -1,0 +1,25 @@
+#!/hint/ sh
+
+cat << EOF
+| Time Unit  | Seconds          | Days                     | 
+|------------|------------------|--------------------------|
+| Minute     | 60               | 0.000694444..            |
+| Hour       | 3_600            | 0.04166666..             |
+| Day        | 86_400.002       | 1                        |
+| Week       | 604_800.014      | 7                        |
+| Month*     | ~2_629_746       | ~30.436875               |
+| Month*     | ~2,551,443.077   | ~29.530588853            |
+| Year**     | ~31_556_925.9747 | 365.2421891   = 365+1/4  |
+EOF
+
+
+
+
+
+
+#The SI second is defined as:
+#
+#    1 second = 9,192,631,770 periods of the radiation from the transition between two hyperfine levels of the ground state of the cesium-133 atom.
+#
+#    This is the most precise unit and is used as the base for all others.
+

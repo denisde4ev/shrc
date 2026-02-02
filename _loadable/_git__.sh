@@ -2,6 +2,7 @@
 _git__() {
 	local GIT_FIX_PWD="$PWD" && export GIT_FIX_PWD || :
 
+
 	case ${GIT_DIR+x} in '')
 		case $PWD in
 			/|"$HOME") eval 'dotfiles-env _git__ "$@"; return';;
@@ -31,6 +32,7 @@ _git__() {
 			esac
 			;;
 		esac
+
 
 		case ${1-} in
 			stat|stat-all|diff|test-echo)

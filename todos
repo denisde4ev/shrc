@@ -1,0 +1,18 @@
+#! /hint/sh
+
+alias \
+todos='edit ~/.local/d/todo.md' \
+todos-shuf='todo-ls  | test- -f | shuf -n 1' \
+todos-ls='puts ~/.local/d/*[Tt][Oo][Dd][Oo]*' \
+todos-archived='edit ~/.local/0/archive/todo.md' \
+TODOsd-cd='cd ~/.local/d/TODO.d' \
+\
+;
+
+todos_print() {
+	. "$B"/__antihomedir
+	ls -d "${XDG_DESKTOP_DIR:?}"/*[Tt][Oo][Dd][Oo]* >&2
+}
+# detect if we are home:
+#case ${USER-}:${HOSTNAME-} in arcowo:kpc)
+case ${UID-}:${USER-}:${HOSTNAME-} in 0:arcowo:kpc|0:root:kpc) todos_print; esac

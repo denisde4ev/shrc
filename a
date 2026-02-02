@@ -1,6 +1,20 @@
 #! /hint/sh
 
 alias \
+vibe='vibe-code' \
+vibe-code='antigravity' \
+ex='TERM=dumb vim -e' \
+v1='busybox vi' \
+v2='vi' \
+v3='vim' \
+v4='nvim' \
+rg-vfile='\rg --files-without-match' \
+rg-absolute-all='\rg -. -uuu --follow' \
+rg-no-ignore='\rg -. --no-ignore --no-require-git' \
+rg='\rg -. -g\!.git/ -g\!node_modules/' \
+\
+e.cd='cd "$(pwd | edit)"' \
+pwgen1='pwgen -N 1' \
 arti='\arti proxy' \
 find-inode='\find .  \( -type d -printf %i\ %p/\\n -or -printf %i\ %p\\n \)' \
 \
@@ -46,6 +60,7 @@ gw='git worktree' \
 gwa='git worktree add' \
 gwr='git worktree remove' gwd=gwr \
 gp='git push' \
+gs-lllT='git status -s | cut -c 4- | \xargs -d \\n -r exa -alF --git --time-style full-iso --hyperlink --icons -g --header --links --inode -Th  --sort=time --ignore-glob=node_modules' \
 \
 html2pug='( cat | \html2pug -f -t)' \
 \
@@ -62,7 +77,6 @@ diff-Uall='diff -U 2147483647' \
 fdisk='\fdisk -n -L' \
 \
 patch='\patch --forward' \
-c#='\c# #' \
 \
 speak='time \speak -s 330' \
 speak-fast='time \speak -s 470' \
@@ -80,15 +94,9 @@ losetup='\losetup --find --show --verbose --partscan' \
 \
 %%%='%% & exit' \
 \
-d='date -I' \
+d='(date -Is|c)' \
 d.file='( date -Im | sed "y/:/-/;s/+.*//" )' \
 d--='puts "---- $(d) ----"' \
-\
-todo='edit ~/.local/d/todo.md' \
-todo-shuf='todo-ls  | test- -f | shuf -n 1' \
-todo-ls='puts ~/.local/d/*[Tt][Oo][Dd][Oo]*' \
-todo-archived='edit ~/.local/0/archive/todo.md' \
-TODO='cd ~/.local/d/TODO.d' \
 \
 PP='P --noconfirm' \
 PP-reboot='PP && reboot' \
@@ -106,7 +114,12 @@ fd.swap='3>&2 2>&1 1>&3 ' \
 \
 llw='ll.which' \
 cdw='cd.which' \
-cdt='cd "$(mktemp -d -t tmp.shpid$$.XXXX)"' cd.mktemp='cdt' \
+\
+old__cdt='cd "$(mktemp -d -t tmp.shpid$$.XXXX)"' \
+cdt='cd++! "${TMPDIR:-/tmp}/cdt.$$"'                             cd.mktemp='cdt'   `: '# cd temp'  :` \
+cdc='cd++! "${XDG_CACHE_HOME:-$HOME/.cache}/cdc.$$"'             cd.date='cdc'     `: '# cd cache' :` \
+cdd='cd++! "${XDG_CACHE_HOME:-$HOME/.cache}/cdd.$(date -Is).$$"' cd.date='cdd'     `: '# cd date'  :` \
+edit-t='edit "${TMPDIR:-/tmp}/cdt.$$"' \
 cd-='cd -' \
 \
 B='cd "$B"' \
@@ -122,12 +135,15 @@ path='( IFS=${PATHseparator:-":"}; set -f; puts $PATH )' \
 ew\*='ew ' \
 exec\*='\exec ' \
 echo\*='echo ' \
+echo-alias='echo ' \
+puts-alias='puts ' \
 \
 'R!=history -r' \
 'S!=sudo \$ "$(history -p \!\!)"' \
 'D!=doas \$ "$(history -p \!\!)"' \
 'C!=printf %s "$(history -p \!\!)" | cin' \
 'CC!=printf %s "$(history -p \!:q)" | cin' \
+'c#=\c# #' \
 \
 grep='\grep --color=auto' \
 egrep='\egrep --color=auto' \
@@ -148,11 +164,12 @@ umount='\umount -v' umount-fzf='\umount-fzf -v' mv-ln='\mv-ln -vi'${os_gnu+" -r"
 \
 Imount-defaults='mount -o "defaults,rw,relatime,user,umask=0077,uid=${UID:-"$(id -n)"},gid=${GROUPS?:-"$(id -g)"}"' \
 Iown='chown "${UID:-"$(id -u)"}:${GROUPS-"$(id -g)"}"' \
+Iown-1000='chown 1000:1000' \
 Iown.u='chown "${UID:-"$(id -u)"}"' \
 Iown.g='chown "${UID:-"$(id -u)"}:${GROUPS-"$(id -g)"}"' \
-Iinstall='install -o "${USER:-"$(id -un)"}" -g "$(id -gn)" `: todo: fix installed from /dev/null is executable, sis this how it should work and why does not take the umask num  :` ' \
+Iinstall='install -o "${USER:-"$(id -un)"}" -g "$(id -gn)" `: todo: fix installed from /dev/null is executable, is this how it should work and why does not take the umask num  :` ' \
 777='chmod 777' 755='chmod 755' \
-myip.192='ip route get 1 | rg -o "src [^ ]*" | cut-f 2' \
+myip.192='ip route get 1 | rg -o "src [^ ]*" | cut-f 2' 192=myip.192 \
 myip='(curl -s ipinfo.io/ip;echo)' \
 1.1='ping 1.1' \
 ping='\ping -c 128' \
@@ -209,14 +226,48 @@ konsole.='__ konsole.' \
 \
 ;
 
-alias ll='${LSLONG_COMMAND:-ls -al}'
+alias \
+ll='${LSLONG_COMMAND:-ls -al}' \
+\
+xxxxxxxxxxxxxxs='echo thats your pp size' \
+xxxxxxxxxxxxxs='echo there is nothing more, stop! the game is over already, enough!' \
+xxxxxxxxxxxxs='echo no, game over' \
+xxxxxxxxxxxs='echo powering off! jk, I am not that evil. but I dare you add one more x!' \
+xxxxxxxxxxs='exit' \
+xxxxxxxxxs='clear' \
+xxxxxxxxs='printf "\\33[A"' \
+xxxxxxxs=':' \
+xxxxxxs='echo' \
+xxxxxxs='echo please' \
+xxxxxs='echo please run' \
+xxxxs='echo please run xxxxs' \
+xxxs='echo please run ls' \
+xxs='echo . .. \*' \
+xs='echo *' \
+s-train='xdg-open "https://www.youtube.com/watch?v=17tTDoLf_K4&t=5m52s"' \
+s-train-2='xdg-open "https://www.youtube.com/watch?v=XiTkqMkrn7o&t=4m03s"' \
+s='\ls --color' \
+xm='\ls --color -1' \
+xxm='printf %s\\n *' \
+xxxm='echo what were you expecting' \
+m='\ls --color -al' \
+xl=ll \
+xxl=lll \
+xxxl=sl \
+xxxxl='xdg-open "https://www.youtube.com/watch?v=ZbCcve-eAEM"' \
+;
+
 if command. exa; then
-export LSLONG_COMMAND="exa -alF --git --time-style iso --group-directories-first -g"
+# small note: the reason `alias 'l'` prints '.' by doulbe `-aa` is because when I run it in empty dir and get no output, I panic.
+export LSLONG_COMMAND="exa --sort=none -alF --git --time-style long-iso --group-directories-first -g"
 alias \
 ls='exa -a1F --group-directories-first' \
 l='exa -alF --git --time-style iso --group-directories-first -a' \
-llT='exa -alF --time-style iso --group-directories-first -Th' \
-llT0='llT --level 0' llT1='llT --level 1' llT2='llT --level 2' llT3='llT --level 3' llT4='llT --level 4' llT5='llT --level 5' \
+lll=`:   `'exa -alF --git --time-style full-iso --group-directories-first --hyperlink --icons -a -g --header --links --inode' \
+llT=`:   `'exa -alF       --time-style iso      --group-directories-first                                                    -Th' \
+lllT=`:  `'exa -alF --git --time-style full-iso --group-directories-first --hyperlink --icons -g    --header --links --inode -Th' \
+lllT0='lllT --level 1' lllT1='lllT --level 1' lllT2='lllT --level 2' lllT3='lllT --level 3' lllT4='lllT --level 4' lllT5='lllT --level 5' \
+llT0='llT --level 0'   llT1='llT --level 1'   llT2='llT --level 2'   llT3='llT --level 3'   llT4='llT --level 4'   llT5='llT --level 5'   \
 ;
 else
 export LSLONG_COMMAND='ls -alF --group-directories-first'
@@ -229,7 +280,11 @@ fi
 if { command. apk ||  command. apt; } && command. pacapt; then
 	alias p='pacapt'
 elif command. pacman; then
-	alias rm.pacmanlock='rm /var/lib/pacman/db.lck'
+	alias \
+		rm.pacmanlock='rm /var/lib/pacman/db.lck' \
+		pacman-next='fakeroot pacman -vvv --dbpath /var/lib/pacman-next' \
+		cleanup='pacman -Rns $(pacman -Qtdq) && rm -rv /var/lib/systemd/coredump  /var/log/journal/*' \
+	;
 	if command. trizen; then
 		alias p='trizen'
 	else
@@ -248,37 +303,43 @@ esac
 
 #export GIT_DIR # moved to _env
 # detect if we are home
-case ${USER-}:${HOSTNAME-} in arcowo:kpc)
-	# minecraft-1.12.2='/~arcowo/0/game/MC/1.12.2/start' minecraft-1.16.5='/~arcowo/0/game/MC/1.16.5/start' \
-	alias \
-		HOME-disallowed='\HOME-disallowed --homepath ~arcowo' \
-		dotfiles-env='GIT_DIR=/^/\ https://github.com/denisde4ev/dotfiles.git ' dotfiles='dotfiles-env git' \
+case ${USER-}:${HOSTNAME-} in
+	arcowo:kpc)
+		# minecraft-1.12.2='/~arcowo/0/game/MC/1.12.2/start' minecraft-1.16.5='/~arcowo/0/game/MC/1.16.5/start' \
+		alias \
+			HOME-disallowed='\HOME-disallowed --homepath ~arcowo' \
+			dotfiles-env='GIT_DIR=/^/\ https://github.com/denisde4ev/dotfiles.git ' dotfiles='dotfiles-env git' \
+			\
+			swap-hybernate-only='su -c "sysctl vm.swappiness=1 && swapoff /dev/nvme0n1p3 && swapon /dev/nvme0n1p3"' \
+			swapout=swap-hybernate-only \
+			\
 	;;
 
-root:Denis-pc57) # root is just WSL
-	alias \
-		dotfiles-env='GIT_DIR=/^/\ https://github.com/denisde4ev/dotfiles.git ' dotfiles='dotfiles-env git' \
-		dotfiles-pc57-win-env='GIT_DIR=/^/\ https://github.com/denisde4ev/dotfiles-pc57-win.git' dotfiles-pc57-win='dotfiles-pc57-win-env git' \
-	;
-	# alias '$=dollar' ash accepts it, but bash does not
+	root:Denis-pc57) # root is just WSL
+		alias \
+			dotfiles-env='GIT_DIR=/^/\ https://github.com/denisde4ev/dotfiles.git ' dotfiles='dotfiles-env git' \
+			dotfiles-pc57-win-env='GIT_DIR=/^/\ https://github.com/denisde4ev/dotfiles-pc57-win.git' dotfiles-pc57-win='dotfiles-pc57-win-env git' \
+		;
+		# alias '$=dollar' ash accepts it, but bash does not
 	;;
 
-pc57:Denis|pc57:Denis-pc57)
-	# for now this is not use, but its planned to merge shrc with bin-win (also its bad name)
-	echo 'dotfiles aliases for user:pc57 never tested' >&2
+	pc57:Denis|pc57:Denis-pc57)
+		# for now this is not use, but its planned to merge shrc with bin-win (also its bad name)
+		echo 'dotfiles aliases for user:pc57 never tested' >&2
 
 
-	alias \
-		dotfiles-env='@ env GIT_DIR=/^/\ https://github.com/denisde4ev/dotfiles.git ' dotfiles='dotfiles-env git' \
-		dotfiles-pc57-win-env='@ env GIT_DIR=/^/\ https://github.com/denisde4ev/dotfiles-pc57-win.git' dotfiles-pc57-win='dotfiles-pc57-win-env git' \
+		alias \
+			dotfiles-env='@ env GIT_DIR=/^/\ https://github.com/denisde4ev/dotfiles.git ' dotfiles='dotfiles-env git' \
+			dotfiles-pc57-win-env='@ env GIT_DIR=/^/\ https://github.com/denisde4ev/dotfiles-pc57-win.git' dotfiles-pc57-win='dotfiles-pc57-win-env git' \
+		;
 	;;
-# todo:
-#:dumpling)
-#	alias dotfiles='git --git-dir=/^/_/git-branch:master/\ https://github.com/denisde4ev/dotfiles.git'
-#	;;
-#/root:artix)
-#	alias dotfiles='git --git-dir=/^/_/git-branch:master/\ https://github.com/denisde4ev/dotfiles.git'
-#	;;
+	# todo:
+	#:dumpling)
+	#	alias dotfiles='git --git-dir=/^/_/git-branch:master/\ https://github.com/denisde4ev/dotfiles.git'
+	#	;;
+	#/root:artix)
+	#	alias dotfiles='git --git-dir=/^/_/git-branch:master/\ https://github.com/denisde4ev/dotfiles.git'
+	#	;;
 esac
 
 

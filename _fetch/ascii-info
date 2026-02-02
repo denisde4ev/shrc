@@ -1,0 +1,264 @@
+#! /hint/sh
+
+echo "_fetch/ascii-info still not done!"
+return 0
+
+
+
+# src: https://www.ascii-code.com/
+
+
+cat << EOF
+ASCII, stands for American Standard Code for Information Interchange.
+It is a 7-bit character code
+where each individual bit represents a unique character. 
+
+8 bit ASCII table with 256 characters and symbols.
+{...}ASCII codes from standard ASCII,
+and it is a superset of ISO 8859-1 in terms of printable characters.
+In the range 128 to 159 (hex 80 to 9F),
+ISO/IEC 8859-1 has invisible control characters,
+while Windows-1252 has writable characters.
+Windows-1252 is probably the most-used 8-bit character encoding in the world.
+EOF
+
+
+E42F @@@@@@@@@TODO: HERE@@@@@@@@
+
+
+===
+from https://symbl.cc/en/unicode/blocks/control-pictures/#subblock-2400/
+List of Characters
+
+    Graphic pictures for control codes
+    ␀
+    Symbol for Null
+    ␁
+    Symbol for Start of Heading
+    ␂
+    Symbol for Start of Text
+    ␃
+    Symbol for End of Text
+    ␄
+    Symbol for End of Transmission
+    ␅
+    Symbol for Enquiry
+    ␆
+    Symbol for Acknowledge
+    ␇
+    Symbol for Bell
+    ␈
+    Symbol for Backspace
+    ␉
+    Symbol for Horizontal Tabulation
+    ␊
+    Symbol for Line Feed
+    ␋
+    Symbol for Vertical Tabulation
+    ␌
+    Symbol for Form Feed
+    ␍
+    Symbol for Carriage Return
+    ␎
+    Symbol for Shift Out
+    ␏
+    Symbol for Shift In
+    ␐
+    Symbol for Data Link Escape
+    ␑
+    Symbol for Device Control One
+    ␒
+    Symbol for Device Control Two
+    ␓
+    Symbol for Device Control Three
+    ␔
+    Symbol for Device Control Four
+    ␕
+    Symbol for Negative Acknowledge
+    ␖
+    Symbol for Synchronous Idle
+    ␗
+    Symbol for End of Transmission Block
+    ␘
+    Symbol for Cancel
+    ␙
+    Symbol for End of Medium
+    ␚
+    Symbol for Substitute
+    ␛
+    Symbol for Escape
+    ␜
+    Symbol for File Separator
+    ␝
+    Symbol for Group Separator
+    ␞
+    Symbol for Record Separator
+    ␟
+    Symbol for Unit Separator
+    ␠
+    Symbol for Space
+    ␡
+    Symbol for Delete
+
+===
+
+
+
+
+
+␀ '\0'
+␀␁␂␃␄␅␆␇␈
+├─┤ '\t'
+␊ '\n'
+␋
+␌
+␍
+␎
+␏
+␐
+␑
+␒
+␓
+␔
+␕
+␖
+␗
+␘
+␙
+␚
+␛
+␜
+␝
+␞
+␟
+· ' '
+!
+"
+#
+$
+%
+&
+'
+(
+)
+*
++
+,
+-
+.
+/
+0
+1
+2
+3
+4
+5
+6
+7
+8
+9
+:
+;
+<
+=
+>
+?
+@
+A
+B
+C
+D
+E
+F
+G
+H
+I
+J
+K
+L
+M
+N
+O
+P
+Q
+R
+S
+T
+U
+V
+W
+X
+Y
+Z
+[
+\
+]
+^
+_
+`
+a
+b
+c
+d
+e
+f
+g
+h
+i
+j
+k
+l
+m
+n
+o
+p
+q
+r
+s
+t
+u
+v
+w
+x
+y
+z
+{
+|
+}
+~
+␡
+
+
+
+Null character
+Start of Heading
+Start of Text
+End of Text
+End of Transmission
+Enquiry
+Acknowledge
+Bell, Alert
+Backspace
+Horizontal Tab
+Line Feed
+Vertical Tabulation
+Form Feed
+Carriage Return
+Shift Out
+Shift In
+Data Link Escape
+Device Control One (XON)
+Device Control Two
+Device Control Three (XOFF)
+Device Control Four
+Negative Acknowledge
+Synchronous Idle
+End of Transmission Block
+Cancel
+End of medium
+Substitute
+Escape
+File Separator
+Group Separator
+Record Separator
+Unit Separator

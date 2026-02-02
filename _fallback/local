@@ -4,13 +4,14 @@
 local() {
 	# when no args returns 0, as expected
 	while case $# in 0) return 0; esac; done
-		eval
+		eval \
 			"case \"\${${1%%=*}+x}\" in" \
 				"x) return 1;;" \
 			"esac" \
 		&& \
 		case $1 in
-			*=*) eval ": \"\${${1%%=*}=$(quote "${1#*=}")}\"";;
+			#*=*) eval ": \"\${${1%%=*}=$(quote "${1#*=}")}\"";;
+			*=*) eval ": \"\${${1%%=*}=\"\${1##*=}\"}\"";;
 		esac \
 		&& \
 		shift

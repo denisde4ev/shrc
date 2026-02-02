@@ -36,6 +36,7 @@ find=_find_ \
 +=_plus_ \
 'cd+'='_cd_plus' \
 'cd++'='_cd_plusparents' \
+'cd++!'='_cd_plusparents_nocheck' \
 CD='cd..' \
 'cd..'=_cd__ \
 '..'=_cd__ \

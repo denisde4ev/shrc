@@ -1,9 +1,9 @@
 #! /hint/sh
 
-case $HOME in "$PWD") ;; *) return; esac 
+case "$PWD" in "$HOME"|/~) ;; *) return; esac # TODO: sohuld resolve it path is readlink to, for now hardcode
 
 case $sh_is in # do not use $sh_is_, zsh does not have shopt
-	bash) eval \#\'' # BASH ONLY BEGIN
+	bash) eval \#\'' # BASH ONLY BEGIN (comments eval hack)
 		(
 			shopt -s dotglob # must be already set from ./%__history-append.bash
 			shopt -s nullglob
@@ -16,7 +16,7 @@ case $sh_is in # do not use $sh_is_, zsh does not have shopt
 				*) printf %s\\n >&2 "homedir file not in white list:" "$@"; return 0;;
 			esac
 		) || return 0
-	';; #BASH ONLY END'
+	';; #BASH ONLY END' (comments eval hack)
 	*) return;;
 esac
 
