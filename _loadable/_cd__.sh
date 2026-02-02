@@ -11,13 +11,15 @@ _cd__() { # alias 'cd..' '..' 'CD'
 
 
 	case $@ in 0|*[!0-9]*) ;; [!0]*) # if arg is positive num, todo fix?
-		cd "$( unset-unseted-i; {
-				i=${1:-1}
-				while [ 0 -lt "$i" ]; do
-					printf %s ../
-					i=$(( i - 1 ))
-				done
-		} ;unset-seted-i )"
+		cd "$(
+			unset-unseted-i
+			i=${1:-1}
+			while [ 0 -lt "$i" ]; do
+				printf %s ../
+				i=$(( i - 1 ))
+			done
+			unset-seted-i
+		)"
 		return
 	esac
 
