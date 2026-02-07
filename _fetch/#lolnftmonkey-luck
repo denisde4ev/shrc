@@ -1,0 +1,44 @@
+#!/ hint/sh
+# check ascii src, rest of code is original
+
+# consider: rewrite this file
+
+
+i=${RANDOM:-$(\dd if=/dev/random | tr -dc 0-9 | head -c 1)
+i=${i#"${i%?}"} # take last char
+case $i in
+	0) echo you are safe;;
+	1) set -e;;
+	2) set -u;;
+	3) set -eu;;
+	4) echo you are safe;;
+	5) set -e;;
+	6) set -u;;
+	7) set -eu;;
+	8) echo you are safe;;
+	9) set -eu;;
+esac
+
+
+# ascii src: https://emojicombos.com/monkey-ascii-art # tags: monkey monkey dot art monkey text art monkey ascii art
+
+printf %s\\n "\
+⠀⠀⠀⠀⠀⣠⣦⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠘⠩⠑⢄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⣘⠥⣂⡓⢄⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⡿⣊⠵⢒⣈⣱⣀⠤⢤⡀⠀⠀⠀
+⠀⠀⠀⣠⡤⣄⣟⡵⢊⡥⠒⠒⠤⡤⠒⣷⣀⣀⠀
+⠀⠀⣰⡯⠒⠞⢧⢠⠋⣠⢴⣮⣇⣯⣦⡟⢻⢙⡇
+⠀⠀⢹⣇⠘⢀⢼⠌⠷⡝⢿⣯⡉⣿⣿⡆⣬⠞⠁
+⠀⠀⠀⠙⠓⠒⢻⠀⠀⡸⠋⠢⠁⡁⠈⡟⠁⠀⠀
+⠀⠀⠀⠀⠀⠀⣮⡃⡰⠁⠀⠀⠀⢣⠀⠘⡀⠀⠀
+⠀⠀⠀⠀⠀⠀⢹⣿⡇⢀⠀⠀⠀⠀⢃⢠⡇⠀⠀
+⠀⠀⠀⠀⠀⠀⢸⠘⠙⠶⣦⠤⠤⠬⠿⠿⠃⠀⠀
+⠀⠀⠀⠀⠀⢀⠎⠀⠀⠀⠈⡄⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⡠⠤⠒⠓⠒⠀⢀⠀⠀⠘⡒⠠⢄⠀⠀⠀⠀
+⢠⠋⠀⠀⠀⠀⢀⠤⢾⣦⣠⢀⡿⢄⠀⠆⠀⠀⠀
+⣦⣠⠀⠀⣀⠔⠁⠀⠀⠉⠙⢺⠁⠀⢣⣸⠀⠀⠀
+
+This bad NFT monkey have randomly changed something in your shell
+\
+" | lolcat

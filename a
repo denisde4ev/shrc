@@ -183,6 +183,7 @@ pv='time \pv' \
 tt='time tt-split -showwpm -noskip -oneshot' \
 \
 sshd='"$(which \sshd)" -p 8022 -d -f ~/.ssh/sshd/sshd_config -h ~/.ssh/sshd/ssh_host_ed25519_key' \
+sshd.gennew='edit "/^/ https://github.com/denisde4ev/shrc/raw/master/_/setup-sshd-foruser.sh"' \
 minicom='\minicom -m -c on -D unix#/tmp/ttyS0' \
 \
 df='\df -hT' \
@@ -209,7 +210,7 @@ ${os_gnu+"dd=\\dd status=progress"} \
 ${sh_is_bash+l.did='ll -d /did/!(.|..|*-part*)'} \
 ${sh_is_bash-l.did='find /did/ -maxdepth 1 -mindepth 1 -not -path "*-part*" | x ll -d --'} \
 \
-${os_gnu+xargs='\xargs -d \\n -r'} \
+${os_gnu+xargs='\xargs -o -d \\n -r'} \
 ${os_bb+xargs='tr \\n \\0 | \xargs -0 -r'} \
 x='xargs ' \
 x%='x -I% ' \

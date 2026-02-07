@@ -25,7 +25,7 @@ dir_parse_up() {
 				unset-seted-i
 			;;
 			git|g) git rev-parse --show-toplevel;;
-			part|p) get-part-mounted .;;
+			#part|p) get-part-root .;; #TODO: this command
 
 			..) printf %s\\n ..;;
 			*/*) printf %s\\n "${1%/*}";; # my favorite one: `cd.. /dir/to/file` will result in `cd /dir/to`
@@ -39,7 +39,7 @@ dir_parse_up() {
 				printf %s\\n "${i%/*}"
 				unset-seted-i
 			;;
-			*) printf %s\\n "\$1='$1', not matched" >&2; return 2;;
+			*) printf %s\\n >&2 "\$1='$1', not matched"; return 2;;
 		esac;;
 	esac
 

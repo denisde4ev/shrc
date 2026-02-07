@@ -1,5 +1,55 @@
 #! /hint/sh
 
+_pwd__in_btrfs() { # todo
+	##puts >&2 'todo: nothing done'
+	##return 123 # not done
+
+	local date
+	case $1 in
+		@[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9])
+			date=${1#@}
+		;;
+		/mnt/@/*)
+			date=$1
+			date=${date#"/mnt/@/"}
+			case $date in
+				snapshots/*) date=${date#snapshots/};;
+				s/*) date=${date#s/};;
+			esac
+			date=${date%%/*}
+			case $date in [0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]) ;; *) false;; esac
+		;;
+		*) false;;
+	esac || {
+		echo _pwd__in_btrfs: bad argument >&2
+		return 2
+	}
+
+	local pwd=${pwd-$PWD}
+	#local pwd=$PWD
+	case $#:$2 in
+		2:/*) pwd=$2; shift 2;; # DO: duplicate this check+shift in upper function BECAUSE we cannot shift inside of functions
+		*) shift;;
+	esac
+
+
+	case $pwd in [!/]*) pwd=$PWD/$pwd; esac # simple realpath
+
+	case $pwd in
+		/^/*) pwd=/v/${pwd#"/^/"};; # this .. becouse how my symlinks are linked
+		"/~$USER/"*|/~/*) pwd=/home/$USER/${pwd#/*/};;
+		# TODO: CHECK if there are more complex paths based on my /etc/fstab (or other symlinks, but probably not by symlinks)
+	esac
+
+
+	case $pwd in
+		/home/*) printf %s\\n "/mnt/@/snapshots/$date/@home/${pwd#/}";;
+		*)       printf %s\\n "/mnt/@/snapshots/$date/@rootfs/${pwd#/}";;
+	esac
+
+}
+
+
 _pwd__path_to_urlpath() {
 	local pwd=$1
 	case $pwd in
@@ -127,7 +177,7 @@ _pwd_() {
 
 
 	local pwd=$PWD
-	case $pwd in 
+	case $pwd in
 		/0/gh/*|/^/*)
 			pwd=$(_pwd__path_to_urlpath "$pwd") && \
 			pwd=$(_pwd__gh_url_modify "$pwd" "$@")
@@ -140,6 +190,15 @@ _pwd_() {
 	case $1 in --raw|--tree|--blob) shift; esac
 	case $1 in --) shift; esac
 
+	case $1 in # TODO: think if this is the best place for this check
+		@*|/mnt/@/snapshots/*|/mnt/@/s/*)
+			pwd=$(_pwd__in_btrfs "$@") || return
+			case $#:$2 in # BECAUSE: we cannot shift inside of functions!
+				2:/*) shift 2;;
+				*) shift;;
+			esac
+		;;
+	esac
 
 	case $1 in
 		'')

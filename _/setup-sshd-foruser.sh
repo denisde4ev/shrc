@@ -9,7 +9,8 @@ cat <<-EOF > ~/.ssh/sshd/sshd_config
 HostKey ~/.ssh/sshd/ssh_host_ed25519_key
 
 
-AuthorizedKeysFile	/~arcowo/.ssh/authorized_keys # todo: should this and all other lines be here or entire /etc/ssh should be here
+AuthorizedKeysFile	~/.ssh/authorized_keys # todo: should this and all other lines be here or entire /etc/ssh should be here
+
 
 
 PasswordAuthentication no
@@ -24,4 +25,8 @@ Subsystem	sftp	/usr/lib/ssh/sftp-server
 PubkeyAcceptedAlgorithms ssh-ed25519,ssh-rsa
 EOF
 }
+
+# TODO: add your key
+#printf %s\\n '#' >> ~/.ssh/authorized_keys
+
 "$(which sshd)" -p 8022 -d -f ~/.ssh/sshd/sshd_config -h ~/.ssh/sshd/ssh_host_ed25519_key
