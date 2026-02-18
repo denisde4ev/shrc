@@ -1,6 +1,6 @@
 #! /hint/sh
 
-P(){
+P() {
 	# also it keeps xtrace ( sh -x )
 	sudo sh -u -c '
 		YN_confirm y "cleanup before upgrade"; cleanup=$?

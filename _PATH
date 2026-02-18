@@ -2,7 +2,10 @@
 
 case :${PATH:?}: in *:${HOME:?}/bin/@op5t-termux:*|::) return; esac
 
+# FIXME: os_gnu var is not defined in here
+
 PATH=\
+$HOME/.local/bin/.tmp:\
 $HOME/.local/bin/_/bins-trap:\
 $HOME/.local/bin/HOME-disallowed.d:\
 \

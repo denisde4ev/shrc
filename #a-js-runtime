@@ -1,0 +1,14 @@
+#!/ hint/sh
+
+
+alias js-repl-node='node'                 js-run-node='node'           # Node.js (official repo)
+alias js-repl-rhino='rhino'               js-run-rhino='rhino'         # Rhino (official repo)
+alias js-repl-d8='d8'                     js-run-d8='d8'               # V8 (AUR: v8-r)
+alias js-repl-qjs='qjs'                   js-run-qjs='qjs'             # QuickJS (AUR: quickjs)
+alias js-repl-deno='deno repl'            js-run-deno='deno run'       # Deno (AUR: deno or deno-bin)
+alias js-repl-bun='bun repl'              js-run-bun='bun run'         # Bun (AUR: bun or bun-bin)
+alias js-repl-tjs='tjs'                   js-run-tjs='tjs'             # Txiki.js (AUR: txiki.js)
+alias js-repl-winterjs='winterjs'         js-run-winterjs='winterjs'   # WinterJS (AUR: winterjs)
+
+
+# fast in order: QuickJS → Txiki.js Txiki.js → WinterJS

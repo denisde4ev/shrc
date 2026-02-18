@@ -1,6 +1,7 @@
 #! /hint/sh
 
 alias \
+\
 vibe='vibe-code' \
 vibe-code='antigravity' \
 ex='TERM=dumb vim -e' \
@@ -51,14 +52,16 @@ guna='git unstage' \
 gm='git merge' \
 gc='git commit --allow-empty-message --message' \
 gac='ga. && gc' \
+gacp='"/^/ https://github.com/denisde4ev/bin/raw/master/.trash/git-butbetter~ `: TODO: NOT DONE :` acp"' \
 grec='git recommit' \
 gunc='git undo-1commit' \
 gsw='git switch' \
 gsw-o='git switch --orphan' \
 gch='git checkout' \
 gw='git worktree' \
-gwa='git worktree add' \
-gwr='git worktree remove' gwd=gwr \
+gwa='_git_worktree_add' \
+gwr='_git_worktree_remove' gwd=gwr \
+gwbr='_git_worktreeAndBranch_remove' \
 gp='git push' \
 gs-lllT='git status -s | cut -c 4- | \xargs -d \\n -r exa -alF --git --time-style full-iso --hyperlink --icons -g --header --links --inode -Th  --sort=time --ignore-glob=node_modules' \
 \

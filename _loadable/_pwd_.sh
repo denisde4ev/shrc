@@ -53,6 +53,8 @@ _pwd__in_btrfs() { # todo
 _pwd__path_to_urlpath() {
 	local pwd=$1
 	case $pwd in
+		#/0/gh/...) pwd='/^/ https://github.com/denisde4ev';;
+		/0/gh/.../*) pwd="/^/ https://github.com/denisde4ev/${pwd#"/0/gh/.../"}";;
 		/0/gh/*)
 			pwd=${pwd#"/0/gh/"} # myrepo/path1/path2
 			# NOTE: assuming it's master branch
@@ -167,17 +169,34 @@ _pwd__gh_url_modify() {
 #}
 
 _pwd_() {
+
 	case $1 in
-		--raw|--tree|--blob|--) ;;
-		#-[!-]*|--*) \pwd "$@"; return;;
-		-) shift; \pwd; return;;
-		-*) \pwd "$@"; return;;
+		--help) printf %s\\n "_pwd_ [-] [-P] [--raw|--tree|--blob] [@YYYY-MM-DD] [--] [files...]"; return;;
 	esac
 
+	# todo: support unordered arguments
 
+	#local pwd # nah, give the var to shell
+	case $1 in
+		-) shift; pwd=$OLDPWD;; # unlike the original pwd, BUT WHY ORIGINAL PWD DOES `pwd -` '-'=ignored, why
+		*) pwd=$PWD;;
+	esac
 
-	local pwd=$PWD
+	case $1 in
+		#-P) shift; pwd=$(PWD=$pwd; \pwd -P);; # does not work like this
+		-P) shift; pwd=$(cd "$pwd"; \pwd -P);; # TODO: what if oldpwd was removed ..., better use 'readlink -f'?
+		--raw|--tree|--blob|--) ;;
+		#-[!-]*|--*) \pwd "$@"; return;;
+		-*) printf %s\\n >&2 "_pwd_: bad usage, check --help"; return 2;;
+		*) ;;
+	esac
+
 	case $pwd in
+		/gh/*) pwd="/0$pwd";; # 1 of my symlinks
+	esac
+
+	case $pwd in
+		/0/gh|/0/gh/...) pwd='/^/ https://github.com/denisde4ev';;
 		/0/gh/*|/^/*)
 			pwd=$(_pwd__path_to_urlpath "$pwd") && \
 			pwd=$(_pwd__gh_url_modify "$pwd" "$@")
@@ -185,12 +204,18 @@ _pwd_() {
 			# or simply do this:
 			#pwd=$(readlink -f -- "$pwd")
 			#case $pwd in /^/' '[a-zA-Z]*''*) pwd=/^/' https://'${pwd#/^/' '};; esac
+			case $1 in --raw|--tree|--blob) shift; esac
+		;;
+		*)
+			case $1 in --raw|--tree|--blob)
+				printf %s\\n >&2 "W: '$1' had no affect"
+				shift
+			esac
 		;;
 	esac
-	case $1 in --raw|--tree|--blob) shift; esac
-	case $1 in --) shift; esac
 
-	case $1 in # TODO: think if this is the best place for this check
+	case $1 in
+		@*@home|/mnt/@/snapshots/*@home|/mnt/@/s/*@home) printf %s\\n >&2 "U: unimplemented @date@home snapshot pwd"; return 4;;# TODO:! parse with @home
 		@*|/mnt/@/snapshots/*|/mnt/@/s/*)
 			pwd=$(_pwd__in_btrfs "$@") || return
 			case $#:$2 in # BECAUSE: we cannot shift inside of functions!
@@ -199,6 +224,8 @@ _pwd_() {
 			esac
 		;;
 	esac
+
+	case $1 in --) shift; esac
 
 	case $1 in
 		'')

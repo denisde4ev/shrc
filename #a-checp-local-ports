@@ -1,0 +1,6 @@
+#!/ hint/sh
+
+#examples: (for port 5900 vnc)
+#ss -tulpn | grep 5900
+#netstat -tulpn | grep 5900
+#sudo lsof -i :5900
