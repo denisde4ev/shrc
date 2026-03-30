@@ -30,6 +30,7 @@ __load_loadable() {
 # LOADABLE-aliases:
 #mv=_mv_or_editorrename_ \ # aliased 'mv -vi' in $B/a
 alias \
+bat-A=_loadable_bat_a \
 ll-test=ll_test \
 git='_git__' \
 find=_find_ \

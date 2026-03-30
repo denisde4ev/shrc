@@ -42,9 +42,9 @@ _cd__() { # alias 'cd..' '..' 'CD'
 				__sourcable|_sourcable|sourcable) cd "$B"/__sourcable;;
 
 				http|https|http:|https:)          cd '/^/ https:';;
-				gh|GH)                            cd '/^/ https:/github.com';;
-				gh|GH)                            cd '/^/ https:/github.com';;
-				gh-dd|ghdd|g)                     cd '/^/ https:/github.com/denisde4ev';;
+				gh|GH)                            cd '/^/ https://github.com';;
+				gh|GH)                            cd '/^/ https://github.com';;
+				gh-dd|ghdd|g)                     cd '/^/ https://github.com/denisde4ev';;
 
 				dow|dl|downloads|download)        cd "${XDG_DOWNLOAD_DIR:-"$HOME/Downloads"}";;
 				doc|docs|documents|document)      cd "${XDG_DOCUMENTS_DIR:-"$HOME/Documents"}";;

@@ -1,6 +1,12 @@
 #! /hint/sh
 
 alias \
+space2tabs='unexpand -a -t 4' \
+space2tabs-inplace='command-inplace -c "unexpand -a -t 4"' \
+\
+chmod-run='f() { chmod +x "$1"; "$@"; unset -f f; }; f' \
+rust-repl='evcxr' \
+'rw^'='sudo mount -o remount,rw /^' \
 \
 vibe='vibe-code' \
 vibe-code='antigravity' \
@@ -42,6 +48,7 @@ geg='git config --edit --global' \
 gl='git log-short' \
 gll='git log-long' \
 gs='_git__ _g stat' \
+gsg='git status -s  | grep' \
 gsf='(git status -s | cut -c4-)' \
 gS='_git__ _g stat-all' \
 gd='_git__ _g diff' \
@@ -51,6 +58,7 @@ ga.='git add .' \
 guna='git unstage' \
 gm='git merge' \
 gc='git commit --allow-empty-message --message' \
+gc-amend='git commit --amend --no-edit' \
 gac='ga. && gc' \
 gacp='"/^/ https://github.com/denisde4ev/bin/raw/master/.trash/git-butbetter~ `: TODO: NOT DONE :` acp"' \
 grec='git recommit' \
@@ -107,28 +115,38 @@ CX='sudo loadkeys carpalx; setxkbmap "us(carpalx)"' \
 \
 7z-mx9='7z a -r -t7z -m0=lzma2 -mx=9 -myx=9 -mqs=on -ms=on' \
 \
-bat='\bat --style header,numbers,rule,snip' \
+bat='\bat --style=header,numbers,rule,snip --wrap=never' \
 BAT='bat -A' \
-bat-f='bat --decorations=always' \
+bat-force='\bat --decorations=always --color=always' \
+bat-cat-highlight='\bat --paging=never --style=-full --wrap=never' \
+bat-highlight-force='bat-force --style=-full --wrap=never' \
+\
+\
+sensors='f() { sensors "$@" | bat-cat-highlight -l cpuinfo; unset -f f; }; f' \
+ps='f() { \ps "$@" | bat-cat-highlight -l conf; unset -f f; }; f' \
+psgrep='f() { \ps aux | grep -v grep | grep -i -e VSZ -e "$@" | bat-cat-highlight -l conf; unset -f f; }; f' \
+lsmod='f() { lsmod "$@" | bat-cat-highlight -l conf; unset -f f; }; f' \
+lscpu='f() { lscpu "$@" | bat-cat-highlight -l conf; unset -f f; }; f' \
+\
+pager.ps='f() { \ps "$@" | bat-highlight-force -l conf --pager="$PAGER"; unset -f f; }; f' \
+\
+bat-config-follow='f() { tail -f "$1" | bat -l conf; unset -f f; }; f' \
+\
 \
 IFS='set -f; IFS="${NEW_LINE:-${new_line:?}}"' \
 argv='arg "$@"' \
-fd.swap='3>&2 2>&1 1>&3 ' \
+fd.swap='3>&2 2>&1 1>&3 3>&-' \
 \
 llw='ll.which' \
 cdw='cd.which' \
 \
 old__cdt='cd "$(mktemp -d -t tmp.shpid$$.XXXX)"' \
-cdt='cd++! "${TMPDIR:-/tmp}/cdt.$$"'                             cd.mktemp='cdt'   `: '# cd temp'  :` \
-cdc='cd++! "${XDG_CACHE_HOME:-$HOME/.cache}/cdc.$$"'             cd.date='cdc'     `: '# cd cache' :` \
-cdd='cd++! "${XDG_CACHE_HOME:-$HOME/.cache}/cdd.$(date -Is).$$"' cd.date='cdd'     `: '# cd date'  :` \
-edit-t='edit "${TMPDIR:-/tmp}/cdt.$$"' \
+cdt='cd++! "${TMPDIR:-/tmp}/cdt.$$"' \
+cdt.cache='cd++! "${XDG_CACHE_HOME:-$HOME/.cache}/cdc.$$"' \
+cdt.cache-date='cd++! "${XDG_CACHE_HOME:-$HOME/.cache}/cdd.$(date -Is).$$"' \
+edit-t='edit "${TMPDIR:-/tmp}/cdt.$$/README.md"' \
 cd-='cd -' \
 \
-B='cd "$B"' \
-v='cd /^' \
-bin='cd ~/.loca/bin' \
-_0='cd ~/.local/0/gh/_0' \
 0='cd ~/.local/0' \
 0-gh='cd ~/.local/0/gh' \
 0-ghdd='cd ~/.local/0/ghdd-masters' \

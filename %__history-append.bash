@@ -51,6 +51,7 @@ esac
 
 _prompt_command_append 'history -a'
 _prompt_command_append 'history_current_command >> ~/.local/share/bash/longhistory'
+alias longhistory='(cat ~/.local/share/bash/longhistory)'
 
 PROMPT_COMMAND="{$NEW_LINE$PROMPT_COMMAND$NEW_LINE} 2>&-" # hidde PROMPT_COMMAND debug from xtrace(set -x)
 # bats_battery_status=$(bats)
