@@ -1,0 +1,18 @@
+#! /hint/sh
+
+# external var: cleanup_errors
+
+#. "$B"/_cleanup/_cdt_cleanup.sh || cleanup_errors=$(( cleanup_errors + 1 ))
+
+#for i in "$B"/_cleanup/[a-z]*[!\~\!\@\#\$%^\&\*]; do
+#	. "$i" || cleanup_errors=$(( cleanup_errors + 1 ))
+#done
+	
+
+unset-unseted-i
+for i in "$B"/_cleanup/[a-zA-Z0-9_]*.sh ${sh_is_bash+"$B"/_cleanup/[a-zA-Z0-9_]*.bash}; do
+	#i=${i##*/}
+	#i=${i%.*}
+	. "$i" || cleanup_errors=$(( cleanup_errors + 1 ))
+done
+unset-seted-i

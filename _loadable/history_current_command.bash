@@ -1,16 +1,20 @@
 
-history_current_command() {
+function history_current_command_set() {
 	# unset-unseted-i # DO NOT, or will UNEST `I` IN EVERY LINE
-	local i
+	#local i
 
 
-	i=$(history 1)
+	history_current_command=$(history 1)
 
 	# REQUIRES `shopt -s extglob`
 
-	i=${i##*(\ )+([0-9])*([\ ])}
+	history_current_command=${history_current_command##*(\ )+([0-9])*([\ ])}
 	# Not needed: case $# in 1) i=${};; 0) ;; *) throw err .....
-	i=${i#"$1"}
+	history_current_command=${history_current_command#"$1"}
+}
 
-	printf %s\\n "$i"
+
+function history_current_command() {
+	history_current_command_set
+	printf %s\\n "$history_current_command"
 }

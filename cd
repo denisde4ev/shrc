@@ -4,11 +4,21 @@ cd() {
 # this time overwrite the builtin cd command,
 # reason: `shopt -s autocd` wont run aliased cd
 
+	unset pwd # coz: `su` `cd` + `_pwd_` `printf '\033]7;file://%s\007' "${pwd}"`
+
 	builtin cd "$@" || return
+
+
 	case $PWD in
 		*github.com/*) PWD_gitrepodir=${PWD#*github.com/}; PWD_gitrepodir=${PWD_gitrepodir#denisde4ev/};;
-		*/gh/*)        PWD_gitrepodir=${PWD#*/gh/};;
+		/0/gh/*)        PWD_gitrepodir=${PWD#/0/gh/};;
 		*/master/*)    PWD_gitrepodir=${PWD#*/master/};;
 		*) unset PWD_gitrepodir;;
 	esac
+
+	## better dont, I rarely want my terminal to know what dir I am. I'l just move this code to `pwd` and run `pwd` before opening new tab
+	#case ${EUID}:${PWD_gitrepodir+x} in
+	#	0:x)  declare -F _pwd_ >&- && printf '\033]7;file://%s\007' "$(pwd)" || printf '\033]7;file://%s\007' "${PWD%master}";;
+	#	0:) printf '\033]7;file://%s\007' "${PWD%master}";;
+	#esac
 }

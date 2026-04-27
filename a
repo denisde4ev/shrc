@@ -1,20 +1,23 @@
 #! /hint/sh
 
 alias \
-space2tabs='unexpand -a -t 4' \
-space2tabs-inplace='command-inplace -c "unexpand -a -t 4"' \
+extract='extract-everything.sh' \
+ex=extract \
 \
 chmod-run='f() { chmod +x "$1"; "$@"; unset -f f; }; f' \
 rust-repl='evcxr' \
 'rw^'='sudo mount -o remount,rw /^' \
 \
 vibe='vibe-code' \
+vibe-setup='f() { cdt.temp `: antigravity AI does not like to be in .cache directory :` || return; ( set -x; cp -vi -- "$OLDPWD/$1" "$1"; vibe .; git init; git add .; git commit -m init ); unset -f f; }; f' \
 vibe-code='antigravity' \
-ex='TERM=dumb vim -e' \
+vim-ex='TERM=dumb vim -e' \
+v0='/usr/lib/initcpio/busybox vi' \
 v1='busybox vi' \
 v2='vi' \
 v3='vim' \
 v4='nvim' \
+v8='echo vroom vroom x8' \
 rg-vfile='\rg --files-without-match' \
 rg-absolute-all='\rg -. -uuu --follow' \
 rg-no-ignore='\rg -. --no-ignore --no-require-git' \
@@ -45,14 +48,17 @@ thepkg=thepkg-pacapt \
 g=git-butbetter~ \
 ge='git config --edit' \
 geg='git config --edit --global' \
-gl='git log-short' \
-gll='git log-long' \
+gl-local='git log                           --decorate --oneline --graph --date=short --pretty=format:"%C(magenta)%h%Creset -%C(red)%d%Creset %s %C(dim green)(%ad) [%an]"' \
+gl-short='git log --all --author-date-order --decorate --oneline --graph --date=short --pretty=format:"%C(magenta)%h%Creset -%C(red)%d%Creset %s %C(dim green)(%ad) [%an]"' \
+gl-long='git  log --all --author-date-order --decorate --oneline --graph --date=iso   --pretty=format:"%C(magenta)%h %C(dim green)[%an]%C(red)%d %C(cyan)(%ad | %cr)%Creset\n %s"' \
+gl='gl-short' \
+gll='gl-long' \
 gs='_git__ _g stat' \
-gsg='git status -s  | grep' \
-gsf='(git status -s | cut -c4-)' \
 gS='_git__ _g stat-all' \
-gd='_git__ _g diff' \
-gdd='_git__ _g diff --cached' \
+gd-local='_git__ _g diff' \
+gd-staged='_git__ _g diff --cached' \
+gd='gd-local' \
+gds='gd-staged' \
 ga='git add' \
 ga.='git add .' \
 guna='git unstage' \
@@ -84,7 +90,6 @@ lc='wc -l' \
 stat-c='stat -c' \
 cut-f='cut -d " " -f' \
 \
-diff-Uall='diff -U 2147483647' \
 fdisk='\fdisk -n -L' \
 \
 patch='\patch --forward' \
@@ -140,12 +145,19 @@ fd.swap='3>&2 2>&1 1>&3 3>&-' \
 llw='ll.which' \
 cdw='cd.which' \
 \
-old__cdt='cd "$(mktemp -d -t tmp.shpid$$.XXXX)"' \
-cdt='cd++! "${TMPDIR:-/tmp}/cdt.$$"' \
-cdt.cache='cd++! "${XDG_CACHE_HOME:-$HOME/.cache}/cdc.$$"' \
-cdt.cache-date='cd++! "${XDG_CACHE_HOME:-$HOME/.cache}/cdd.$(date -Is).$$"' \
+cdt.legecy='{ cdt="$(mktemp -d -t cdt.pid$$.XXXX)"; cd "$cdt"; printf %s\\n "$PWD" >&2; }' \
+cdt.temp='{ cdt="${TMPDIR:-/tmp}/cdt/pid$$"; cd++! "$cdt"; printf %s\\n "$PWD" >&2; }' \
+cdt.cache='{ cdt="${XDG_CACHE_HOME:-$HOME/.cache}/cdt.cache/$$"; cd++! "$cdt"; printf %s\\n "$PWD" >&2; }' \
+cdt.cache..='cd "${XDG_CACHE_HOME:-$HOME/.cache}/cdt.cache/" && exa -alF --git --time-style long-iso --group-directories-first --hyperlink   -Th --level=2 -s date' \
+cdt.temp..='cd  "${TMPDIR:-/tmp}/cdt/"                       && exa -alF --git --time-style long-iso --group-directories-first --hyperlink   -Th --level=2 -s date' \
+cdt=cdt.cache \
+cdt..=cdt.cache.. \
+cdtt..=cdt.temp.. \
+cdtt=cdt.temp \
+cdt.rm='rm -r "${cdt?}" && unset cdt' \
+\
 edit-t='edit "${TMPDIR:-/tmp}/cdt.$$/README.md"' \
-cd-='cd -' \
+\
 \
 0='cd ~/.local/0' \
 0-gh='cd ~/.local/0/gh' \
@@ -166,9 +178,12 @@ puts-alias='puts ' \
 'CC!=printf %s "$(history -p \!:q)" | cin' \
 'c#=\c# #' \
 \
+\
 grep='\grep --color=auto' \
 egrep='\egrep --color=auto' \
+diff-Uall='\diff -U 99999' \
 ${os_gnu+ \
+	diff-Uall='\diff -U 2147483647  --color=auto  -s' \
 	diff='\diff -u --no-dereference --color=auto  -s' \
 	diff-r='\diff -u --no-dereference --color=auto  -r' \
 	micro-diff='\micro-diff -u -s --color=auto' \
@@ -178,6 +193,7 @@ diff-arch='diff --unified --recursive --text' \
 pacman-diffs='(find /etc 2>/dev/null -name "*.pacnew" -mtime -360 -type f | sed "s/.pacnew\$//")' \
 \
 mv='_mv_or_editorrename_ -vi' cp='\cp -vi' ln='\ln -vi' chmod='\chmod -v' chown='\chown -v' readlink='\readlink -v' \
+mv-safe='\mv -vi --no-copy' \
 mvT='mv -T' cpT='cp -T' ln-fTv='\ln -fTv' \
 mount='\mount -v' \
 rm='\rm -v' rmdir='\rmdir -v' micro-diff-rm='\micro-diff-rm -v' rmt='rmtrash -v -r' \
@@ -186,6 +202,7 @@ umount='\umount -v' umount-fzf='\umount-fzf -v' mv-ln='\mv-ln -vi'${os_gnu+" -r"
 Imount-defaults='mount -o "defaults,rw,relatime,user,umask=0077,uid=${UID:-"$(id -n)"},gid=${GROUPS?:-"$(id -g)"}"' \
 Iown='chown "${UID:-"$(id -u)"}:${GROUPS-"$(id -g)"}"' \
 Iown-1000='chown 1000:1000' \
+Iown-0='chown 0:0' \
 Iown.u='chown "${UID:-"$(id -u)"}"' \
 Iown.g='chown "${UID:-"$(id -u)"}:${GROUPS-"$(id -g)"}"' \
 Iinstall='install -o "${USER:-"$(id -un)"}" -g "$(id -gn)" `: todo: fix installed from /dev/null is executable, is this how it should work and why does not take the umask num  :` ' \
@@ -268,6 +285,7 @@ xxs='echo . .. \*' \
 xs='echo *' \
 s-train='xdg-open "https://www.youtube.com/watch?v=17tTDoLf_K4&t=5m52s"' \
 s-train-2='xdg-open "https://www.youtube.com/watch?v=XiTkqMkrn7o&t=4m03s"' \
+s-train-3='xdg-open "https://www.youtube.com/watch?v=BU53zRWeUHM&t=8m16s"' \
 s='\ls --color' \
 xm='\ls --color -1' \
 xxm='printf %s\\n *' \
@@ -279,15 +297,17 @@ xxxl=sl \
 xxxxl='xdg-open "https://www.youtube.com/watch?v=ZbCcve-eAEM"' \
 ;
 
+
+
 if command. exa; then
 # small note: the reason `alias 'l'` prints '.' by doulbe `-aa` is because when I run it in empty dir and get no output, I panic.
 export LSLONG_COMMAND="exa --sort=none -alF --git --time-style long-iso --group-directories-first -g"
 alias \
 ls='exa -a1F --group-directories-first' \
 l='exa -alF --git --time-style iso --group-directories-first -a' \
-lll=`:   `'exa -alF --git --time-style full-iso --group-directories-first --hyperlink --icons -a -g --header --links --inode' \
-llT=`:   `'exa -alF       --time-style iso      --group-directories-first                                                    -Th' \
-lllT=`:  `'exa -alF --git --time-style full-iso --group-directories-first --hyperlink --icons -g    --header --links --inode -Th' \
+lll=`:   `'exa -alF --git --time-style full-iso --group-directories-first --hyperlink --icons -g --header --links --inode' \
+llT=`:   `'exa -alF       --time-style iso      --group-directories-first                                                 -Th' \
+lllT=`:  `'exa -alF --git --time-style full-iso --group-directories-first --hyperlink --icons -g --header --links --inode -Th' \
 lllT0='lllT --level 1' lllT1='lllT --level 1' lllT2='lllT --level 2' lllT3='lllT --level 3' lllT4='lllT --level 4' lllT5='lllT --level 5' \
 llT0='llT --level 0'   llT1='llT --level 1'   llT2='llT --level 2'   llT3='llT --level 3'   llT4='llT --level 4'   llT5='llT --level 5'   \
 ;
@@ -305,7 +325,7 @@ elif command. pacman; then
 	alias \
 		rm.pacmanlock='rm /var/lib/pacman/db.lck' \
 		pacman-next='fakeroot pacman -vvv --dbpath /var/lib/pacman-next' \
-		cleanup='pacman -Rns $(pacman -Qtdq) && rm -rv /var/lib/systemd/coredump  /var/log/journal/*' \
+		pacman-cleanup='pacman -Rns $(pacman -Qtdq) && rm -rv /var/lib/systemd/coredump  /var/log/journal/*' \
 	;
 	if command. trizen; then
 		alias p='trizen'

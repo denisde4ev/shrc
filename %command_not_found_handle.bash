@@ -1,6 +1,7 @@
 #! /hint/bash
 
 command_not_found_handle() {
+	( set -x; : command_not_found_handle "$@" )
 	. "$B"/__sourceable/command_not_found_handle
 }
 return

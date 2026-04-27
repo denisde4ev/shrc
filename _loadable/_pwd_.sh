@@ -215,7 +215,7 @@ _pwd_() {
 	esac
 
 	case $1 in
-		@*@home|/mnt/@/snapshots/*@home|/mnt/@/s/*@home) printf %s\\n >&2 "U: unimplemented @date@home snapshot pwd"; return 4;;# TODO:! parse with @home
+		@*@home|/mnt/@/snapshots/*@home|/mnt/@/s/*@home) printf %s\\n >&2 "U: unimplemented @date@home snapshot pwd"; return 4;; # TODO:! parse with @home
 		@*|/mnt/@/snapshots/*|/mnt/@/s/*)
 			pwd=$(_pwd__in_btrfs "$@") || return
 			case $#:$2 in # BECAUSE: we cannot shift inside of functions!
@@ -243,4 +243,5 @@ _pwd_() {
 		;;
 	esac | grep --color /
 
+	printf '\033]7;file://%s\007' "${pwd}"
 }

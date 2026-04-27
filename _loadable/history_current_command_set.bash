@@ -1,0 +1,1 @@
+history_current_command.bash

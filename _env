@@ -1,11 +1,12 @@
 #! /hint/sh
 
-: "
-${HOSTNAME:=$(hostname)}
-${OLDPWD=$HOME/.local}
-"
-
+HOSTNAME=${HOSTNAME:-$(hostname)}
+OLDPWD=${OLDPWD-$HOME/.local}
+GH='/^/ https://cdn.jsdelivr.net/gh/denisde4ev'
 # APPIMAGE_PATH="${HOME?}/.local/share/appimages"
+
+
+
 
 export \
 GIT_FIX_PWD \

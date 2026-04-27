@@ -36,8 +36,9 @@ _rl_yank() {
 
 
 _rl_clenup() { # TODO: run this on exit
-	\rm -f /tmp/rl.$1 >/dev/null
+	if [ -e /tmp/rl.$1 ]; then \rm -f /tmp/rl.$1 >/dev/null; fi
 }
+cleanup="${cleanup+${cleanup}; }_rl_clenup $$"
 
 alias rl='_rl_sub $$; _rl_get $$'
 

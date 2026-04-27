@@ -1,5 +1,5 @@
 #! /hint/sh
 
-bat_a() {
+_loadable_bat_a() {
 	bat-cat-highlight -A | bat "$@"
 }

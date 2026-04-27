@@ -1,0 +1,39 @@
+#! /hint/sh
+
+cleanup() {
+	set -x
+	cleanup_errors=0
+
+	set -f
+	IFS=$NEW_LINE
+	for i in $cleanup; do
+		unset IFS
+		set +f
+		eval "$cleanup" || cleanup_errors=$(( cleanup_errors + 1 ))
+	done
+	unset IFS
+	set +f
+
+	#eval "${cleanup-": empty cleanup :"}"
+	# cleanup='myfn; . path/to/sourcable-file; (some-script.sh); for a in rm-me and-rm-me; do rm $a; done' # idkB
+
+	if [ -e "$B"/_cleanup/CLEANUP ]; then . "$B"/_cleanup/CLEANUP; fi
+
+	case $cleanup_errors in
+		0)
+			# for now hide the log
+			#sleep .01 # eyeball aim for 1fps
+		;;
+		*)
+			printf %s\\n >&2 "cleanup got $cleanup_errors errors!"
+			pause-enter
+		;;
+	esac
+}
+
+# cleanup event
+trap cleanup EXIT
+
+
+
+#cleanup="${cleanup+${cleanup}; }"'. "$B"/_cleanup/_cdt_cleanup.sh'

@@ -4,7 +4,7 @@
 
 # (debug) case $i in ___set___) set ;;esac
 
-: ::: command_not_found_handle "$@" ::: :
+#: ::: command_not_found_handle "$@" ::: :
 # consider: '2>/dev/null' to be quiet on xtrace shell
 
 case ${FUNCNAME:+x} in # not posix
@@ -17,6 +17,10 @@ comm="$1"; shift
 # _comm _arg i  = temp vars
 
 while :; do # label: handling
+
+	# not allowed commands:
+	case $comm in cdw..) false; esac && \
+	\
 	while :; do # label: multiple_checks
 		while :; do # label: check_exact_or_end
 
