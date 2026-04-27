@@ -120,8 +120,8 @@ echo # one empty line before binary clock
 i=31
 while case $i in -1) false; esac; do
 	case "$(( ( unix_seconds >> i ) & 1 ))" in
-		1) printf '\u25CF';;
-		0) printf '\u25CB';;
+		1) printf '\342\227\217';; # (when utf8), bash: printf '\u25CF';;
+		0) printf '\342\227\213';; # (when utf8), bash: printf '\u25CB';;
 	esac
 	case $i in
 		6) printf ':';; # seconds = 60 -> rufly 6 bits 64
@@ -133,7 +133,5 @@ while case $i in -1) false; esac; do
 	i=$(( i - 1 ))
 done
 echo
-
-
 
 unset h m p i unix_seconds
